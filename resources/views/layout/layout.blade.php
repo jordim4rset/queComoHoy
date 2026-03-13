@@ -6,8 +6,8 @@
     <title>@yield('title')</title>
 </head>
 <body>
-    @include('partials.nav')
+    @include('layout.partials.nav')
     @yield('content')
-    @include('partials.footer')
+    @include('layout.partials.footer')
 </body>
 </html>

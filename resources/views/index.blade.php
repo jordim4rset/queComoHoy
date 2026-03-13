@@ -10,3 +10,4 @@ Inicio - QueComoHoy
         <a href="{{ route('recipes.index') }}" class="btn btn-primary">Ver Recetas</a>
     </div>
 @endsection
+
