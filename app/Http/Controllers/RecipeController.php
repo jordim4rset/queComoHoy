@@ -61,9 +61,9 @@ class RecipeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Recipe $recipe)
     {
-        return view("recipes.edit", compact('player'));
+        return view("recipes.edit", compact('recipe'));
     }
 
     /**
@@ -71,7 +71,7 @@ class RecipeController extends Controller
      */
     public function update(Request $request, Recipe $receta)
     {
-        $generatedName = $request->file('photo')->store('img/players/cover','public');
+        $generatedName = $request->file('photo')->store('img/recipes/cover','public');
 
         $receta->name = $request->input('name');
         $receta->description = $request->input('description');
