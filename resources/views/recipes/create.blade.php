@@ -1,36 +1,32 @@
-@extends('layout')
+@extends('layout.layout')
 
-@section('title', 'Listado de Recetas')
+@section('title', 'Crear Receta')
 
 @section('content')
+    <h1>Crear Receta</h1>
 
-    <h1>Listado de Recetas</h1>
+    <form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <label>Nombre:</label>
+        <input type="text" name="name" required><br>
 
-    <a href="{{ route('recipes.create') }}">Nueva Receta</a>
+        <label>Descripción:</label>
+        <textarea name="description" required></textarea><br>
 
-    @forelse ($recetas as $receta)
-        <div>
-            <h2>{{ $receta->nombre }}</h2>
-            <p>{{ $receta->descripcion }}</p>
-            <p>Tiempo de elaboración: {{ $receta->tiempo_elaboracion }} min</p>
+        <label>Tiempo (minutos):</label>
+        <input type="number" name="time"><br>
 
-            @isset($receta->etiquetas)
-                <p>Etiquetas: {{ $receta->etiquetas }}</p>
-            @endisset
+        <label>Etiquetas:</label>
+        <input type="text" name="tags"><br>
 
-            <p>Visibilidad: {{ $receta->visibilidad ? 'Pública' : 'Privada' }}</p>
+        <label>Visibilidad:</label>
+        <input type="checkbox" name="visibility"><br>
 
-            <a href="{{ route('recipes.show', $receta->id_receta) }}">Ver</a>
-            <a href="{{ route('recipes.edit', $receta->id_receta) }}">Editar</a>
+        <label>Foto:</label>
+        <input type="file" name="photo"><br><br>
 
-            <form action="{{ route('recipes.destroy', $receta->id_receta) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit">Eliminar</button>
-            </form>
-        </div>
-    @empty
-        <p>No hay recetas disponibles.</p>
-    @endforelse
+        <button type="submit">Guardar</button>
+    </form>
 
+    <a href="{{ route('recipes.index') }}">Volver a la lista</a>
 @endsection

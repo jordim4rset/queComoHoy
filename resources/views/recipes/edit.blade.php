@@ -1,49 +1,34 @@
-@extends('layout')
+@extends('layout.layout')
 
 @section('title', 'Editar Receta')
 
 @section('content')
+<h1>Editar Receta</h1>
 
-    <h1>Editar Receta</h1>
+<form action="{{ route('recipes.update', ['recipe' => $receta->id]) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
 
-    <form action="{{ route('recipes.update', $receta->id_receta) }}" method="POST">
-        @csrf
-        @method('PUT')
+    <label>Nombre:</label>
+    <input type="text" name="name" value="{{ $receta->name }}" required><br>
 
-        <div>
-            <label for="nombre">Nombre</label>
-            <input type="text" name="nombre" id="nombre" maxlength="30"
-                   value="{{ $receta->nombre }}" required>
-        </div>
+    <label>Descripción:</label>
+    <textarea name="description" required>{{ $receta->description }}</textarea><br>
 
-        <div>
-            <label for="descripcion">Descripción</label>
-            <textarea name="descripcion" id="descripcion" maxlength="150" required>{{ $receta->descripcion }}</textarea>
-        </div>
+    <label>Tiempo (minutos):</label>
+    <input type="number" name="time" value="{{ $receta->time }}"><br>
 
-        <div>
-            <label for="tiempo_elaboracion">Tiempo de elaboración (min)</label>
-            <input type="number" name="tiempo_elaboracion" id="tiempo_elaboracion" step="0.01"
-                   value="{{ $receta->tiempo_elaboracion }}" required>
-        </div>
+    <label>Etiquetas:</label>
+    <input type="text" name="tags" value="{{ $receta->tags }}"><br>
 
-        <div>
-            <label for="etiquetas">Etiquetas</label>
-            <input type="text" name="etiquetas" id="etiquetas" maxlength="30"
-                   value="{{ $receta->etiquetas }}">
-        </div>
+    <label>Visibilidad:</label>
+    <input type="checkbox" name="visibility" {{ $receta->visibility ? 'checked' : '' }}><br>
 
-        <div>
-            <label for="visibilidad">Visibilidad</label>
-            <select name="visibilidad" id="visibilidad" required>
-                <option value="1" {{ $receta->visibilidad ? 'selected' : '' }}>Pública</option>
-                <option value="0" {{ !$receta->visibilidad ? 'selected' : '' }}>Privada</option>
-            </select>
-        </div>
+    <label>Foto:</label>
+    <input type="file" name="photo"><br><br>
 
-        <button type="submit">Guardar Cambios</button>
-        <a href="{{ route('recipes.index') }}">Cancelar</a>
+    <button type="submit">Actualizar</button>
+</form>
 
-    </form>
-
+<a href="{{ route('recipes.show', ['recipe' => $receta->id]) }}">Cancelar</a>
 @endsection

@@ -1,22 +1,19 @@
-@extends('layout')
+@extends('layout.layout')
 
-@section('title')
+@section('title', $receta->name)
 
 @section('content')
+    <h1>{{ $receta->name }}</h1>
+    <p>{{ $receta->description }}</p>
+    <p>Tiempo: {{ $receta->time }} minutos</p>
+    <p>Etiquetas: {{ $receta->tags }}</p>
+    <p>Visibilidad: {{ $receta->visibility ? 'Pública' : 'Privada' }}</p>
 
-    <h1>{{ $receta->nombre }}</h1>
+    @if ($receta->photo)
+        <img src="{{ asset('storage/' . $receta->photo) }}" alt="Foto de {{ $receta->name }}" width="300">
+    @endif
 
-    <p>{{ $receta->descripcion }}</p>
-
-    <p>Tiempo de elaboración: {{ $receta->tiempo_elaboracion }} min</p>
-
-    @isset($receta->etiquetas)
-        <p>Etiquetas: {{ $receta->etiquetas }}</p>
-    @endisset
-
-    <p>Visibilidad: {{ $receta->visibilidad ? 'Pública' : 'Privada' }}</p>
-
-    <a href="{{ route('recipes.edit', $receta->id_receta) }}">Editar</a>
-    <a href="{{ route('recipes.index') }}">Volver al listado</a>
-
+    <br>
+    <a href="{{ route('recipes.index') }}">Volver a la lista</a>
+    <a href="{{ route('recipes.edit', ['recipe' => $receta->id]) }}">Editar receta</a>
 @endsection

@@ -10,11 +10,11 @@ class RecipeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $recetas = Recipe::get();
-        return view("recipes.index", compact('recetas'));
-    }
+   public function index()
+{
+    $recetas = Recipe::get();
+    return view('recipes.index', compact('recetas'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -50,21 +50,17 @@ class RecipeController extends Controller
      * Display the specified resource.
      */
     public function show(Recipe $receta)
-    {
-        if($receta->visibility == false){
-            return redirect()->route('recipes.index');
-        }else{
-            return view("recipes.show");
-        }
+{
+    if (!$receta->visibility) {
+        return redirect()->route('recipes.index');
     }
+    return view('recipes.show', compact('receta'));
+}
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Recipe $recipe)
-    {
-        return view("recipes.edit", compact('recipe'));
-    }
+public function edit(Recipe $receta)
+{
+    return view('recipes.edit', compact('receta'));
+}
 
     /**
      * Update the specified resource in storage.
@@ -86,15 +82,15 @@ class RecipeController extends Controller
         }
 
         $receta->update();
-        return redirect()->route('recipes.show', compact('receta'));
+       return redirect()->route('recipes.show', $receta);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Recipe $recipe)
-    {
-        $recipe->delete();
-        return redirect()->route('recipes.index');
-    }
+    public function destroy(Recipe $receta)
+{
+    $receta->delete();
+    return redirect()->route('recipes.index');
+}
 }
