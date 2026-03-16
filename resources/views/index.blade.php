@@ -7,6 +7,6 @@ Inicio - QueComoHoy
     <div class="container">
         <h1>Bienvenido a QueComoHoy</h1>
         <p>Descubre recetas deliciosas y saludables para cada día.</p>
-        <a href="" class="btn btn-primary">Ver Recetas</a>
+        <a href="{{ route('recipes.index') }}" class="btn btn-primary">Ver Recetas</a>
     </div>
 @endsection
