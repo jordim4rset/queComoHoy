@@ -3,11 +3,115 @@
 @section('title')
 Inicio - QueComoHoy
 @endsection
+
 @section('content')
-    <div class="container">
-        <h1>Bienvenido a QueComoHoy</h1>
-        <p>Descubre recetas deliciosas y saludables para cada día.</p>
-        <a href="{{ route('recipes.index') }}" class="btn btn-primary">Ver Recetas</a>
+    <div class="app-container">
+        <aside class="sidebar-left">
+            <div class="logo">
+                <h1>QUECOCINOHOY</h1>
+            </div>
+            <nav class="menu">
+                <a href="#" class="menu-item active">
+                    <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M341.8 72.6C329.5 61.2 310.5 61.2 298.3 72.6L74.3 280.6C64.7 289.6 61.5 303.5 66.3 315.7C71.1 327.9 82.8 336 96 336L112 336L112 512C112 547.3 140.7 576 176 576L464 576C499.3 576 528 547.3 528 512L528 336L544 336C557.2 336 569 327.9 573.8 315.7C578.6 303.5 575.4 289.5 565.8 280.6L341.8 72.6zM304 384L336 384C362.5 384 384 405.5 384 432L384 528L256 528L256 432C256 405.5 277.5 384 304 384z"/></svg></span> For You
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M320 64C355.3 64 384 92.7 384 128C384 163.3 355.3 192 320 192C284.7 192 256 163.3 256 128C256 92.7 284.7 64 320 64zM416 376C416 401 403.3 423 384 435.9L384 528C384 554.5 362.5 576 336 576L304 576C277.5 576 256 554.5 256 528L256 435.9C236.7 423 224 401 224 376L224 336C224 283 267 240 320 240C373 240 416 283 416 336L416 376zM160 96C190.9 96 216 121.1 216 152C216 182.9 190.9 208 160 208C129.1 208 104 182.9 104 152C104 121.1 129.1 96 160 96zM176 336L176 368C176 400.5 188.1 430.1 208 452.7L208 528C208 529.2 208 530.5 208.1 531.7C199.6 539.3 188.4 544 176 544L144 544C117.5 544 96 522.5 96 496L96 439.4C76.9 428.4 64 407.7 64 384L64 352C64 299 107 256 160 256C172.7 256 184.8 258.5 195.9 262.9C183.3 284.3 176 309.3 176 336zM432 528L432 452.7C451.9 430.2 464 400.5 464 368L464 336C464 309.3 456.7 284.4 444.1 262.9C455.2 258.4 467.3 256 480 256C533 256 576 299 576 352L576 384C576 407.7 563.1 428.4 544 439.4L544 496C544 522.5 522.5 544 496 544L464 544C451.7 544 440.4 539.4 431.9 531.7C431.9 530.5 432 529.2 432 528zM480 96C510.9 96 536 121.1 536 152C536 182.9 510.9 208 480 208C449.1 208 424 182.9 424 152C424 121.1 449.1 96 480 96z"/></svg></span> Following
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M128 128C92.7 128 64 156.7 64 192L64 448C64 483.3 92.7 512 128 512L384 512C419.3 512 448 483.3 448 448L448 192C448 156.7 419.3 128 384 128L128 128zM496 400L569.5 458.8C573.7 462.2 578.9 464 584.3 464C597.4 464 608 453.4 608 440.3L608 199.7C608 186.6 597.4 176 584.3 176C578.9 176 573.7 177.8 569.5 181.2L496 240L496 400z"/></svg></span> Live
+                </a>
+            </nav>
+        </aside>
+        <main class="feed">
+            <div class="post">
+                <div class="post-header">
+                    <div class="user-info">
+                        <img src="https://via.placeholder.com/40" alt="Usuario" class="avatar">
+                        <span class="username">usuario</span>
+                    </div>
+                    <button class="follow-btn">Seguir</button>
+                </div>
+                <img src="https://via.placeholder.com/500x400" alt="Video" class="post-image">
+                <div class="post-footer">
+                    <div class="post-stats">
+                        <div class="stat">
+                            <span class="icon-stat">❤️</span>
+                            {{-- esto debe ser una variable de likes --}}
+                            <span class="count">12k</span>
+                        </div>
+                        <div class="stat">
+                            <span class="icon-stat">💬</span>
+                            {{-- esto debe ser una variable comentarios--}}
+                            <span class="count">2k</span>
+                        </div>
+                        <div class="stat">
+                            <span class="icon-stat">✅</span>
+                            {{-- esto debe ser una variable compartidos--}}
+                            <span class="count">211</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="post">
+                <div class="post-header">
+                    <div class="user-info">
+                        <img src="https://via.placeholder.com/40" alt="Usuario" class="avatar">
+                        <span class="username">usuario</span>
+                    </div>
+                    <button class="follow-btn">Seguir</button>
+                </div>
+                <img src="https://via.placeholder.com/500x400" alt="Comida" class="post-image">
+                <div class="post-footer">
+                    <div class="post-stats">
+                        <div class="stat">
+                            <span class="icon-stat">❤️</span>
+                            {{-- esto debe ser una variable de likes --}}
+                            <span class="count">8.5k</span>
+                        </div>
+                        <div class="stat">
+                            <span class="icon-stat">💬</span>
+                            {{-- esto debe ser una variable comentarios --}}
+                            <span class="count">1.2k</span>
+                        </div>
+                        <div class="stat">
+                            <span class="icon-stat">✅</span>
+                            {{-- esto debe ser una variable compartidos --}}
+                            <span class="count">145</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="sidebar-right">
+            <div class="suggestions-header">Sugerencias para ti</div>
+            <div class="user-suggestion">
+                <img src="https://via.placeholder.com/50" alt="Usuario" class="avatar-lg">
+                <div class="user-details">
+                    {{-- esto debe ser una variable de nombre de usuario --}}
+                    <div class="username-suggested">usuario</div>
+                    {{-- esto debe ser una variable de comentario --}}
+                    <div class="user-comment">comentario</div>
+                </div>
+            </div>
+            <div class="user-suggestion">
+                <img src="https://via.placeholder.com/50" alt="Usuario" class="avatar-lg">
+                <div class="user-details">
+                    {{-- esto debe ser una variable de nombre de usuario --}}
+                    <div class="username-suggested">usuario</div>
+                    {{-- esto debe ser una variable de comentario --}}
+                    <div class="user-comment">comentario</div>
+                </div>
+            </div>
+            <div class="user-suggestion">
+                <img src="https://via.placeholder.com/50" alt="Usuario" class="avatar-lg">
+                <div class="user-details">
+                    {{-- esto debe ser una variable de nombre de usuario --}}
+                    <div class="username-suggested">usuario</div>
+                    {{-- esto debe ser una variable de comentario --}}
+                    <div class="user-comment">comentario</div>
+                </div>
+            </div>
+        </aside>
     </div>
 @endsection
-

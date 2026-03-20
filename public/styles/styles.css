@@ -1,0 +1,261 @@
+/* Variables */
+:root {
+    --primary: #FFA500;
+    --primary-dark: #FF8C00;
+    --white: #ffffff;
+    --bg: #f5f5f5;
+    --text: #333333;
+    --text-light: #999999;
+    --border: #f0f0f0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    background-color: var(--bg);
+}
+
+/* Header - Barra superior con fondo naranja degradado */
+.app-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    padding-left: 350px;
+}
+
+/* Input del buscador - Campo de texto para buscar recetas */
+/* .search-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+} */
+
+.sidebar-left {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    border-radius: 12px;
+    padding: 30px 20px;
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    width: 310px;
+    height: calc(100vh - 40px);
+    color: var(--white);
+    overflow-y: auto;
+}
+
+.logo h1 {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.menu-item.active {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.menu-item .icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-item svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+}
+
+.app-container {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+    padding: 20px;
+    padding-left: 370px;
+    padding-top: 100px;
+}
+
+.feed {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.post {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.post:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 14px;
+}
+
+.follow-btn {
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.follow-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.post-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.post-footer {
+    padding: 16px;
+}
+
+.post-stats {
+    display: flex;
+    gap: 24px;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.icon-stat {
+    font-size: 24px;
+}
+
+.count {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+/* Sidebar Derecho */
+.sidebar-right {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 20px;
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.suggestions-header {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.user-suggestion {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+}
+
+.user-suggestion:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.avatar-lg {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.username-suggested {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.user-comment {
+    font-size: 12px;
+    color: var(--text-light);
+}
+

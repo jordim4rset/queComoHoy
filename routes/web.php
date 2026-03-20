@@ -3,8 +3,5 @@
 use App\Http\Controllers\RecipeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
-
 Route::resource('recipes', RecipeController::class);
+Route::get('/', App\Http\Controllers\IndexController::class);
