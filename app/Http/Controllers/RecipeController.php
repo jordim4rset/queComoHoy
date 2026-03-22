@@ -35,7 +35,7 @@ class RecipeController extends Controller
         $receta->description = $request->input('description');
         $receta->time = $request->input('time');
         $receta->tags = $request->input('tags');
-        $receta->photo = $generatedName;
+        $receta->image = $generatedName;
         if($request->input('visibility') == 'on'){
             $receta->visibility = 1;
         }else{

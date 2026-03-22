@@ -5,7 +5,7 @@
 @section('content')
     <h1>Crear Receta</h1>
 
-    <form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('recipes.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <label>Nombre:</label>
         <input type="text" name="name" required><br>
