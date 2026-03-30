@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ asset('styles/styles.css') }}">
 </head>
 <body>
+    @include('layout.partials.nav')
     @include('layout.partials.aside')
     @yield('content')
     @include('layout.partials.footer')
