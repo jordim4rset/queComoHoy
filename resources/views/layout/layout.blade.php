@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-    @include('layout.partials.nav')
+    <aside class="sidebar-left">
+        @include('layout.partials.nav')
+    </aside>
     @yield('content')
     @include('layout.partials.footer')
 </body>
