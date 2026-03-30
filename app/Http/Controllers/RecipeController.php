@@ -29,8 +29,8 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
+         $receta = new Recipe();
         $generatedName = $request->file('photo')->store('img/recipes/cover','public');
-        $receta = new Recipe();
         $receta->name = $request->input('name');
         $receta->description = $request->input('description');
         $receta->time = $request->input('time');
