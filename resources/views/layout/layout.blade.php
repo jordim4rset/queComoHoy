@@ -7,9 +7,20 @@
     <link rel="stylesheet" href="{{ asset('styles/styles.css') }}">
 </head>
 <body>
-    @include('layout.partials.nav')
-    @include('layout.partials.aside')
-    @yield('content')
-    @include('layout.partials.footer')
+    <header class="app-header">
+        @include('layout.partials.nav')
+    </header>
+
+    <aside class="sidebar-left">
+        @include('layout.partials.aside')
+    </aside>
+
+    <main class="main-content">
+        @yield('content')
+
+        @include('layout.partials.footer')
+    </main>
+
+    <script src="{{ asset('javascript/main.js') }}"></script>
 </body>
 </html>
