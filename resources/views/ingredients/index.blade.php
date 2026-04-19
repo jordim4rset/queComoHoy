@@ -4,6 +4,8 @@
 
 @section('content')
 
+    <a href="{{ route('ingredientes.create') }}">Crear Ingrediente</a>
+
     <div class="flex-container">
     @foreach($ingredients as $ingr)
         <div class="flex-item">
@@ -12,10 +14,10 @@
                 <span>{{ $ingr->icon }}</span>
                 <h3>{{ $ingr->name }}</h3>
                 <p>{{ $ingr->category }}</p>
+                <a href="{{ route('ingredientes.edit', $ingr) }}">Editar</a>
             </div>
         </div>
     @endforeach
-</div>
+    </div>
 
 @endsection
-
