@@ -1,6 +1,4 @@
-/* ==========================================================================
-   1. VARIABLES Y RESET
-   ========================================================================== */
+/* 1. VARIABLES Y RESET */
 :root {
     --primary: #FFA500;
     --primary-dark: #FF8C00;
@@ -29,9 +27,7 @@ body {
     line-height: 1.5;
 }
 
-/* ==========================================================================
-   2. HEADER / NAV (Estructura de 3 columnas para centrado)
-   ========================================================================== */
+/* 2. HEADER / NAV (Estructura de 3 columnas para centrado) */
 .app-header {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     height: var(--nav-height);
@@ -80,9 +76,7 @@ body {
     white-space: nowrap;
 }
 
-/* ==========================================================================
-   3. SIDEBAR IZQUIERDO
-   ========================================================================== */
+/* SIDEBAR IZQUIERDO */
 .sidebar-left {
     background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
     position: fixed;
@@ -101,9 +95,7 @@ body {
     gap: 10px;
 }
 
-/* ==========================================================================
-   4. ELEMENTOS DE MENÚ (Botones del Nav y Sidebar)
-   ========================================================================== */
+/* 4. ELEMENTOS DE MENÚ (Botones del Nav y Sidebar) */
 .menu-item {
     display: flex;
     align-items: center;
@@ -145,7 +137,7 @@ body {
     text-decoration: none;
     color: var(--white);
     border: 1px solid transparent;
-    min-width: auto; /* El botón de login no necesita el min-width del menú */
+    min-width: auto;
 }
 
 .auth-btn.signup {
@@ -158,9 +150,7 @@ body {
     transform: translateY(-1px);
 }
 
-/* ==========================================================================
-   5. CONTENIDO CENTRAL (FEED ESTILO INSTAGRAM)
-   ========================================================================== */
+/* 5. CONTENIDO CENTRAL (FEED ESTILO INSTAGRAM) */
 .main-content {
     margin-left: var(--sidebar-width);
     margin-top: var(--nav-height);
@@ -237,9 +227,7 @@ body {
     color: var(--primary-dark);
 }
 
-/* ==========================================================================
-   6. SIDEBAR DERECHO Y RESPONSIVE
-   ========================================================================== */
+/* 6. SIDEBAR DERECHO Y RESPONSIVE */
 .sidebar-right {
     width: 300px;
     position: sticky;
@@ -260,9 +248,7 @@ body {
     .nav-container { padding: 0 20px; }
 }
 
-/* ==========================================================================
-   7. FOOTER
-   ========================================================================== */
+/* 7. FOOTER */
 footer {
     width: 100%;
     padding: 40px 0;
@@ -271,4 +257,140 @@ footer {
     font-size: 12px;
     border-top: 1px solid var(--border);
     margin-top: auto;
+}
+
+/* 8. FORMULARIOS */
+[class*="create"],
+.auth-container {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 12px;
+}
+
+.main-content h1 {
+    color: var(--primary-dark);
+}
+
+form:not(.nav-form) {
+    width: 100%;
+    background:
+        linear-gradient(180deg, rgba(255, 165, 0, 0.12) 0%, rgba(255, 255, 255, 0.98) 22%),
+        var(--off-white);
+    border: 1px solid rgba(255, 140, 0, 0.14);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 20px 45px rgba(255, 140, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+form:not(.nav-form)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #6b3d00;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 165, 0, 0.24);
+    border-radius: 14px;
+    background: var(--white);
+    color: var(--text);
+    font-size: 0.98rem;
+    transition: var(--transition);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-dark);
+    box-shadow: 0 0 0 4px rgba(255, 165, 0, 0.16);
+}
+
+input[type="file"] {
+    padding: 12px;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-right: 14px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--white);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: 4px 0 18px;
+    accent-color: var(--primary-dark);
+    box-shadow: none;
+}
+
+button,
+.btn-submit {
+    min-width: 170px;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 14px 24px rgba(255, 140, 0, 0.18);
+    transition: var(--transition);
+}
+
+button:hover,
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 30px rgba(255, 140, 0, 0.24);
+}
+
+a {
+    color: var(--primary-dark);
+}
+
+.main-content form br {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    [class*="create"],
+    .auth-container {
+        padding: 0;
+    }
+
+    form:not(.nav-form) {
+        padding: 24px 18px;
+        border-radius: 20px;
+    }
+
+    button,
+    .btn-submit {
+        width: 100%;
+    }
 }

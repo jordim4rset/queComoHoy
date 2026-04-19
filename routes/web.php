@@ -15,6 +15,6 @@ Route::post('/signup', [LoginController::class, 'signup'])->name('auth.signup.po
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::resource('events', EventController::class);
-Route::resource('recipes', RecipeController::class);
+Route::resource('recetas', RecipeController::class);
 Route::resource('ingredientes', IngredientController::class);
 Route::get('/', IndexController::class);
