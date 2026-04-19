@@ -30,32 +30,32 @@ class IngredientController extends Controller
         return redirect()->route('ingredientes.index');
     }
 
-    public function show(Ingredient $ingr)
-    {
-        return view('ingredients.show', compact("ingr"));
-    }
+    public function show(Ingredient $ingrediente)
+{
+    return view('ingredients.show', compact('ingrediente'));
+}
 
-    public function edit(Ingredient $ingr)
-    {
-        return view('ingredients.edit', compact("ingr"));
-    }
+   public function edit(Ingredient $ingrediente)
+{
+    return view('ingredients.edit', compact('ingrediente'));
+}
 
-    public function update(Request $request, Ingredient $ingr)
-    {
-        if ($request->hasFile('icon')) {
-            $generatedName = $request->file('icon')->store('img/ingredientes/cover','public');
-            $ingr->icon = $generatedName;
-        }
-        $ingr->name = $request->input('name');
-        $ingr->category = $request->input('category');
-        $ingr->update();
-
-        return redirect()->route('ingredientes.show', $ingr);
+    public function update(Request $request, Ingredient $ingrediente)
+{
+    if ($request->hasFile('icon')) {
+        $generatedName = $request->file('icon')->store('img/ingredientes/cover','public');
+        $ingrediente->icon = $generatedName;
     }
+    $ingrediente->name = $request->input('name');
+    $ingrediente->category = $request->input('category');
+    $ingrediente->save();
 
-    public function destroy(Ingredient $ingr)
-    {
-        $ingr->delete();
-        return redirect()->route('ingredientes.index');
-    }
+    return redirect()->route('ingredientes.show', $ingrediente);
+}
+
+    public function destroy(Ingredient $ingrediente)
+{
+    $ingrediente->delete();
+    return redirect()->route('ingredientes.index');
+}
 }
