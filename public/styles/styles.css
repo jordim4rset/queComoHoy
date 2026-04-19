@@ -20,7 +20,7 @@ body {
     background-color: var(--bg);
 }
 
-/* Header - Barra superior con fondo naranja degradado */
+/* Header - Barra superior con fondo naranja */
 .app-header {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     padding: 20px;
@@ -49,7 +49,7 @@ body {
     left: 20px;
     top: 20px;
     width: 310px;
-    height: calc(100vh - 40px);
+    height: 100%;
     color: var(--white);
     overflow-y: auto;
 }
@@ -259,3 +259,55 @@ body {
     color: var(--text-light);
 }
 
+
+/*INGREDIENTES INDEX*/
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -10px;
+}
+
+.flex-item {
+    padding: 10px;
+    box-sizing: border-box;
+    /* Por defecto 1 columna */
+    width: 100%;
+}
+
+/* Tablet: 2 columnas */
+@media (min-width: 600px) {
+    .flex-item { width: 50%; }
+}
+
+/* Desktop: 3 o 4 columnas */
+@media (min-width: 1000px) {
+    .flex-item { width: 33.33%; }
+}
+
+.card-content {
+    background: #f4f4f4;
+    border-radius: 10px;
+    padding: 20px;
+    height: 100%;
+    border: 1px solid #ccc;
+}
+
+.div-create-ingr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.form-create-ingr {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
