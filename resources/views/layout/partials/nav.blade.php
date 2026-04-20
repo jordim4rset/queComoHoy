@@ -1,7 +1,8 @@
 <div class="nav-container">
     <div class="nav-logo">
         <div class="logo">
-            <h1>QUECOCINOHOY</h1>
+            <h1><a href="{{route('index')}}">QUECOCINOHOY</a></h1>
+
         </div>
     </div>
 
@@ -18,7 +19,15 @@
     </nav>
 
     <div class="nav-right">
-        <a href="{{route('auth.login')}}" class="menu-item auth-btn">Login</a>
-        <a href="{{route('auth.signup')}}" class="menu-item auth-btn signup">Registrarse</a>
+        @auth
+            <a href="{{ route('account') }}" class="menu-item user-info">MI PERFIL, {{ Auth::user()->name }}</a>
+            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="auth-btn logout-btn">Cerrar Sesión</button>
+            </form>
+        @else
+            <a href="{{route('auth.login')}}" class="menu-item auth-btn">Login</a>
+            <a href="{{route('auth.signup')}}" class="menu-item auth-btn signup">Registrarse</a>
+        @endauth
     </div>
 </div>
