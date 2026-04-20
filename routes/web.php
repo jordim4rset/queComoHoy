@@ -13,8 +13,11 @@ Route::post('/login', [LoginController::class, 'login'])->name('auth.login.post'
 Route::get('/signup', [LoginController::class, 'signupForm'])->name('auth.signup');
 Route::post('/signup', [LoginController::class, 'signup'])->name('auth.signup.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/account', function () {
+    return view('auth.account');
+})->middleware('auth')->name('account');
 
 Route::resource('events', EventController::class);
 Route::resource('recetas', RecipeController::class);
 Route::resource('ingredientes', IngredientController::class);
-Route::get('/', IndexController::class);
+Route::get('/', IndexController::class)->name('index');
