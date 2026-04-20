@@ -1,7 +1,8 @@
 <div class="nav-container">
     <div class="nav-logo">
         <div class="logo">
-            <h1>QUECOCINOHOY</h1>
+            <h1><a href="{{route('index')}}">QUECOCINOHOY</a></h1>
+
         </div>
     </div>
 
@@ -19,7 +20,7 @@
 
     <div class="nav-right">
         @auth
-            <a href="{{ route('account') }}" class="menu-item user-info">Bienvenido, {{ Auth::user()->name }}</a>
+            <a href="{{ route('account') }}" class="menu-item user-info">MI PERFIL, {{ Auth::user()->name }}</a>
             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
                 <button type="submit" class="auth-btn logout-btn">Cerrar Sesión</button>
