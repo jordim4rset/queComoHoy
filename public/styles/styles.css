@@ -26,6 +26,7 @@ body {
     line-height: 1.5;
 }
 
+/* 2. HEADER / NAV */
 .app-header {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     height: var(--nav-height);
@@ -90,13 +91,14 @@ body {
     gap: 10px;
 }
 
+/* 4. ELEMENTOS DE MENÚ */
 .menu-item {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
     padding: 12px 20px;
-    min-width: 140px; 
+    min-width: 140px;
     border-radius: 12px;
     color: var(--white);
     text-decoration: none;
@@ -253,6 +255,7 @@ body {
     color: var(--primary-dark);
 }
 
+/* 6. SIDEBAR DERECHA Y RESPONSIVE */
 .sidebar-right {
     width: 300px;
     position: sticky;
@@ -283,6 +286,7 @@ footer {
     margin-top: auto;
 }
 
+/* 8. FORMULARIOS */
 .auth-container {
     width: 100%;
     max-width: 720px;
@@ -469,14 +473,8 @@ a {
 }
 
 @media (max-width: 768px) {
-    [class*="create"],
     .auth-container {
         padding: 0;
-    }
-
-    form:not(.nav-form) {
-        padding: 24px 18px;
-        border-radius: 20px;
     }
 
     button,

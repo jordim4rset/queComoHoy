@@ -5,10 +5,6 @@ Inicio - QueComoHoy
 @endsection
 
 @section('content')
-    {{--
-        app-container: El contenedor maestro que centra todo.
-        Dentro de él, el contenido se divide en dos columnas (main y aside).
-    --}}
     <div class="app-container">
 
         <main class="feed">
@@ -19,7 +15,7 @@ Inicio - QueComoHoy
                         <img src="https://via.placeholder.com/40" alt="Usuario" class="avatar">
                         <span class="username">usuario_pro</span>
                     </div>
-                    <button class="follow-btn">Seguir</button>
+                    <button>Seguir</button>
                 </div>
 
                 <img src="https://via.placeholder.com/600x500" alt="Receta deliciosa" class="post-image">
@@ -39,9 +35,8 @@ Inicio - QueComoHoy
                             <span class="count">211</span>
                         </div>
                     </div>
-                    {{-- Espacio para descripción de la receta --}}
                     <div class="post-description">
-                        <p><strong>usuario_pro</strong> ¡Esta receta de pasta es increíble! 🍝 #cocina #foodie</p>
+                        <p><strong>usuario_pro</strong> Receta de pasta #cocina #foodie</p>
                     </div>
                 </div>
             </div>
@@ -73,7 +68,7 @@ Inicio - QueComoHoy
                         </div>
                     </div>
                     <div class="post-description">
-                        <p><strong>chef_quecocino</strong> Hoy toca algo ligero y nutritivo. 🥗</p>
+                        <p><strong>chef_quecocino</strong> Ensalada con tomates </p>
                     </div>
                 </div>
             </div>
@@ -113,11 +108,6 @@ Inicio - QueComoHoy
                     </div>
                     <a href="#" class="follow-link">Seguir</a>
                 </div>
-            </div>
-
-            {{-- Links legales/copyright estilo Instagram --}}
-            <div class="sidebar-footer">
-                <p>&copy; 2026 QUECOCINOHOY DE META (Broma)</p>
             </div>
         </aside>
 
