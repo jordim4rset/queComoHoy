@@ -14,6 +14,6 @@
     @endif
 
     <br>
-    <a href="{{ route('recipes.index') }}">Volver a la lista</a>
-    <a href="{{ route('recipes.edit', ['recipe' => $receta->id]) }}">Editar receta</a>
+    <a href="{{ route('recetas.index') }}">Volver a la lista</a>
+    <a href="{{ route('recetas.edit', ['receta' => $receta->id]) }}">Editar receta</a>
 @endsection

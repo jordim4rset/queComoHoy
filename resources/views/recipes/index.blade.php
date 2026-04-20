@@ -5,6 +5,10 @@
 @section('content')
     <h1>Recetas</h1>
 
+    <a href="{{ route('recetas.create') }}">
+        <button>Crear Receta</button>
+    </a>
+
     @forelse ($recetas as $receta)
         <div>
             <h3>{{ $receta->name }}</h3>
@@ -16,10 +20,10 @@
 
             <div>
 
-                <a href="{{ route('recipes.show', ['recipe' => $receta->id]) }}">Ver</a>
-                <a href="{{ route('recipes.edit', ['recipe' => $receta->id]) }}">Editar</a>
+                <a href="{{ route('recetas.show', ['receta' => $receta->id]) }}">Ver</a>
+                <a href="{{ route('recetas.edit', ['receta' => $receta->id]) }}">Editar</a>
 
-                <form action="{{ route('recipes.destroy', ['recipe' => $receta->id]) }}" method="POST">
+                <form action="{{ route('recetas.destroy', ['receta' => $receta->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit">Eliminar</button>

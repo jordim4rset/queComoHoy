@@ -19,5 +19,6 @@ Route::get('/account', function () {
 
 Route::resource('events', EventController::class);
 Route::resource('recetas', RecipeController::class);
+Route::delete('/recetas/{receta}', [RecipeController::class, 'destroy'])->name('recetas.destroy');
 Route::resource('ingredientes', IngredientController::class);
 Route::get('/', IndexController::class)->name('index');

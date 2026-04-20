@@ -36,11 +36,11 @@ class RecipeController extends Controller
         $receta->time = $request->input('time');
         $receta->tags = $request->input('tags');
         $receta->photo = $generatedName;
-        $receta->input('visibility' == 'on') ? $receta->visibility = 1 : $receta->visibility = 0;
+        $request->input('visibility') == 'on' ? $receta->visibility = 1 : $receta->visibility = 0;
 
         $receta->save();
 
-        return redirect()->route('recipes.create');
+        return redirect()->route('recetas.index');
     }
 
     /**
@@ -49,7 +49,7 @@ class RecipeController extends Controller
     public function show(Recipe $receta)
     {
         if (!$receta->visibility) {
-            return redirect()->route('recipes.index');
+            return redirect()->route('recetas.index');
         }
         return view('recipes.show', compact('receta'));
     }
@@ -75,7 +75,7 @@ class RecipeController extends Controller
         $receta->input('visibility' == 'on') ? $receta->visibility = 1 : $receta->visibility = 0;
         $receta->update();
 
-        return redirect()->route('recipes.show', $receta);
+        return redirect()->route('recetas.show', $receta);
     }
 
     /**
@@ -84,6 +84,6 @@ class RecipeController extends Controller
     public function destroy(Recipe $receta)
     {
         $receta->delete();
-        return redirect()->route('recipes.index');
+        return redirect()->route('recetas.index');
     }
 }
