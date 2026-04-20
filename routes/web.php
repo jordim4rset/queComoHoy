@@ -17,4 +17,4 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::resource('events', EventController::class);
 Route::resource('recetas', RecipeController::class);
 Route::resource('ingredientes', IngredientController::class);
-Route::get('/', IndexController::class);
+Route::get('/', IndexController::class)->name('index');

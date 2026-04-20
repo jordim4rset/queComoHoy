@@ -9,7 +9,7 @@
     --text-light: #999999;
     --border: #eeeeee;
     --sidebar-width: 280px;
-    --nav-height: 85px; /* Nav más alto y espacioso */
+    --nav-height: 85px;
     --transition: all 0.3s ease;
 }
 
@@ -27,7 +27,7 @@ body {
     line-height: 1.5;
 }
 
-/* 2. HEADER / NAV (Estructura de 3 columnas para centrado) */
+/* 2. HEADER / NAV */
 .app-header {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     height: var(--nav-height);
@@ -48,7 +48,6 @@ body {
     padding: 0 40px;
 }
 
-/* Flex 1 a los lados para empujar el centro */
 .nav-logo,
 .nav-right {
     flex: 1;
@@ -95,14 +94,14 @@ body {
     gap: 10px;
 }
 
-/* 4. ELEMENTOS DE MENÚ (Botones del Nav y Sidebar) */
+/* 4. ELEMENTOS DE MENÚ */
 .menu-item {
     display: flex;
     align-items: center;
-    justify-content: center; /* Centra icono y texto */
+    justify-content: center;
     gap: 12px;
     padding: 12px 20px;
-    min-width: 140px; /* Asegura que el botón no sea pequeño */
+    min-width: 140px;
     border-radius: 12px;
     color: var(--white);
     text-decoration: none;
@@ -150,7 +149,7 @@ body {
     transform: translateY(-1px);
 }
 
-/* 5. CONTENIDO CENTRAL (FEED ESTILO INSTAGRAM) */
+/* 5. CONTENIDO CENTRAL */
 .main-content {
     margin-left: var(--sidebar-width);
     margin-top: var(--nav-height);

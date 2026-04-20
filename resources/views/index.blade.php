@@ -5,10 +5,6 @@ Inicio - QueComoHoy
 @endsection
 
 @section('content')
-    {{--
-        app-container: El contenedor maestro que centra todo.
-        Dentro de él, el contenido se divide en dos columnas (main y aside).
-    --}}
     <div class="app-container">
 
         <main class="feed">
@@ -39,9 +35,8 @@ Inicio - QueComoHoy
                             <span class="count">211</span>
                         </div>
                     </div>
-                    {{-- Espacio para descripción de la receta --}}
                     <div class="post-description">
-                        <p><strong>usuario_pro</strong> ¡Esta receta de pasta es increíble! 🍝 #cocina #foodie</p>
+                        <p><strong>usuario_pro</strong> Receta de pasta #cocina #foodie</p>
                     </div>
                 </div>
             </div>
@@ -73,7 +68,7 @@ Inicio - QueComoHoy
                         </div>
                     </div>
                     <div class="post-description">
-                        <p><strong>chef_quecocino</strong> Hoy toca algo ligero y nutritivo. 🥗</p>
+                        <p><strong>chef_quecocino</strong> Ensalada con tomates </p>
                     </div>
                 </div>
             </div>
@@ -115,7 +110,6 @@ Inicio - QueComoHoy
                 </div>
             </div>
 
-            {{-- Links legales/copyright estilo Instagram --}}
             <div class="sidebar-footer">
                 <p>&copy; 2026 QUECOCINOHOY DE META (Broma)</p>
             </div>
