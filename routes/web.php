@@ -6,6 +6,8 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\UserController;
 
 // Auth Routes
 Route::get('/login', [LoginController::class, 'loginForm'])->name('auth.login');
@@ -21,3 +23,28 @@ Route::resource('events', EventController::class);
 Route::resource('recetas', RecipeController::class);
 Route::resource('ingredientes', IngredientController::class);
 Route::get('/', IndexController::class)->name('index');
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('/follow/{id}', [FollowController::class, 'follow']);
+    Route::delete('/unfollow/{id}', [FollowController::class, 'unfollow']);
+
+    Route::get('/users/{id}/followers', [FollowController::class, 'followers']);
+    Route::get('/users/{id}/following', [FollowController::class, 'following']);
+
+});
+
+
+// seguir / dejar de seguir
+Route::post('/follow/{id}', [FollowController::class, 'follow'])->middleware('auth');
+Route::delete('/unfollow/{id}', [FollowController::class, 'unfollow'])->middleware('auth');
+
+// vistas
+Route::get('/users/{id}/followers', [FollowController::class, 'followersView'])->name('user.followers');
+Route::get('/users/{id}/following', [FollowController::class, 'followingView'])->name('user.following');
+
+Route::get('/profile/{id}', [UserController::class, 'show']);
+
+Route::get('/users', [UserController::class, 'index']);
