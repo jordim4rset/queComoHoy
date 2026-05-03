@@ -5,7 +5,7 @@
 @section('content')
     <h1>Crear Receta</h1>
 
-    <form action="{{ route('recetas.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <label>Nombre:</label>
         <input type="text" name="name" required><br>
@@ -28,5 +28,5 @@
         <button type="submit">Guardar</button>
     </form>
 
-    <a href="{{ route('recetas.index') }}">Volver a la lista</a>
+    <a href="{{ route('recipes.index') }}">Volver a la lista</a>
 @endsection
