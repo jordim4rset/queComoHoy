@@ -1,3 +1,3 @@
 <footer>
-    <p>&copy; 2026 Mi Sitio Web. Todos los derechos reservados.</p>
+    <p>&copy; 2026 Que Cocino Hoy. Powered by Jordi, Alex, Mahyoui Jr.</p>
 </footer>

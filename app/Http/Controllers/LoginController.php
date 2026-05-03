@@ -46,13 +46,7 @@ class LoginController extends Controller
 
     public function loginForm()
     {
-        if (Auth::viaRemember()) {
-            return view('auth.login')->with('message', 'Bienvenido de nuevo');
-        } else if (Auth::check()) {
-            return redirect()->route('index');
-        } else {
-            return view('auth.login');
-        }
+        return view('auth.login');
     }
 
     public function login(LoginRequest $request): RedirectResponse

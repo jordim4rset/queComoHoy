@@ -5,19 +5,16 @@
 @section('content')
     <h1>EDITAR INGREDIENTE</h1>
 
-    <form action="{{ route('ingredientes.update', $ingrediente) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('ingredientes.update', ['ingrediente' => $ingrediente->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-
     <label>Nombre:</label>
     <input type="text" name="name" required value="{{ $ingrediente->name }}">
     <br>
     <label>Categoria:</label>
     <select name="category" id="category">
         @foreach(\App\Models\Ingredient::CATEGORIES as $category)
-            <option value="{{ $category }}" {{ $ingrediente->category === $category ? 'selected' : '' }}>
-                {{ $category }}
-            </option>
+            <option value="{{ $category }}" {{ $ingrediente->category === $category ? 'selected' : '' }}>{{ $category }}</option>
         @endforeach
     </select>
     <br>

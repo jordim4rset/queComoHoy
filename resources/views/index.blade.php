@@ -15,7 +15,7 @@ Inicio - QueComoHoy
                         <img src="https://via.placeholder.com/40" alt="Usuario" class="avatar">
                         <span class="username">usuario_pro</span>
                     </div>
-                    <button class="follow-btn">Seguir</button>
+                    <button>Seguir</button>
                 </div>
 
                 <img src="https://via.placeholder.com/600x500" alt="Receta deliciosa" class="post-image">
@@ -108,10 +108,6 @@ Inicio - QueComoHoy
                     </div>
                     <a href="#" class="follow-link">Seguir</a>
                 </div>
-            </div>
-
-            <div class="sidebar-footer">
-                <p>&copy; 2026 QUECOCINOHOY DE META (Broma)</p>
             </div>
         </aside>
 

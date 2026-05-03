@@ -4,24 +4,17 @@
 
 @section('content')
 
-
-    <a href="{{ route('ingredientes.create') }}">
-        <button>Crear Ingrediente</button>
-    </a>
+    <a href="{{ route('ingredientes.create') }}">Crear Ingrediente</a>
 
     <div class="flex-container">
         @foreach ($ingredients as $ingr)
             <div class="flex-item">
                 <div class="card-content">
                     <img src="{{ asset('storage/' . $ingr->icon) }}" alt="Icono {{ $ingr->name }}"
-                        style="width: 100px; height: 100px;">
+                        onerror="this.style.display='none'"> 
                     <h3>{{ $ingr->name }}</h3>
                     <p>{{ $ingr->category }}</p>
-
-
-                    <a href="{{ route('ingredientes.edit', $ingr->id) }}">
-                        <button>Editar</button>
-                    </a>
+                    <a href="{{ route('ingredientes.edit', ['ingrediente' => $ingr->id]) }}">Editar</a>
                 </div>
             </div>
         @endforeach

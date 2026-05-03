@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('title')
-    Login - VITALITY
+    Login
 @endsection
 
 @section('content')
