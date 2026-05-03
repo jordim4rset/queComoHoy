@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BlockController;
 
 // Auth Routes
 Route::get('/login', [LoginController::class, 'loginForm'])->name('auth.login');
@@ -48,3 +49,7 @@ Route::get('/users/{id}/following', [FollowController::class, 'followingView'])-
 Route::get('/profile/{id}', [UserController::class, 'show']);
 
 Route::get('/users', [UserController::class, 'index']);
+
+//Rutas de bloquear
+Route::post('/block', [BlockController::class, 'block'])->name('block');
+Route::post('/unblock', [BlockController::class, 'unblock'])->name('unblock');
