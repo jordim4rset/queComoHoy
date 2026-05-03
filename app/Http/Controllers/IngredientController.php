@@ -20,10 +20,15 @@ class IngredientController extends Controller
 
     public function store(Request $request)
     {
-        //$generatedName = $request->file('icon')->store('img/ingredientes/cover','public');
+
         $ingr = new Ingredient();
         $ingr->name = $request->input('name');
-        $ingr->icon = 'icono';//$generatedName;
+
+        //Aqui tenias un problema de
+        if ($request->hasFile('icon')) {
+            $generatedName = $request->file('icon')->store('img/ingredientes/cover', 'public');
+            $ingr->icon = $generatedName;
+        }
         $ingr->category = $request->input('category');
         $ingr->save();
 
@@ -31,31 +36,31 @@ class IngredientController extends Controller
     }
 
     public function show(Ingredient $ingrediente)
-{
-    return view('ingredients.show', compact('ingrediente'));
-}
+    {
+        return view('ingredients.show', compact('ingrediente'));
+    }
 
-   public function edit(Ingredient $ingrediente)
-{
-    return view('ingredients.edit', compact('ingrediente'));
-}
+    public function edit(Ingredient $ingrediente)
+    {
+        return view('ingredients.edit', compact('ingrediente'));
+    }
 
     public function update(Request $request, Ingredient $ingrediente)
-{
-    if ($request->hasFile('icon')) {
-        $generatedName = $request->file('icon')->store('img/ingredientes/cover','public');
-        $ingrediente->icon = $generatedName;
-    }
-    $ingrediente->name = $request->input('name');
-    $ingrediente->category = $request->input('category');
-    $ingrediente->save();
+    {
+        if ($request->hasFile('icon')) {
+            $generatedName = $request->file('icon')->store('img/ingredientes/cover', 'public');
+            $ingrediente->icon = $generatedName;
+        }
+        $ingrediente->name = $request->input('name');
+        $ingrediente->category = $request->input('category');
+        $ingrediente->save();
 
-    return redirect()->route('ingredientes.show', $ingrediente);
-}
+        return redirect()->route('ingredientes.show', $ingrediente);
+    }
 
     public function destroy(Ingredient $ingrediente)
-{
-    $ingrediente->delete();
-    return redirect()->route('ingredientes.index');
-}
+    {
+        $ingrediente->delete();
+        return redirect()->route('ingredientes.index');
+    }
 }
