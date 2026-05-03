@@ -9,11 +9,15 @@
     <p>Etiquetas: {{ $receta->tags }}</p>
     <p>Visibilidad: {{ $receta->visibility ? 'Pública' : 'Privada' }}</p>
 
-    @if ($receta->photo)
-        <img src="{{ asset('storage/' . $receta->photo) }}" alt="Foto de {{ $receta->name }}" width="300">
+    @if ($receta->image)
+        <img src="{{ asset('storage/' . $receta->image) }}" alt="Foto de {{ $receta->name }}" width="300">
     @endif
 
-    <br>
-    <a href="{{ route('recipes.index') }}">Volver a la lista</a>
-    <a href="{{ route('recipes.edit', ['recipe' => $receta->id]) }}">Editar receta</a>
+    @auth
+        @if(Auth::id() === $receta->user_id)
+            <br>
+            <a href="{{ route('recetas.index') }}">Volver a la lista</a>
+            <a href="{{ route('recetas.edit', ['receta' => $receta->id]) }}">Editar receta</a>
+        @endif
+    @endauth
 @endsection

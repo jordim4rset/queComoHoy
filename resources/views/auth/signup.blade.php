@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('title')
-    Registro - VITALITY
+    Registro
 @endsection
 
 @section('content')

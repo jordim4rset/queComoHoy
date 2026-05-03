@@ -1,6 +1,6 @@
 @extends('layout.layout')
 
-@section('title', 'Edit Ingredients')
+@section('title', 'Editar Ingrediente')
 
 @section('content')
     <h1>EDITAR INGREDIENTE</h1>
@@ -23,4 +23,5 @@
     <br>
     <button type="submit">Guardar</button>
 </form>
+
 @endsection

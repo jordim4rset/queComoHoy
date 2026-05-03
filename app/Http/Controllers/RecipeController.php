@@ -29,18 +29,19 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
-         $receta = new Recipe();
+        $receta = new Recipe();
         $generatedName = $request->file('photo')->store('img/recipes/cover','public');
         $receta->name = $request->input('name');
         $receta->description = $request->input('description');
         $receta->time = $request->input('time');
         $receta->tags = $request->input('tags');
         $receta->photo = $generatedName;
-        $receta->input('visibility' == 'on') ? $receta->visibility = 1 : $receta->visibility = 0;
+        $receta->user_id = auth()->id();
+        $receta->visibility = $request->input('visibility') === 'on' ? 1 : 0;
 
         $receta->save();
 
-        return redirect()->route('recipes.create');
+        return redirect()->route('recetas.create');
     }
 
     /**
@@ -49,7 +50,7 @@ class RecipeController extends Controller
     public function show(Recipe $receta)
     {
         if (!$receta->visibility) {
-            return redirect()->route('recipes.index');
+            return redirect()->route('recetas.index');
         }
         return view('recipes.show', compact('receta'));
     }
@@ -75,7 +76,7 @@ class RecipeController extends Controller
         $receta->input('visibility' == 'on') ? $receta->visibility = 1 : $receta->visibility = 0;
         $receta->update();
 
-        return redirect()->route('recipes.show', $receta);
+        return redirect()->route('recetas.show', $receta);
     }
 
     /**
@@ -84,6 +85,6 @@ class RecipeController extends Controller
     public function destroy(Recipe $receta)
     {
         $receta->delete();
-        return redirect()->route('recipes.index');
+        return redirect()->route('recetas.index');
     }
 }

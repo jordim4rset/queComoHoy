@@ -11,7 +11,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $eventos = Recipe::get();
+        $eventos = Event::get();
         return view('events.index', compact('eventos'));
     }
 
