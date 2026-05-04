@@ -32,8 +32,8 @@
                     @endif
                 @endauth
             </div>
-        </div>
-    @empty
-        <p>No hay recetas disponibles.</p>
-    @endforelse
+        @empty
+            <p>No hay recetas disponibles.</p>
+        @endforelse
+    </div>
 @endsection

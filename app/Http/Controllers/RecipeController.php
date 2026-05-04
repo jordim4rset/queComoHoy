@@ -12,7 +12,22 @@ class RecipeController extends Controller
      */
     public function index()
     {
+
+        // Para filtrar las recteas por nombre, si esta visible o no y por el tiempo de elaboracion
         $recetas = Recipe::get();
+
+        if (request('name')) {
+            $recetas = Recipe::where('name', 'like', '%' . request('name') . '%')->get();
+        }
+
+        if (request('visibility') != '') {
+            $recetas = Recipe::where('visibility', request('visibility'))->get();
+        }
+
+        if (request('time')) {
+            $recetas = Recipe::where('time', '<=', request('time'))->get();
+        }
+
         return view('recipes.index', compact('recetas'));
     }
 
@@ -30,7 +45,7 @@ class RecipeController extends Controller
     public function store(Request $request)
     {
         $receta = new Recipe();
-        $generatedName = $request->file('photo')->store('img/recipes/cover','public');
+        $generatedName = $request->file('photo')->store('img/recipes/cover', 'public');
         $receta->name = $request->input('name');
         $receta->description = $request->input('description');
         $receta->time = $request->input('time');
@@ -65,15 +80,17 @@ class RecipeController extends Controller
      */
     public function update(Request $request, Recipe $receta)
     {
-        $generatedName = $request->file('photo')->store('img/recipes/cover','public');
-
         $receta->name = $request->input('name');
         $receta->description = $request->input('description');
         $receta->time = $request->input('time');
         $receta->tags = $request->input('tags');
-        $receta->image = $generatedName;
-        $receta->input('visibility' == 'on') ? 1 : 0;
-        $receta->input('visibility' == 'on') ? $receta->visibility = 1 : $receta->visibility = 0;
+        $receta->visibility = $request->input('visibility') == 'on' ? 1 : 0;
+
+        if ($request->hasFile('image')) {
+            $generatedName = $request->file('image')->store('img/recipes/cover', 'public');
+            $receta->image = $generatedName;
+        }
+
         $receta->update();
 
         return redirect()->route('recipes.show', $receta);

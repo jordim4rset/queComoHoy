@@ -9,7 +9,14 @@ class IngredientController extends Controller
 {
     public function index()
     {
-        $ingredients = Ingredient::get();
+        //Esto es para filtrar por ingredientes con un if
+
+        if (request('category')) {
+            $ingredients = Ingredient::where('category', request('category'))->get();
+        } else {
+            $ingredients = Ingredient::get();
+        }
+        
         return view('ingredients.index', compact("ingredients"));
     }
 
