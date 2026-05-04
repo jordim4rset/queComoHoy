@@ -27,10 +27,15 @@ class IngredientController extends Controller
 
     public function store(Request $request)
     {
-        //$generatedName = $request->file('icon')->store('img/ingredientes/cover','public');
+
         $ingr = new Ingredient();
         $ingr->name = $request->input('name');
-        $ingr->icon = 'icono';//$generatedName;
+
+        //Aqui tenias un problema de
+        if ($request->hasFile('icon')) {
+            $generatedName = $request->file('icon')->store('img/ingredientes/cover', 'public');
+            $ingr->icon = $generatedName;
+        }
         $ingr->category = $request->input('category');
         $ingr->save();
 

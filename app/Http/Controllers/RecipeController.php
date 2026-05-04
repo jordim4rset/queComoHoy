@@ -56,7 +56,7 @@ class RecipeController extends Controller
 
         $receta->save();
 
-        return redirect()->route('recetas.create');
+        return redirect()->route('recipes.create');
     }
 
     /**
@@ -65,7 +65,7 @@ class RecipeController extends Controller
     public function show(Recipe $receta)
     {
         if (!$receta->visibility) {
-            return redirect()->route('recetas.index');
+            return redirect()->route('recipes.index');
         }
         return view('recipes.show', compact('receta'));
     }
@@ -102,6 +102,6 @@ class RecipeController extends Controller
     public function destroy(Recipe $receta)
     {
         $receta->delete();
-        return redirect()->route('recetas.index');
+        return redirect()->route('recipes.index');
     }
 }
