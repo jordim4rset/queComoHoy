@@ -21,7 +21,7 @@ Route::get('/account', function () {
 })->middleware('auth')->name('account');
 
 Route::resource('events', EventController::class);
-Route::resource('recipes', RecipeController::class);
+Route::resource('recetas', RecipeController::class);
 Route::resource('ingredientes', IngredientController::class);
 Route::get('/', IndexController::class)->name('index');
 
