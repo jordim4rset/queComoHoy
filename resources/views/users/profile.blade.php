@@ -65,7 +65,7 @@
                             <h3>{{ $recipe->name }}</h3>
                             <p>{{ Str::limit($recipe->description, 100) }}</p>
                             <p><strong>Tiempo:</strong> {{ $recipe->time }} min</p>
-                            <a href="{{ route('recipes.show', $recipe->id) }}" class="btn btn-sm">Ver receta</a>
+                            <a href="{{ route('recetas.show', $recipe->id) }}" class="btn btn-sm">Ver receta</a>
                         </div>
                     @endforeach
                 </div>

@@ -13,8 +13,8 @@
             <h3>{{ $receta->name }}</h3>
             <p>Visibilidad: {{ $receta->visibility ? 'Pública' : 'Privada' }}</p>
 
-            @if ($receta->photo)
-                <img src="{{ asset('/storage/' . $receta->photo) }}" alt="Foto de {{ $receta->name }}">
+            @if ($receta->image)
+                <img src="{{ asset('/storage/' . $receta->image) }}" alt="Foto de {{ $receta->name }}">
             @endif
 
             <div>

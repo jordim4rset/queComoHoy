@@ -5,7 +5,7 @@
 @section('content')
     <h1>Crear Receta</h1>
 
-    <form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('recetas.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <label>Nombre:</label>
         <input type="text" name="name" required><br>
@@ -23,10 +23,10 @@
         <input type="checkbox" name="visibility"><br>
 
         <label>Foto:</label>
-        <input type="file" name="photo"><br><br>
+        <input type="file" name="image"><br><br>
 
         <button type="submit">Guardar</button>
     </form>
 
-    <a href="{{ route('recipes.index') }}">Volver a la lista</a>
+    <a href="{{ route('recetas.index') }}">Volver a la lista</a>
 @endsection

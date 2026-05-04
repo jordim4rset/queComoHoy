@@ -5,7 +5,7 @@
 @section('content')
 <h1>Editar Receta</h1>
 
-<form action="{{ route('recipes.update', ['recipe' => $receta->id]) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('recetas.update', ['recipe' => $receta->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -25,10 +25,10 @@
     <input type="checkbox" name="visibility" {{ $receta->visibility ? 'checked' : '' }}><br>
 
     <label>Foto:</label>
-    <input type="file" name="photo"><br><br>
+    <input type="file" name="image"><br><br>
 
     <button type="submit">Actualizar</button>
 </form>
 
-<a href="{{ route('recipes.show', ['recipe' => $receta->id]) }}">Cancelar</a>
+<a href="{{ route('recetas.show', ['recipe' => $receta->id]) }}">Cancelar</a>
 @endsection
