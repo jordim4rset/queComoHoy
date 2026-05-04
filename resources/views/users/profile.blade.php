@@ -5,6 +5,14 @@
         <h1>{{ $user->name }}</h1>
         <p><strong>Usuario:</strong> {{ $user->username }}</p>
         <p><strong>Rol:</strong> {{ $user->rol }}</p>
+        <p>
+            <strong><a href="{{ route('user.following', $user->id) }}">Siguiendo</a>:</strong>
+            {{ $user->following()->count() }}
+        </p>
+        <p>
+            <strong><a href="{{ route('user.followers', $user->id) }}">Seguidores</a>:</strong>
+            {{ $user->followers()->count() }}
+        </p>
 
         @auth
             @if (Auth::id() !== $user->id)
@@ -57,7 +65,7 @@
                             <h3>{{ $recipe->name }}</h3>
                             <p>{{ Str::limit($recipe->description, 100) }}</p>
                             <p><strong>Tiempo:</strong> {{ $recipe->time }} min</p>
-                            <a href="{{ route('recetas.show', $recipe->id) }}" class="btn btn-sm">Ver receta</a>
+                            <a href="{{ route('recipes.show', $recipe->id) }}" class="btn btn-sm">Ver receta</a>
                         </div>
                     @endforeach
                 </div>
