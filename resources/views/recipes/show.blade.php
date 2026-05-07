@@ -17,7 +17,7 @@
         @if(Auth::id() === $receta->user_id)
             <br>
             <a href="{{ route('recetas.index') }}">Volver a la lista</a>
-            <a href="{{ route('recetas.edit', ['recipe' => $receta->id]) }}">Editar receta</a>
+            <a href="{{ route('recetas.edit', ['receta' => $receta->id]) }}">Editar receta</a>
         @endif
     @endauth
 @endsection
