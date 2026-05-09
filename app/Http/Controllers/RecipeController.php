@@ -56,6 +56,11 @@ class RecipeController extends Controller
 
         $receta->save();
 
+        if (auth()->check()) {
+            $points = $receta->visibility ? 20 : 5;
+            auth()->user()->increment('chefpoints', $points);
+        }
+
         return redirect()->route('recetas.index');
     }
 

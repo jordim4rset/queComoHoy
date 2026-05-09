@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'rol',
+        'chefpoints',
     ];
 
     /**
@@ -47,7 +48,44 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
+
+    public function chefLevel(): int
+    {
+        $level = intdiv($this->chefpoints, 1000) + 1;
+        return min(5, max(1, $level));
+    }
+
+    public function chefLevelName(): string
+    {
+        return match ($this->chefLevel()) {
+            1 => 'Chef Novato',
+            2 => 'Chef Aprendiz',
+            3 => 'Chef Experto',
+            4 => 'Chef Maestro',
+            default => 'Chef Legendario',
+        };
+    }
+
+    public function chefLevelProgress(): int
+    {
+        $progress = $this->chefpoints - ($this->chefLevel() - 1) * 1000;
+        return min(1000, max(0, $progress));
+    }
+
+    public function chefLevelPercent(): int
+    {
+        return (int) round(($this->chefLevelProgress() / 1000) * 100);
+    }
+
+    public function chefPointsToNextLevel(): int
+    {
+        if ($this->chefLevel() >= 5) {
+            return 0;
+        }
+
+        return 1000 - $this->chefLevelProgress();
+    }
+
     public function following()
     {
         return $this->belongsToMany(
@@ -67,7 +105,7 @@ class User extends Authenticatable
             'follower_id'
         );
     }
-    
+
     public function recipes()
     {
         return $this->hasMany(Recipe::class);

@@ -5,6 +5,7 @@
         <h1>{{ $user->name }}</h1>
         <p><strong>Usuario:</strong> {{ $user->username }}</p>
         <p><strong>Rol:</strong> {{ $user->rol }}</p>
+        <p><strong>ChefPoints:</strong> {{ $user->chefpoints }}</p>
         <p>
             <strong><a href="{{ route('user.following', $user->id) }}">Siguiendo</a>:</strong>
             {{ $user->following()->count() }}

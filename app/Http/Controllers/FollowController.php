@@ -23,6 +23,9 @@ class FollowController extends Controller
 
         $user->following()->attach($id);
 
+        $followedUser = User::findOrFail($id);
+        $followedUser->increment('chefpoints', 5);
+
         return back();
     }
 

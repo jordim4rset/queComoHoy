@@ -56,6 +56,10 @@
                 <span class="info-value">{{ auth()->user()->created_at->format('d/m/Y') }}</span>
             </div>
             <div class="info-group">
+                <label class="info-label">ChefPoints:</label>
+                <span class="info-value">{{ auth()->user()->chefpoints }}</span>
+            </div>
+            <div class="info-group">
                 <label class="info-label"><a href="{{ route('user.following', auth()->id()) }}">Siguiendo</a>:</label>
                 <span class="info-value">{{ auth()->user()->following()->count() }}</span>
             </div>
