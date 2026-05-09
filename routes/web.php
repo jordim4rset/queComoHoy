@@ -12,7 +12,7 @@ use App\Http\Controllers\BlockController;
 
 // Auth Routes
 Route::get('/login', [LoginController::class, 'loginForm'])->name('auth.login');
-Route::post('/login', [LoginController::class, 'login'])->name('auth.login.post');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/signup', [LoginController::class, 'signupForm'])->name('auth.signup');
 Route::post('/signup', [LoginController::class, 'signup'])->name('auth.signup.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -39,9 +39,26 @@ Route::post('/demo/chefpoints/remove', function () {
     return back()->with('success', '1000 ChefPoints eliminados.');
 })->middleware('auth')->name('demo.chefpoints.remove');
 
+//RUTAS EVENTOS
 Route::resource('events', EventController::class);
-Route::resource('recetas', RecipeController::class);
-Route::resource('ingredientes', IngredientController::class);
+Route::resource('events', RecipeController::class)
+    ->middleware('auth')
+    ->only(['create', 'store', 'edit', 'update', 'destroy']);
+Route::get('/events/{event}', [RecipeController::class, 'show'])
+    ->name('events.show');
+
+//RUTAS RECETAS
+Route::get('/recetas', [RecipeController::class, 'index'])
+    ->name('recetas.index');
+Route::resource('recetas', RecipeController::class)
+    ->middleware('auth')
+    ->only(['create', 'store', 'edit', 'update', 'destroy']);
+Route::get('/recetas/{receta}', [RecipeController::class, 'show'])
+    ->name('recetas.show');
+
+
+
+
 Route::get('/', IndexController::class)->name('index');
 
 

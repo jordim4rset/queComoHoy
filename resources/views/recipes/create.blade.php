@@ -3,6 +3,7 @@
 @section('title', 'Crear Receta')
 
 @section('content')
+
     <h1>Crear Receta</h1>
 
     <form action="{{ route('recetas.store') }}" method="POST" enctype="multipart/form-data">
