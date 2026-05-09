@@ -5,7 +5,9 @@
 @section('content')
     <div class="recipes-header">
         <h1>Recetas</h1>
-        <a href="{{ route('recetas.create') }}" class="btn btn-primary">Crear receta</a>
+        @auth
+            <a href="{{ route('recetas.create') }}" class="btn btn-primary">Crear receta</a>
+        @endauth
     </div>
 
     @forelse ($recetas as $receta)

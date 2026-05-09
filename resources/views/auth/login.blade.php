@@ -25,7 +25,7 @@
         </div>
     @endif
 
-    <form action="{{ route('auth.login.post') }}" method="POST" class="auth-form">
+    <form action="{{ route('login') }}" method="POST" class="auth-form">
         @csrf
 
         <div class="form-group">
