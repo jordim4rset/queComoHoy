@@ -19,6 +19,25 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/account', function () {
     return view('auth.account');
 })->middleware('auth')->name('account');
+Route::get('/shop', function () {
+    return view('shop');
+})->name('shop');
+
+Route::post('/demo/chefpoints/add', function () {
+    $user = auth()->user();
+    $user->chefpoints += 1000;
+    $user->save();
+
+    return back()->with('success', '+1000 ChefPoints añadidos.');
+})->middleware('auth')->name('demo.chefpoints.add');
+
+Route::post('/demo/chefpoints/remove', function () {
+    $user = auth()->user();
+    $user->chefpoints = max(0, $user->chefpoints - 1000);
+    $user->save();
+
+    return back()->with('success', '1000 ChefPoints eliminados.');
+})->middleware('auth')->name('demo.chefpoints.remove');
 
 Route::resource('events', EventController::class);
 Route::resource('recetas', RecipeController::class);

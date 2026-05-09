@@ -37,6 +37,8 @@ class LoginController extends Controller
             $user->rol = 'member';
         }
 
+        $user->chefpoints = 300;
+
         $user->save();
 
         Auth::login($user);
