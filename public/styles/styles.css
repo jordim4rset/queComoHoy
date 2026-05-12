@@ -26,7 +26,6 @@ body {
     line-height: 1.5;
 }
 
-/* 2. HEADER / NAV */
 .app-header {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     height: var(--nav-height);
@@ -45,6 +44,11 @@ body {
     align-items: center;
     height: 100%;
     padding: 0 40px;
+}
+
+.nav-logo a {
+    color: white;
+    text-decoration: none;
 }
 
 .nav-logo,
@@ -169,7 +173,6 @@ body {
     font-size: 1.2rem;
 }
 
-/* 4. ELEMENTOS DE MENÚ */
 .menu-item {
     display: flex;
     align-items: center;
@@ -256,7 +259,6 @@ body {
     transform: translateY(0);
 }
 
-
 .main-content {
     margin-left: var(--sidebar-width);
     margin-top: var(--nav-height);
@@ -288,13 +290,28 @@ body {
     margin-bottom: 30px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    height: 720px;
+    display: flex;
+    flex-direction: column;
 }
 
 .post-header {
+    height: 68px;
     padding: 15px 20px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
+    flex-shrink: 0;
+}
+
+.post-header .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+    color: var(--text);
 }
 
 .avatar {
@@ -303,29 +320,44 @@ body {
     border-radius: 50%;
     background: #ddd;
     object-fit: cover;
+    flex-shrink: 0;
 }
 
 .username {
     font-weight: bold;
     font-size: 14px;
+    color: var(--text);
+}
+
+.post-image-wrapper {
+    width: 100%;
+    height: 420px;
+    background: #f0f0f0;
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
 .post-image {
     width: 100%;
+    height: 100%;
     display: block;
-    background: #f0f0f0;
-    min-height: 450px;
     object-fit: cover;
+    object-position: center;
 }
 
 .post-footer {
     padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .post-stats {
     display: flex;
     gap: 20px;
     margin-bottom: 12px;
+    flex-shrink: 0;
 }
 
 .count {
@@ -333,7 +365,14 @@ body {
     color: var(--primary-dark);
 }
 
-/* 6. SIDEBAR DERECHA Y RESPONSIVE */
+.post-description {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
 .sidebar-right {
     width: 300px;
     position: sticky;
@@ -342,16 +381,44 @@ body {
 }
 
 @media (max-width: 1100px) {
-    .sidebar-right { display: none; }
+    .sidebar-right {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {
-    .sidebar-left { width: 75px; padding: 20px 10px; }
-    .sidebar-left .menu-item span:not(.icon) { display: none; }
-    .sidebar-left .menu-item { min-width: auto; }
-    .main-content { margin-left: 75px; }
-    .nav-center-menu { display: none; } /* En móvil el menú central suele estorbar */
-    .nav-container { padding: 0 20px; }
+    .sidebar-left {
+        width: 75px;
+        padding: 20px 10px;
+    }
+
+    .sidebar-left .menu-item span:not(.icon) {
+        display: none;
+    }
+
+    .sidebar-left .menu-item {
+        min-width: auto;
+    }
+
+    .main-content {
+        margin-left: 75px;
+    }
+
+    .nav-center-menu {
+        display: none;
+    }
+
+    .nav-container {
+        padding: 0 20px;
+    }
+
+    .post {
+        height: 650px;
+    }
+
+    .post-image-wrapper {
+        height: 340px;
+    }
 }
 
 footer {
@@ -364,7 +431,6 @@ footer {
     margin-top: auto;
 }
 
-/* 8. FORMULARIOS */
 .auth-container {
     width: 100%;
     max-width: 720px;
@@ -375,7 +441,6 @@ footer {
 .main-content h1 {
     color: var(--primary-dark);
 }
-
 
 label {
     display: block;
@@ -628,8 +693,6 @@ a {
     }
 }
 
-
-/* Enlaces con aspecto de botón */
 .btn {
     display: inline-block;
     padding: 10px 20px;
@@ -659,14 +722,49 @@ a {
     font-size: 0.85rem;
 }
 
+.follow-btn-small {
+    min-width: auto;
+    padding: 5px 12px;
+    font-size: 13px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    line-height: 1.2;
+    background-color: var(--primary);
+    color: white;
+    box-shadow: none;
+}
 
-/* Tarjetas de recetas */
+.follow-btn-small:hover {
+    opacity: 0.85;
+    transform: none;
+    box-shadow: none;
+}
+
+.recipe-name {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--text);
+    margin: 8px 0 6px;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.recipe-description {
+    margin: 0;
+}
+
 .recipes-list {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
     width: 100%;
+    align-items: stretch;
 }
 
 .recipe-card {
@@ -675,6 +773,7 @@ a {
     border-radius: 16px;
     padding: 16px;
     width: 280px;
+    min-height: 360px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -691,11 +790,13 @@ a {
 .recipe-card h3 {
     font-size: 1.1rem;
     color: var(--text);
+    margin-top: 4px;
 }
 
 .recipe-card p {
     color: var(--text-light);
     font-size: 0.9rem;
+    margin: 0;
 }
 
 .recipe-card-buttons {
@@ -705,7 +806,16 @@ a {
     margin-top: auto;
 }
 
-/* Tarjetas de ingredientes */
+.recipe-card-buttons form {
+    margin: 0;
+    flex: 1;
+}
+
+.recipe-card-buttons button {
+    min-width: auto;
+    box-shadow: none;
+}
+
 .flex-container {
     display: flex;
     flex-wrap: wrap;
@@ -745,4 +855,154 @@ a {
 .card-content p {
     color: var(--text-light);
     font-size: 0.85rem;
+}
+
+.recipe-description-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 4px;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.35;
+    min-height: 42px;
+    flex-shrink: 0;
+}
+
+.recipe-username {
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+}
+
+.recipe-description-text {
+    color: var(--text-light);
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.comments-box {
+    flex: 1;
+    min-height: 38px;
+    margin-top: 10px;
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+}
+
+.recipe-tags {
+    margin-top: 8px;
+    color: var(--primary);
+    font-size: 0.9rem;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.recipe-tags span {
+    margin-right: 6px;
+}
+
+.recipes-header {
+    width: 100%;
+    max-width: 950px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.recipes-header h1 {
+    margin: 0;
+    color: var(--primary-dark);
+}
+
+.btn-edit,
+.btn-delete {
+    width: 100%;
+    height: 38px;
+    min-width: 0;
+    padding: 0 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    line-height: 1;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-edit {
+    flex: 1;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--white);
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, #ff4d4d 0%, #cc0000 100%);
+    color: var(--white);
+}
+
+.btn-edit:hover,
+.btn-delete:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+.recipe-card-buttons {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.recipe-card-buttons > a,
+.recipe-card-buttons > form {
+    flex: 1 1 0;
+}
+
+.recipe-card-buttons form {
+    display: flex;
+    margin: 0;
+}
+
+.recipe-title-link {
+    color: var(--text);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.recipe-title-link:hover {
+    color: var(--primary-dark);
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.icon-stat {
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-dark);
+}
+
+.icon-stat svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
 }

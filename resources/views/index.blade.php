@@ -5,111 +5,156 @@ Inicio - QueComoHoy
 @endsection
 
 @section('content')
-    <div class="app-container">
+<div class="app-container">
 
-        <main class="feed">
+    <main class="feed">
 
+        @forelse($recipes as $recipe)
             <div class="post">
+
                 <div class="post-header">
                     <div class="user-info">
-                        <img src="https://via.placeholder.com/40" alt="Usuario" class="avatar">
-                        <span class="username">usuario_pro</span>
+                        <img
+                            src="https://ui-avatars.com/api/?name={{ urlencode($recipe->user->username ?? 'Usuario') }}"
+                            alt="{{ $recipe->user->username ?? 'Usuario' }}"
+                            class="avatar"
+                        >
+
+                        <span class="username">
+                            {{ $recipe->user->username ?? 'usuario_desconocido' }}
+                        </span>
                     </div>
-                    <button>Seguir</button>
+
+                    @auth
+                        @if(auth()->id() !== $recipe->user_id)
+                            <button class="follow-btn-small">Seguir</button>
+                        @endif
+                    @endauth
                 </div>
 
-                <img src="https://via.placeholder.com/600x500" alt="Receta deliciosa" class="post-image">
+                <div class="post-image-wrapper">
+                    @if($recipe->image)
+                        <img
+                            src="{{ asset('storage/' . $recipe->image) }}"
+                            alt="{{ $recipe->name }}"
+                            class="post-image"
+                        >
+                    @else
+                        <img
+                            src="https://via.placeholder.com/600x500"
+                            alt="{{ $recipe->name }}"
+                            class="post-image"
+                        >
+                    @endif
+                </div>
 
                 <div class="post-footer">
                     <div class="post-stats">
                         <div class="stat">
-                            <span class="icon-stat">❤️</span>
-                            <span class="count">12k</span>
+                            <span class="icon-stat">
+                                <!-- Aquí pegas tu SVG de likes -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M20.8 4.6c-1.7-1.7-4.5-1.7-6.2 0L12 7.2 9.4 4.6c-1.7-1.7-4.5-1.7-6.2 0s-1.7 4.5 0 6.2L12 19.6l8.8-8.8c1.7-1.7 1.7-4.5 0-6.2z"/>
+                                </svg>
+                            </span>
+                            <span class="count">0</span>
                         </div>
+
                         <div class="stat">
-                            <span class="icon-stat">💬</span>
-                            <span class="count">2k</span>
+                            <span class="icon-stat">
+                                <!-- Aquí pegas tu SVG de comentarios -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
+                                </svg>
+                            </span>
+                            <span class="count">0</span>
                         </div>
+
                         <div class="stat">
-                            <span class="icon-stat">✅</span>
-                            <span class="count">211</span>
+                            <span class="icon-stat">
+                                <!-- Aquí pegas tu SVG de tiempo -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 10.6V7h-2v6.4l5 3 1-1.7z"/>
+                                </svg>
+                            </span>
+                            <span class="count">{{ $recipe->time }} min</span>
                         </div>
+
                     </div>
+
                     <div class="post-description">
-                        <p><strong>usuario_pro</strong> Receta de pasta #cocina #foodie</p>
-                    </div>
-                </div>
-            </div>
 
-            <div class="post">
-                <div class="post-header">
-                    <div class="user-info">
-                        <img src="https://via.placeholder.com/40" alt="Usuario" class="avatar">
-                        <span class="username">chef_quecocino</span>
-                    </div>
-                    <button class="follow-btn">Seguir</button>
-                </div>
+                        <p class="recipe-name">
+                            {{ $recipe->name }}
+                        </p>
 
-                <img src="https://via.placeholder.com/600x500" alt="Comida saludable" class="post-image">
+                        <div class="recipe-description-row">
+                            <strong class="recipe-username">
+                                {{ $recipe->user->username ?? 'usuario_desconocido' }}
+                            </strong>
 
-                <div class="post-footer">
-                    <div class="post-stats">
-                        <div class="stat">
-                            <span class="icon-stat">❤️</span>
-                            <span class="count">8.5k</span>
+                            <span class="recipe-description-text">
+                                {{ $recipe->description }}
+                            </span>
                         </div>
-                        <div class="stat">
-                            <span class="icon-stat">💬</span>
-                            <span class="count">1.2k</span>
-                        </div>
-                        <div class="stat">
-                            <span class="icon-stat">✅</span>
-                            <span class="count">145</span>
-                        </div>
+
+                        <div class="comments-box"></div>
+
+                        @if($recipe->tags)
+                            <p class="recipe-tags">
+                                @foreach(explode(',', $recipe->tags) as $tag)
+                                    <span>#{{ trim($tag) }}</span>
+                                @endforeach
+                            </p>
+                        @endif
+
                     </div>
-                    <div class="post-description">
-                        <p><strong>chef_quecocino</strong> Ensalada con tomates </p>
-                    </div>
+
                 </div>
+
             </div>
+        @empty
+            <p>No hay recetas todavía.</p>
+        @endforelse
 
-        </main>
+    </main>
 
-        <aside class="sidebar-right">
-            <div class="suggestions-header">
-                <span>Sugerencias para ti</span>
-                <a href="#" class="view-all">Ver todo</a>
-            </div>
+    <aside class="sidebar-right">
 
-            <div class="suggestions-list">
+        <div class="suggestions-header">
+            <span>Sugerencias para ti</span>
+            <a href="#" class="view-all">Ver todo</a>
+        </div>
+
+        <div class="suggestions-list">
+
+            @forelse($suggestions ?? [] as $user)
                 <div class="user-suggestion">
-                    <img src="https://via.placeholder.com/50" alt="Usuario" class="avatar-lg">
+                    <img
+                        src="https://ui-avatars.com/api/?name={{ urlencode($user->username) }}"
+                        alt="{{ $user->username }}"
+                        class="avatar-lg"
+                    >
+
                     <div class="user-details">
-                        <div class="username-suggested">pedro_cocina</div>
-                        <div class="user-comment">Nuevo en QueComoHoy</div>
+                        <div class="username-suggested">
+                            {{ $user->username }}
+                        </div>
+
+                        <div class="user-comment">
+                            Nuevo en QueComoHoy
+                        </div>
                     </div>
+
                     <a href="#" class="follow-link">Seguir</a>
                 </div>
+            @empty
+                <p>No hay sugerencias.</p>
+            @endforelse
 
-                <div class="user-suggestion">
-                    <img src="https://via.placeholder.com/50" alt="Usuario" class="avatar-lg">
-                    <div class="user-details">
-                        <div class="username-suggested">ana_pasteles</div>
-                        <div class="user-comment">Seguido por usuario_pro</div>
-                    </div>
-                    <a href="#" class="follow-link">Seguir</a>
-                </div>
+        </div>
 
-                <div class="user-suggestion">
-                    <img src="https://via.placeholder.com/50" alt="Usuario" class="avatar-lg">
-                    <div class="user-details">
-                        <div class="username-suggested">recetas_faciles</div>
-                        <div class="user-comment">Sugerencia para ti</div>
-                    </div>
-                    <a href="#" class="follow-link">Seguir</a>
-                </div>
-            </div>
-        </aside>
+    </aside>
 
-    </div>
+</div>
 @endsection
