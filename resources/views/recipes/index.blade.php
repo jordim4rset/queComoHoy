@@ -1,40 +1,84 @@
 @extends('layout.layout')
 
-@section('title', 'Lista de Recetas')
+@section('title', 'Mis Recetas')
 
 @section('content')
     <div class="recipes-header">
-        <h1>Recetas</h1>
+        <h1>Mis recetas</h1>
+
         @auth
-            <a href="{{ route('recetas.create') }}" class="btn btn-primary">Crear receta</a>
+            <a href="{{ route('recetas.create') }}" class="btn btn-primary">
+                Crear receta
+            </a>
         @endauth
     </div>
 
-    @forelse ($recetas as $receta)
-        <div>
-            <h3>{{ $receta->name }}</h3>
-            <p>Visibilidad: {{ $receta->visibility ? 'Pública' : 'Privada' }}</p>
+    <div class="recipes-list">
 
-            @if ($receta->image)
-                <img src="{{ asset('/storage/' . $receta->image) }}" alt="Foto de {{ $receta->name }}">
-            @endif
+        @forelse ($recetas as $receta)
+            <div class="recipe-card">
 
-            <div>
-                <a href="{{ route('recetas.show', ['receta' => $receta->id]) }}">Ver</a>
-                @auth
-                    @if(Auth::id() === $receta->user_id)
-                        <a href="{{ route('recetas.edit', ['receta' => $receta->id]) }}">Editar</a>
+                @if ($receta->image)
+                    <img
+                        src="{{ asset('/storage/' . $receta->image) }}"
+                        alt="Foto de {{ $receta->name }}"
+                    >
+                @else
+                    <img
+                        src="https://via.placeholder.com/600x400"
+                        alt="Sin imagen"
+                    >
+                @endif
 
-                        <form action="{{ route('recetas.destroy', ['receta' => $receta->id]) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Eliminar</button>
-                        </form>
-                    @endif
-                @endauth
+                <h3>
+                    <a
+                        href="{{ route('recetas.show', ['receta' => $receta->id]) }}"
+                        class="recipe-title-link"
+                    >
+                        {{ $receta->name }}
+                    </a>
+                </h3>
+
+                <p>
+                    {{ $receta->description }}
+                </p>
+
+                <p>
+                    <strong>Visibilidad:</strong>
+                    {{ $receta->visibility ? 'Pública' : 'Privada' }}
+                </p>
+
+                <div class="recipe-card-buttons">
+
+                    <a
+                        href="{{ route('recetas.edit', ['receta' => $receta->id]) }}"
+                        class="btn btn-edit"
+                    >
+                        Editar
+                    </a>
+
+                    <form
+                        action="{{ route('recetas.destroy', ['receta' => $receta->id]) }}"
+                        method="POST"
+                    >
+                        @csrf
+                        @method('DELETE')
+
+                        <button
+                            type="submit"
+                            class="btn btn-delete"
+                            onclick="return confirm('¿Seguro que quieres eliminar esta receta?')"
+                        >
+                            Eliminar
+                        </button>
+                    </form>
+
+                </div>
+
             </div>
         @empty
-            <p>No hay recetas disponibles.</p>
+            <p>No tienes recetas creadas todavía.</p>
         @endforelse
+
     </div>
 @endsection
