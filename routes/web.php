@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\IngredientController;
-use App\Http\Controllers\RecipeController;
-use App\Http\Controllers\IndexController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\FollowController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlockController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserProfileController;
+use Illuminate\Support\Facades\Route;
 
 // Auth Routes
 Route::get('/login', [LoginController::class, 'loginForm'])->name('auth.login');
@@ -89,3 +90,7 @@ Route::get('/users', [UserController::class, 'index'])->name('users.index');
 //Rutas de bloquear
 Route::post('/block', [BlockController::class, 'block'])->name('block');
 Route::post('/unblock', [BlockController::class, 'unblock'])->name('unblock');
+
+//Ruta Perfil de Usuario
+Route::get('/usuarios/{user}', [UserProfileController::class, 'show'])
+    ->name('users.show');

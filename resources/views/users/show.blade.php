@@ -1,0 +1,91 @@
+@extends('layout.layout')
+
+@section('title', $user->username . ' - QueComoHoy')
+
+@section('content')
+<div class="profile-page">
+
+    <div class="profile-header">
+
+        <img
+            src="https://ui-avatars.com/api/?name={{ urlencode($user->username) }}"
+            alt="{{ $user->username }}"
+            class="profile-avatar"
+        >
+
+        <div class="profile-info">
+            <h1>{{ $user->username }}</h1>
+
+            <p class="profile-name">
+                {{ $user->name }}
+            </p>
+
+            <div class="profile-stats">
+                <div class="profile-stat">
+                    <strong>{{ $recipes->count() }}</strong>
+                    <span>Recetas</span>
+                </div>
+
+                <div class="profile-stat">
+                    <strong>{{ $user->followers_count }}</strong>
+                    <span>Seguidores</span>
+                </div>
+
+                <div class="profile-stat">
+                    <strong>{{ $user->following_count }}</strong>
+                    <span>Seguidos</span>
+                </div>
+
+                <div class="profile-stat">
+                    <strong>{{ $totalLikes }}</strong>
+                    <span>Likes</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <h2 class="profile-section-title">Recetas publicadas</h2>
+
+    <div class="recipes-list">
+
+        @forelse($recipes as $recipe)
+            <div class="recipe-card">
+
+                @if($recipe->image)
+                    <img
+                        src="{{ asset('storage/' . $recipe->image) }}"
+                        alt="Foto de {{ $recipe->name }}"
+                    >
+                @else
+                    <img
+                        src="https://via.placeholder.com/600x400"
+                        alt="Sin imagen"
+                    >
+                @endif
+
+                <h3>
+                    <a
+                        href="{{ route('recetas.show', ['receta' => $recipe->id]) }}"
+                        class="recipe-title-link"
+                    >
+                        {{ $recipe->name }}
+                    </a>
+                </h3>
+
+                <p>{{ $recipe->description }}</p>
+
+                <p>
+                    <strong>Tiempo:</strong>
+                    {{ $recipe->time }} min
+                </p>
+
+            </div>
+        @empty
+            <p>Este usuario todavía no tiene recetas públicas.</p>
+        @endforelse
+
+    </div>
+
+</div>
+@endsection

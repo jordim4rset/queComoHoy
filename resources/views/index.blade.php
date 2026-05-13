@@ -14,15 +14,20 @@ Inicio - QueComoHoy
 
                 <div class="post-header">
                     <div class="user-info">
-                        <img
-                            src="https://ui-avatars.com/api/?name={{ urlencode($recipe->user->username ?? 'Usuario') }}"
-                            alt="{{ $recipe->user->username ?? 'Usuario' }}"
-                            class="avatar"
-                        >
+                        <a href="{{ route('users.show', ['user' => $recipe->user_id]) }}">
+                            <img
+                                src="https://ui-avatars.com/api/?name={{ urlencode($recipe->user->username ?? 'Usuario') }}"
+                                alt="{{ $recipe->user->username ?? 'Usuario' }}"
+                                class="avatar"
+                            >
+                        </a>
 
-                        <span class="username">
+                        <a
+                            href="{{ route('users.show', ['user' => $recipe->user_id]) }}"
+                            class="username username-link"
+                        >
                             {{ $recipe->user->username ?? 'usuario_desconocido' }}
-                        </span>
+                        </a>
                     </div>
 
                     @auth
@@ -52,7 +57,6 @@ Inicio - QueComoHoy
                     <div class="post-stats">
                         <div class="stat">
                             <span class="icon-stat">
-                                <!-- Aquí pegas tu SVG de likes -->
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path d="M20.8 4.6c-1.7-1.7-4.5-1.7-6.2 0L12 7.2 9.4 4.6c-1.7-1.7-4.5-1.7-6.2 0s-1.7 4.5 0 6.2L12 19.6l8.8-8.8c1.7-1.7 1.7-4.5 0-6.2z"/>
                                 </svg>
@@ -62,7 +66,6 @@ Inicio - QueComoHoy
 
                         <div class="stat">
                             <span class="icon-stat">
-                                <!-- Aquí pegas tu SVG de comentarios -->
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
                                 </svg>
@@ -72,14 +75,12 @@ Inicio - QueComoHoy
 
                         <div class="stat">
                             <span class="icon-stat">
-                                <!-- Aquí pegas tu SVG de tiempo -->
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 10.6V7h-2v6.4l5 3 1-1.7z"/>
                                 </svg>
                             </span>
                             <span class="count">{{ $recipe->time }} min</span>
                         </div>
-
                     </div>
 
                     <div class="post-description">
@@ -89,9 +90,12 @@ Inicio - QueComoHoy
                         </p>
 
                         <div class="recipe-description-row">
-                            <strong class="recipe-username">
+                            <a
+                                href="{{ route('users.show', ['user' => $recipe->user_id]) }}"
+                                class="recipe-username username-link"
+                            >
                                 {{ $recipe->user->username ?? 'usuario_desconocido' }}
-                            </strong>
+                            </a>
 
                             <span class="recipe-description-text">
                                 {{ $recipe->description }}
@@ -130,16 +134,21 @@ Inicio - QueComoHoy
 
             @forelse($suggestions ?? [] as $user)
                 <div class="user-suggestion">
-                    <img
-                        src="https://ui-avatars.com/api/?name={{ urlencode($user->username) }}"
-                        alt="{{ $user->username }}"
-                        class="avatar-lg"
-                    >
+                    <a href="{{ route('users.show', ['user' => $user->id]) }}">
+                        <img
+                            src="https://ui-avatars.com/api/?name={{ urlencode($user->username) }}"
+                            alt="{{ $user->username }}"
+                            class="avatar-lg"
+                        >
+                    </a>
 
                     <div class="user-details">
-                        <div class="username-suggested">
+                        <a
+                            href="{{ route('users.show', ['user' => $user->id]) }}"
+                            class="username-suggested username-link"
+                        >
                             {{ $user->username }}
-                        </div>
+                        </a>
 
                         <div class="user-comment">
                             Nuevo en QueComoHoy
