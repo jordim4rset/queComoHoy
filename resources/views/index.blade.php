@@ -14,7 +14,7 @@ Inicio - QueComoHoy
 
                 <div class="post-header">
                     <div class="user-info">
-                        <a href="{{ route('users.show', ['user' => $recipe->user_id]) }}">
+                        <a href="{{ route('profile', ['id' => $recipe->user_id]) }}">
                             <img
                                 src="https://ui-avatars.com/api/?name={{ urlencode($recipe->user->username ?? 'Usuario') }}"
                                 alt="{{ $recipe->user->username ?? 'Usuario' }}"
@@ -23,7 +23,7 @@ Inicio - QueComoHoy
                         </a>
 
                         <a
-                            href="{{ route('users.show', ['user' => $recipe->user_id]) }}"
+                            href="{{ route('profile', ['id' => $recipe->user_id]) }}"
                             class="username username-link"
                         >
                             {{ $recipe->user->username ?? 'usuario_desconocido' }}
@@ -91,7 +91,7 @@ Inicio - QueComoHoy
 
                         <div class="recipe-description-row">
                             <a
-                                href="{{ route('users.show', ['user' => $recipe->user_id]) }}"
+                                href="{{ route('profile', ['id' => $recipe->user_id]) }}"
                                 class="recipe-username username-link"
                             >
                                 {{ $recipe->user->username ?? 'usuario_desconocido' }}
@@ -134,7 +134,7 @@ Inicio - QueComoHoy
 
             @forelse($suggestions ?? [] as $user)
                 <div class="user-suggestion">
-                    <a href="{{ route('users.show', ['user' => $user->id]) }}">
+                    <a href="{{route('profile', ['id' => $recipe->user_id]) }}">
                         <img
                             src="https://ui-avatars.com/api/?name={{ urlencode($user->username) }}"
                             alt="{{ $user->username }}"
@@ -144,7 +144,7 @@ Inicio - QueComoHoy
 
                     <div class="user-details">
                         <a
-                            href="{{ route('users.show', ['user' => $user->id]) }}"
+                            href="{{ route('profile', ['id' => $recipe->user_id]) }}"
                             class="username-suggested username-link"
                         >
                             {{ $user->username }}
