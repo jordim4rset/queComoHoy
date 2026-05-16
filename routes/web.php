@@ -94,3 +94,14 @@ Route::post('/unblock', [BlockController::class, 'unblock'])->name('unblock');
 //Ruta Perfil de Usuario
 Route::get('/usuarios/{user}', [UserProfileController::class, 'show'])
     ->name('users.show');
+
+//Ingredientes
+Route::middleware('auth')->group(function () {
+    Route::get('/ingredientes/ajax/buscar', [IngredientController::class, 'searchForRecipe'])
+        ->name('ingredientes.searchForRecipe');
+
+    Route::post('/ingredientes/ajax/crear', [IngredientController::class, 'storeFromRecipe'])
+        ->name('ingredientes.storeFromRecipe');
+});
+
+Route::resource('ingredientes', IngredientController::class);
