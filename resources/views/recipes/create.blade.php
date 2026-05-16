@@ -26,6 +26,8 @@
         <label>Foto:</label>
         <input type="file" name="image"><br><br>
 
+        @include('recipes.partials.ingredients-form')
+
         <button type="submit">Guardar</button>
     </form>
 
