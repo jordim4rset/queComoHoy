@@ -24,4 +24,13 @@ class UserController extends Controller
 
         return view('users.index', compact('users'));
     }
+
+    public function search(Request $request)
+{
+    $q = $request->input('q');
+    $users = User::where('username', 'like', "%{$q}%")
+        ->limit(6)
+        ->get(['id', 'username']);
+    return response()->json($users);
+}
 }

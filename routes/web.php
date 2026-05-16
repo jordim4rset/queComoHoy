@@ -105,3 +105,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('ingredientes', IngredientController::class);
+
+Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
+
