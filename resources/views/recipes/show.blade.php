@@ -99,6 +99,28 @@
 
                     <div class="comments-box"></div>
 
+                    @if($receta->ingredients->count())
+                        <div class="recipe-ingredients-box">
+                            <h3>Ingredientes</h3>
+
+                            <ul>
+                                @foreach($receta->ingredients as $ingredient)
+                                    <li>
+                                        <strong>{{ $ingredient->name }}</strong>
+
+                                        @if($ingredient->pivot->quantity)
+                                            - {{ $ingredient->pivot->quantity }}
+                                        @endif
+
+                                        @if($ingredient->pivot->unit)
+                                            {{ $ingredient->pivot->unit }}
+                                        @endif
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     @if($receta->tags)
                         <p class="recipe-tags">
                             @foreach(explode(',', $receta->tags) as $tag)
@@ -131,4 +153,3 @@
 
 </div>
 @endsection
-

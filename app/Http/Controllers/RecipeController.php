@@ -41,7 +41,7 @@ class RecipeController extends Controller
      */
     public function create()
     {
-        return view("recipes.create");
+        return view('recipes.create');
     }
 
     /**
@@ -49,6 +49,18 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'max:30'],
+            'description' => ['required', 'string'],
+            'time' => ['nullable', 'numeric', 'min:0'],
+            'tags' => ['nullable', 'string'],
+            'image' => ['nullable', 'image'],
+            'ingredients' => ['nullable', 'array'],
+            'ingredients.*.id' => ['required_with:ingredients', 'integer', 'exists:ingredients,id'],
+            'ingredients.*.quantity' => ['nullable', 'numeric', 'min:0'],
+            'ingredients.*.unit' => ['nullable', 'string', 'max:30'],
+        ]);
+
         $user = $request->user();
 
         $receta = new Recipe();
@@ -67,6 +79,8 @@ class RecipeController extends Controller
 
         $receta->save();
 
+        $this->syncIngredients($request, $receta);
+
         $points = $receta->visibility ? 20 : 5;
         $user->increment('chefpoints', $points);
 
@@ -80,9 +94,11 @@ class RecipeController extends Controller
     {
         $user = $request->user();
 
-        if (!$receta->visibility && $receta->user_id !== $user->id) {
-            return redirect()->route('recetas.index');
+        if (!$receta->visibility && (!$user || $receta->user_id !== $user->id)) {
+            abort(403);
         }
+
+        $receta->load(['user', 'ingredients']);
 
         return view('recipes.show', compact('receta'));
     }
@@ -98,6 +114,8 @@ class RecipeController extends Controller
             abort(403);
         }
 
+        $receta->load('ingredients');
+
         return view('recipes.edit', compact('receta'));
     }
 
@@ -106,6 +124,18 @@ class RecipeController extends Controller
      */
     public function update(Request $request, Recipe $receta)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'max:30'],
+            'description' => ['required', 'string'],
+            'time' => ['nullable', 'numeric', 'min:0'],
+            'tags' => ['nullable', 'string'],
+            'image' => ['nullable', 'image'],
+            'ingredients' => ['nullable', 'array'],
+            'ingredients.*.id' => ['required_with:ingredients', 'integer', 'exists:ingredients,id'],
+            'ingredients.*.quantity' => ['nullable', 'numeric', 'min:0'],
+            'ingredients.*.unit' => ['nullable', 'string', 'max:30'],
+        ]);
+
         $user = $request->user();
 
         if ($receta->user_id !== $user->id) {
@@ -125,6 +155,8 @@ class RecipeController extends Controller
 
         $receta->save();
 
+        $this->syncIngredients($request, $receta);
+
         return redirect()->route('recetas.show', $receta);
     }
 
@@ -142,5 +174,23 @@ class RecipeController extends Controller
         $receta->delete();
 
         return redirect()->route('recetas.index');
+    }
+
+    private function syncIngredients(Request $request, Recipe $receta): void
+    {
+        $syncData = [];
+
+        foreach ($request->input('ingredients', []) as $ingredientData) {
+            if (empty($ingredientData['id'])) {
+                continue;
+            }
+
+            $syncData[$ingredientData['id']] = [
+                'quantity' => $ingredientData['quantity'] ?? null,
+                'unit' => $ingredientData['unit'] ?? null,
+            ];
+        }
+
+        $receta->ingredients()->sync($syncData);
     }
 }
