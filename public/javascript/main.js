@@ -29,3 +29,24 @@ const observer = new IntersectionObserver((entries) => {
 
 posts.forEach(post => observer.observe(post));
 
+/**Conteo de megustas  */
+
+document.querySelectorAll('.like-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const recipeId = this.dataset.recipeId;
+        const countEl = this.nextElementSibling;
+
+        fetch(`/recipes/${recipeId}/like`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            countEl.textContent = data.count;
+            this.style.color = data.liked ? 'red' : 'currentColor';
+        });
+    });
+});

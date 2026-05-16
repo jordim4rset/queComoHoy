@@ -17,4 +17,9 @@ class Recipe extends Model
             ->withPivot('quantity', 'unit')
             ->withTimestamps();
     }
+
+    public function likes()
+{
+    return $this->hasMany(Like::class);
+}
 }
