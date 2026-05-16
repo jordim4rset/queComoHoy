@@ -1136,6 +1136,42 @@ footer {
     margin-top: auto;
 }
 
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    min-width: auto;
+    box-shadow: none;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: white;
+    border-radius: 3px;
+}
+
+.nav-mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: var(--primary-dark);
+    padding: 10px 0;
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    z-index: 998;
+}
+
+.nav-mobile-menu.open {
+    display: flex;
+}
+
 @media (max-width: 1100px) {
     .sidebar-right {
         display: none;
@@ -1143,24 +1179,23 @@ footer {
 }
 
 @media (max-width: 768px) {
-    .sidebar-left {
-        width: 75px;
-        padding: 20px 10px;
+    .hamburger {
+        display: flex;
     }
 
-    .sidebar-left .menu-item span:not(.icon) {
+    .sidebar-left {
         display: none;
     }
 
-    .sidebar-left .menu-item {
-        min-width: auto;
-    }
-
     .main-content {
-        margin-left: 75px;
+        margin-left: 0;
     }
 
     .nav-center-menu {
+        display: none;
+    }
+
+    .nav-right {
         display: none;
     }
 
@@ -1168,21 +1203,29 @@ footer {
         padding: 0 20px;
     }
 
+    .nav-logo h1 {
+        font-size: 18px;
+    }
+
     .post {
-        height: 650px;
+        height: auto;
     }
 
     .post-image-wrapper {
-        height: 340px;
+        height: 300px;
+    }
+
+    .recipe-card {
+        width: 100%;
+    }
+
+    .recipes-header {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .auth-container {
         padding: 0;
-    }
-
-    button,
-    .btn-submit {
-        width: 100%;
     }
 
     .profile-header {
@@ -1190,8 +1233,16 @@ footer {
     }
 
     .profile-stats {
-        gap: 22px;
+        gap: 16px;
     }
+
+    .account-container {
+        padding: 20px;
+    }
+
+    button,
+    .btn-submit {
+        width: 100%;
 }
 
 /*CSS del scroll animation*/

@@ -11,6 +11,10 @@ function selectItem(element, event) {
     }
 }
 
+function toggleMenu() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('open');
+}
 
 /** scroll de la animacion */
 const posts = document.querySelectorAll('.post');
