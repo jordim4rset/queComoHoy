@@ -109,3 +109,5 @@ Route::resource('ingredientes', IngredientController::class);
 
 /**Ruta de likes */
 Route::post('/recipes/{id}/like', [LikeController::class, 'toggle'])->middleware('auth')->name('recipes.like');
+Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
+
