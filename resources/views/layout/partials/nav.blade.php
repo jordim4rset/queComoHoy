@@ -46,6 +46,15 @@
 
 
     </nav>
+    <div class="nav-search">
+    <input
+        type="text"
+        id="nav-search-input"
+        placeholder="Buscar usuario..."
+        autocomplete="off"
+    >
+    <div id="nav-search-results" class="nav-search-results"></div>
+</div>
 
     <div class="nav-right">
         @auth

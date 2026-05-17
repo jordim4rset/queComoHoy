@@ -23,4 +23,8 @@ class Recipe extends Model
         return $this->belongsToMany(Event::class, 'event_recipe')
             ->withTimestamps();
     }
+    public function likes()
+{
+    return $this->hasMany(Like::class);
+}
 }
