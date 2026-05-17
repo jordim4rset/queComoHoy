@@ -43,14 +43,13 @@ Route::post('/demo/chefpoints/remove', function () {
 
 //RUTAS EVENTOS
 Route::resource('events', EventController::class);
-Route::resource('events', RecipeController::class)
-    ->middleware('auth')
-    ->only(['create', 'store', 'edit', 'update', 'destroy']);
-Route::get('/events/{event}', [RecipeController::class, 'show'])
-    ->name('events.show');
+Route::post('/events/{event}/toggle', [EventController::class, 'toggle'])->name('events.toggle')->middleware('auth');
+Route::get('/eventos', [EventController::class, 'publicIndex'])->name('eventos.index');
+Route::get('/eventos/{event}', [EventController::class, 'show'])->name('eventos.show');
 
 //RUTAS RECETAS
 Route::get('/recetas', [RecipeController::class, 'index'])
+    ->middleware('auth')
     ->name('recetas.index');
 Route::resource('recetas', RecipeController::class)
     ->middleware('auth')

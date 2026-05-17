@@ -18,6 +18,11 @@ class Recipe extends Model
             ->withTimestamps();
     }
 
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'event_recipe')
+            ->withTimestamps();
+    }
     public function likes()
 {
     return $this->hasMany(Like::class);

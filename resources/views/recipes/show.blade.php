@@ -132,7 +132,7 @@
                 </div>
 
                 <div class="show-actions">
-                    <a href="{{ route('recetas.index') }}" class="btn btn-secondary btn-sm">
+                    <a href="{{ url()->previous() ?: route('eventos.index') }}" class="btn btn-secondary btn-sm">
                         Volver
                     </a>
 
