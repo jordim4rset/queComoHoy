@@ -1266,6 +1266,14 @@ footer {
         display: none;
     }
 
+    .nav-logo {
+        flex: 0;
+    }
+
+    .nav-container {
+        justify-content: space-between;
+    }
+
     .hamburger {
         width: auto !important;
     }
