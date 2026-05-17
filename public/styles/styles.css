@@ -1201,6 +1201,7 @@ footer {
 
     .nav-container {
         padding: 0 20px;
+        justify-content: space-between;
     }
 
     .nav-logo h1 {
@@ -1243,21 +1244,22 @@ footer {
     button,
     .btn-submit {
         width: 100%;
-}
+    }
 
-/*CSS del scroll animation*/
-.post {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
+    /*CSS del scroll animation*/
+    .post {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
 
-.post.visible {
-    opacity: 1;
-    transform: translateY(0);
+    .post.visible {
+        opacity: 1;
+        transform: translateY(0);
 
-    .ingredient-fields {
-        grid-template-columns: 1fr;
+        .ingredient-fields {
+            grid-template-columns: 1fr;
+        }
     }
 
     .nav-search {
@@ -1273,6 +1275,8 @@ footer {
     }
 
     .hamburger {
-        margin-left: auto;
+        width: auto !important;
     }
+
+
 }
