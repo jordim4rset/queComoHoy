@@ -17,4 +17,10 @@ class Recipe extends Model
             ->withPivot('quantity', 'unit')
             ->withTimestamps();
     }
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'event_recipe')
+            ->withTimestamps();
+    }
 }

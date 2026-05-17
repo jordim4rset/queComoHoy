@@ -6,12 +6,22 @@ use Illuminate\Http\Request;
 use App\Models\Event; 
 class EventController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $eventos = Event::get();
+        $user = null;
+        if (request()->user()) {
+            $user = request()->user();
+        }
+
+        if (!$user || $user->rol !== 'admin') {
+            abort(403);
+        }
+
+        $eventos = Event::orderBy('created_at', 'desc')->get();
         return view('events.index', compact('eventos'));
     }
 
@@ -20,6 +30,10 @@ class EventController extends Controller
      */
     public function create()
     {
+        $user = request()->user();
+        if (!$user || $user->rol !== 'admin') {
+            abort(403);
+        }
         return view("events.create");
     }
 
@@ -28,70 +42,155 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $eventos = new Event();
-        $generatedName = $request->file('photo')->store('img/recipes/cover', 'public');
-        $eventos->title = $request->input('title');
-        $eventos->description = $request->input('description');
-        $eventos->photo = $generatedName;
-        $eventos->start_date = $request->input('start_date');
-        $eventos->end_date = $request->input('end_date');
-        if ($request->input('visibility') == 'on') {
-            $eventos->visibility = 1;
-        } else {
-            $eventos->visibility = 0;
+        $user = $request->user();
+        if (!$user || $user->rol !== 'admin') {
+            abort(403);
         }
+
+        $validated = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'images.*' => 'nullable|image|max:5120',
+            'active' => 'nullable',
+        ]);
+
+        $eventos = new Event();
+        $eventos->name = $validated['name'] ?: $validated['title'];
+        $eventos->title = $validated['title'] ?? null;
+        $eventos->description = $validated['description'] ?? null;
+        $eventos->visibility = 1;
+        $eventos->active = $request->has('active') ? 1 : 0;
+
+        // handle multiple images
+        $images = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                if ($file && $file->isValid()) {
+                    $images[] = $file->store('img/events', 'public');
+                }
+            }
+        }
+
+        if (!empty($images)) {
+            $eventos->images = $images;
+        }
+
         $eventos->save();
-        return redirect()->route('events.create');
+
+        return redirect()->route('events.index')->with('success', 'Evento creado.');
+    }
+
+    /**
+     * Display public list of active events.
+     */
+    public function publicIndex()
+    {
+        $user = request()->user();
+
+        if ($user && $user->rol === 'admin') {
+            $eventos = Event::orderBy('created_at', 'desc')->get();
+        } else {
+            $eventos = Event::where('active', true)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+
+        return view('events.index', compact('eventos'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Event $eventos)
+    public function show(Event $event)
     {
-        if (!$eventos->visibility) {
-            return redirect()->route('events.index');
+        // allow admins to view inactive events; public users get 404
+        if (!$event->active && (!request()->user() || request()->user()->rol !== 'admin')) {
+            abort(404);
         }
-        return view('events.show', compact('eventos'));
+        // load related recipes
+        $event->load('recipes');
+        return view('events.show', compact('event'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Event $eventos)
+    public function edit(Event $event)
     {
-        return view('events.edit', compact('eventos'));
+        $user = request()->user();
+        if (!$user || $user->rol !== 'admin') {
+            abort(403);
+        }
+        return view('events.edit', compact('event'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Event $eventos)
+    public function update(Request $request, Event $event)
     {
-
-        $generatedName = $request->file('photo')->store('img/recipes/cover', 'public');
-        $eventos->title = $request->input('title');
-        $eventos->description = $request->input('description');
-        $eventos->start_date = $request->input('start_date');
-        $eventos->end_date = $request->input('end_date');
-        $eventos->photo = $generatedName;
-
-        if ($request->input('visibility') == 'on') {
-            $eventos->visibility = 1;
-        } else {
-            $eventos->visibility = 0;
+        $user = $request->user();
+        if (!$user || $user->rol !== 'admin') {
+            abort(403);
         }
 
-        $eventos->update();
-        return redirect()->route('events.show', $eventos);
+        $validated = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'images.*' => 'nullable|image|max:5120',
+            'active' => 'nullable',
+        ]);
+
+        $event->name = $validated['name'] ?: $validated['title'];
+        $event->title = $validated['title'] ?? null;
+        $event->description = $validated['description'] ?? null;
+        $event->visibility = $event->visibility ?? 1;
+        $event->active = $request->has('active') ? 1 : 0;
+
+        $images = $event->images ?? [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                if ($file && $file->isValid()) {
+                    $images[] = $file->store('img/events', 'public');
+                }
+            }
+        }
+
+        $event->images = $images;
+
+        $event->update();
+
+        return redirect()->route('events.index')->with('success', 'Evento actualizado.');
+    }
+
+    /**
+     * Toggle active status for admin
+     */
+    public function toggle(Event $event)
+    {
+        $user = request()->user();
+        if (!$user || $user->rol !== 'admin') {
+            abort(403);
+        }
+
+        $event->active = !$event->active;
+        $event->save();
+        return back()->with('success', 'Estado cambiado.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $eventos)
+    public function destroy(Event $event)
     {
-        $eventos->delete();
+        $user = request()->user();
+        if (!$user || $user->rol !== 'admin') {
+            abort(403);
+        }
+
+        $event->delete();
         return redirect()->route('events.index');
     }
 }

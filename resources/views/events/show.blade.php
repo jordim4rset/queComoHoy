@@ -1,20 +1,29 @@
 @extends('layout.layout')
 
-@section('title', $evento->title)
+@section('title', $event->display_name)
 
 @section('content')
-    <h1>{{ $evento->title }}</h1>
-    <p>{{ $evento->description }}</p>
-    <p>Fecha de inicio: {{ $evento->start_date }}</p>
-    <p>Fecha de fin: {{ $evento->end_date }}</p>
-    <p>Etiquetas: {{ $evento->tags }}</p>
-    <p>Visibilidad: {{ $evento->visibility ? 'Pública' : 'Privada' }}</p>
+    <h1>{{ $event->display_name }}</h1>
+    <p>{{ $event->description }}</p>
 
-    @if ($evento->photo)
-        <img src="{{ asset('storage/' . $evento->photo) }}" alt="Foto de {{ $evento->title }}" width="300">
+    @if($event->images)
+        <div>
+            @foreach($event->images as $img)
+                <img src="{{ asset('storage/' . $img) }}" alt="" style="height:150px;margin:6px">
+            @endforeach
+        </div>
     @endif
 
-    <br>
-    <a href="{{ route('events.index') }}">Volver a la lista</a>
-    <a href="{{ route('events.edit', ['event' => $evento->id]) }}">Editar evento</a>
+    <h3>Recetas relacionadas</h3>
+    @if($event->recipes && $event->recipes->count())
+        <ul>
+            @foreach($event->recipes as $receta)
+                <li><a href="{{ route('recetas.show', ['receta' => $receta->id]) }}">{{ $receta->name ?? $receta->title ?? 'Receta' }}</a></li>
+            @endforeach
+        </ul>
+    @else
+        <p>No hay recetas asociadas todavía.</p>
+    @endif
+
+    <a href="/">Volver</a>
 @endsection

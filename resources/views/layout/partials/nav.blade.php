@@ -14,11 +14,13 @@
                 </svg></span> For You
         </a>
         <a href="{{ route('users.index') }}" class="menu-item" onclick="selectItem(this, event)">
-            <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="7" />
                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg></span> Buscar usuario
+        </a>
+        <a href="{{ route('eventos.index') }}" class="menu-item" onclick="selectItem(this, event)">
+            <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l3 3"/></svg></span> Eventos
         </a>
         @auth
             <a href="{{ route('user.following', Auth::id()) }}" class="menu-item" onclick="selectItem(this, event)">
@@ -78,6 +80,7 @@
         <a href="{{ route('account') }}" class="menu-item">Mi Perfil</a>
     @endauth
     <a href="{{ route('recetas.index') }}" class="menu-item">🎬 Recetas</a>
+    <a href="{{ route('eventos.index') }}" class="menu-item">🎉 Eventos</a>
     @guest
         <a href="{{ route('auth.login') }}" class="menu-item">Login</a>
         <a href="{{ route('auth.signup') }}" class="menu-item">Registrarse</a>

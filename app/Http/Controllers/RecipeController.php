@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Recipe;
+use App\Models\Event;
 
 class RecipeController extends Controller
 {
@@ -13,6 +14,10 @@ class RecipeController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
+
+        if (!$user) {
+            abort(403);
+        }
 
         $query = Recipe::where('user_id', $user->id);
 
@@ -79,6 +84,7 @@ class RecipeController extends Controller
 
         $receta->save();
 
+        $this->syncEventsFromTags($request, $receta);
         $this->syncIngredients($request, $receta);
 
         $points = $receta->visibility ? 20 : 5;
@@ -155,6 +161,7 @@ class RecipeController extends Controller
 
         $receta->save();
 
+        $this->syncEventsFromTags($request, $receta);
         $this->syncIngredients($request, $receta);
 
         return redirect()->route('recetas.show', $receta);
@@ -192,5 +199,31 @@ class RecipeController extends Controller
         }
 
         $receta->ingredients()->sync($syncData);
+    }
+
+    private function syncEventsFromTags(Request $request, Recipe $receta): void
+    {
+        $tags = array_filter(array_map(
+            fn ($tag) => trim(mb_strtolower($tag)),
+            explode(',', $request->input('tags', ''))
+        ));
+
+        if (empty($tags)) {
+            $receta->events()->detach();
+            return;
+        }
+
+        $eventIds = [];
+
+        foreach (Event::all() as $event) {
+            $eventName = mb_strtolower($event->name ?? '');
+            $eventTitle = mb_strtolower($event->title ?? '');
+
+            if (in_array($eventName, $tags, true) || in_array($eventTitle, $tags, true)) {
+                $eventIds[] = $event->id;
+            }
+        }
+
+        $receta->events()->sync(array_unique($eventIds));
     }
 }
