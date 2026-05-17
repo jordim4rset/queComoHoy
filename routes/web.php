@@ -10,6 +10,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LikeController;
 
 // Auth Routes
 Route::get('/login', [LoginController::class, 'loginForm'])->name('auth.login');
@@ -106,5 +107,7 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('ingredientes', IngredientController::class);
 
+/**Ruta de likes */
+Route::post('/recipes/{id}/like', [LikeController::class, 'toggle'])->middleware('auth')->name('recipes.like');
 Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
 
