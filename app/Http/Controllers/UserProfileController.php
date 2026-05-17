@@ -7,8 +7,12 @@ use Illuminate\Http\Request;
 
 class UserProfileController extends Controller
 {
-    public function show(User $user)
+    public function show(User|int $user)
     {
+        if (!$user instanceof User) {
+            $user = User::findOrFail($user);
+        }
+
         $user->loadCount([
             'followers',
             'following',

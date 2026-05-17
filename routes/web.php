@@ -83,7 +83,7 @@ Route::delete('/unfollow/{id}', [FollowController::class, 'unfollow'])->middlewa
 Route::get('/users/{id}/followers', [FollowController::class, 'followersView'])->name('user.followers');
 Route::get('/users/{id}/following', [FollowController::class, 'followingView'])->name('user.following');
 
-Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
+Route::get('/profile/{id}', [UserProfileController::class, 'show'])->name('profile');
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 

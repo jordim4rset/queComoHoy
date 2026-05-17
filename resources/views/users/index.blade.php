@@ -11,7 +11,7 @@
         <ul id="user-list" class="user-list">
             @forelse($users as $user)
                 <li class="user-item" data-name="{{ strtolower($user->name) }}" data-username="{{ strtolower($user->username) }}">
-                    <a href="{{ route('profile', $user->id) }}">
+                    <a href="{{ route('users.show', ['user' => $user->id]) }}">
                         <strong>{{ $user->name }}</strong>
                         <span class="user-username">{{ '@' . $user->username }}</span>
                     </a>
