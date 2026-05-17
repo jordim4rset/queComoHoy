@@ -1196,7 +1196,7 @@ footer {
     }
 
     .nav-right {
-        display: none;
+        gap: 8px;
     }
 
     .nav-container {
@@ -1246,6 +1246,12 @@ footer {
         width: 100%;
     }
 
+    .nav-right .auth-btn,
+    .nav-right .logout-btn {
+        width: auto;
+        white-space: nowrap;
+    }
+
     /*CSS del scroll animation*/
     .post {
         opacity: 0;
@@ -1262,10 +1268,6 @@ footer {
         }
     }
 
-    .nav-search {
-        display: none;
-    }
-
     .nav-logo {
         flex: 0;
     }
@@ -1280,24 +1282,29 @@ footer {
 
 
 }
-}
 
 /*Estilos para el buscador del nav*/
 
 
 .nav-search {
     position: relative;
+    width: 100%;
+    max-width: 520px;
     margin: 0 20px;
 }
 
 .nav-search input {
-    padding: 8px 14px;
+    padding: 10px 16px;
     border-radius: 20px;
     border: none;
     background: rgba(255,255,255,0.2);
     color: white;
-    width: 250px;
+    width: 100%;
     margin: 0;
+}
+
+.nav-search input::placeholder {
+    color: rgba(255,255,255,0.85);
 }
 
 .nav-search-results {

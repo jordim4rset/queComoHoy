@@ -9,8 +9,10 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LikeController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 // Auth Routes
 Route::get('/login', [LoginController::class, 'loginForm'])->name('auth.login');
@@ -26,7 +28,8 @@ Route::get('/shop', function () {
 })->name('shop');
 
 Route::post('/demo/chefpoints/add', function () {
-    $user = auth()->user();
+    $user = User::findOrFail(Auth::id());
+
     $user->chefpoints += 1000;
     $user->save();
 
@@ -34,7 +37,8 @@ Route::post('/demo/chefpoints/add', function () {
 })->middleware('auth')->name('demo.chefpoints.add');
 
 Route::post('/demo/chefpoints/remove', function () {
-    $user = auth()->user();
+    $user = User::findOrFail(Auth::id());
+
     $user->chefpoints = max(0, $user->chefpoints - 1000);
     $user->save();
 
@@ -109,4 +113,3 @@ Route::resource('ingredientes', IngredientController::class);
 /**Ruta de likes */
 Route::post('/recipes/{id}/like', [LikeController::class, 'toggle'])->middleware('auth')->name('recipes.like');
 Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
-
