@@ -6,19 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-  public function up()
-{
-    Schema::create('blocks', function (Blueprint $table) {
-        $table->integer('id_bloqueador');
-        $table->integer('id_bloqueado');
-    });
-}
+    public function up(): void
+    {
+        Schema::create('blocks', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('id_bloqueador')->constrained('users')->onDelete('cascade');
+            $table->foreignId('id_bloqueado')->constrained('users')->onDelete('cascade');
+            $table->timestamps();
+            $table->unique(['id_bloqueador', 'id_bloqueado']);
+        });
+    }
 
-public function down()
-{
-    Schema::dropIfExists('blocks');
-}
+    public function down(): void
+    {
+        Schema::dropIfExists('blocks');
+    }
 };

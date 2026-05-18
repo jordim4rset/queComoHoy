@@ -50,6 +50,7 @@ Route::get('/profile/{id}', [UserController::class, 'show']);
 
 Route::get('/users', [UserController::class, 'index']);
 
+
 //Rutas de bloquear
-Route::post('/block', [BlockController::class, 'block'])->name('block');
-Route::post('/unblock', [BlockController::class, 'unblock'])->name('unblock');
+Route::post('/block', [BlockController::class, 'block'])->middleware('auth')->name('block');
+Route::post('/unblock', [BlockController::class, 'unblock'])->middleware('auth')->name('unblock');

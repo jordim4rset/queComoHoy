@@ -47,7 +47,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
+
     public function following()
     {
         return $this->belongsToMany(
@@ -67,9 +67,40 @@ class User extends Authenticatable
             'follower_id'
         );
     }
-    
+
     public function recipes()
     {
         return $this->hasMany(Recipe::class);
+    }
+
+
+    public function blockedUsers()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'blocks',
+            'id_bloqueador',
+            'id_bloqueado'
+        );
+    }
+
+    public function blockedBy()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'blocks',
+            'id_bloqueado',
+            'id_bloqueador'
+        );
+    }
+
+    public function hasBlocked($userId)
+    {
+        return $this->blockedUsers()->where('id_bloqueado', $userId)->exists();
+    }
+
+    public function isBlockedBy($userId)
+    {
+        return $this->blockedBy()->where('id_bloqueador', $userId)->exists();
     }
 }
