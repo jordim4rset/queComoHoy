@@ -12,7 +12,7 @@
             <div class="post-header">
                 <div class="user-info">
                     <img
-                        src="https://ui-avatars.com/api/?name={{ urlencode($receta->user->username ?? 'Usuario') }}"
+                        src="{{ $receta->user?->profilePhotoUrl() ?? 'https://ui-avatars.com/api/?name=Usuario' }}"
                         alt="{{ $receta->user->username ?? 'Usuario' }}"
                         class="avatar"
                     >

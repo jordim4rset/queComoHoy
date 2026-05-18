@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserProfileController extends Controller
 {
@@ -20,15 +20,15 @@ class UserProfileController extends Controller
 
         $recipes = $user->recipes()
             ->where('visibility', 1)
+            ->withCount('likes')
             ->orderBy('id', 'desc')
             ->get();
 
-        /*
-         * De momento, si todavía no tienes sistema de likes real,
-         * dejamos el total de likes a 0.
-         */
-        $totalLikes = 0;
+        $totalLikes = $recipes->sum('likes_count');
+        $isFollowing = Auth::check()
+            && Auth::id() !== $user->id
+            && Auth::user()->following()->where('following_id', $user->id)->exists();
 
-        return view('users.show', compact('user', 'recipes', 'totalLikes'));
+        return view('users.show', compact('user', 'recipes', 'totalLikes', 'isFollowing'));
     }
 }

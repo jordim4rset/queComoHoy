@@ -73,7 +73,7 @@ if (searchInput) {
                 } else {
                     searchResults.innerHTML = users.map(user => `
                         <a href="/profile/${user.id}" class="nav-search-result-item">
-                            <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(user.username)}" alt="${user.username}">
+                            <img src="${user.profile_photo_url}" alt="${user.username}">
                             <span>${user.username}</span>
                         </a>
                     `).join('');

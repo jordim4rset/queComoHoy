@@ -22,7 +22,7 @@
     </div>
     <div class="nav-right">
         @auth
-            <a href="{{ route('account') }}" class="user-info">MI PERFIL, {{ Auth::user()->name }}</a>
+            <a href="{{ route('profile', ['id' => Auth::id()]) }}" class="user-info">MI PERFIL, {{ Auth::user()->name }}</a>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="auth-btn logout-btn">Cerrar Sesion</button>

@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'rol',
         'chefpoints',
+        'profile_photo',
     ];
 
     /**
@@ -84,6 +85,15 @@ class User extends Authenticatable
         }
 
         return 1000 - $this->chefLevelProgress();
+    }
+
+    public function profilePhotoUrl(): string
+    {
+        if ($this->profile_photo) {
+            return asset('storage/' . $this->profile_photo);
+        }
+
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->username ?? $this->name ?? 'Usuario');
     }
 
     public function following()

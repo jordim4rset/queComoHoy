@@ -15,7 +15,7 @@
                     <div class="post-header">
                         <div class="user-info">
                             <a href="{{ route('profile', ['id' => $recipe->user_id]) }}">
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode($recipe->user->username ?? 'Usuario') }}"
+                                <img src="{{ $recipe->user?->profilePhotoUrl() ?? 'https://ui-avatars.com/api/?name=Usuario' }}"
                                     alt="{{ $recipe->user->username ?? 'Usuario' }}" class="avatar">
                             </a>
 
@@ -26,7 +26,12 @@
 
                         @auth
                             @if (auth()->id() !== $recipe->user_id)
-                                <button class="follow-btn-small">Seguir</button>
+                                @unless (in_array($recipe->user_id, $followingUserIds, true))
+                                    <form method="POST" action="{{ url('/follow/' . $recipe->user_id) }}" class="follow-form-small">
+                                        @csrf
+                                        <button type="submit" class="follow-btn-small">Seguir</button>
+                                    </form>
+                                @endunless
                             @endif
                         @endauth
                     </div>
@@ -122,13 +127,13 @@
 
                 @forelse($suggestions ?? [] as $user)
                     <div class="user-suggestion">
-                        <a href="{{ route('profile', ['id' => $recipe->user_id]) }}">
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode($user->username) }}"
+                        <a href="{{ route('profile', ['id' => $user->id]) }}">
+                            <img src="{{ $user->profilePhotoUrl() }}"
                                 alt="{{ $user->username }}" class="avatar-lg">
                         </a>
 
                         <div class="user-details">
-                            <a href="{{ route('profile', ['id' => $recipe->user_id]) }}"
+                            <a href="{{ route('profile', ['id' => $user->id]) }}"
                                 class="username-suggested username-link">
                                 {{ $user->username }}
                             </a>
@@ -138,7 +143,16 @@
                             </div>
                         </div>
 
-                        <a href="#" class="follow-link">Seguir</a>
+                        @auth
+                            @if (auth()->id() !== $user->id)
+                                @unless (in_array($user->id, $followingUserIds, true))
+                                    <form method="POST" action="{{ url('/follow/' . $user->id) }}" class="follow-form-small">
+                                        @csrf
+                                        <button type="submit" class="follow-link">Seguir</button>
+                                    </form>
+                                @endunless
+                            @endif
+                        @endauth
                     </div>
                 @empty
                     <p>No hay sugerencias.</p>

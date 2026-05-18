@@ -37,6 +37,10 @@ class LoginController extends Controller
             $user->rol = 'member';
         }
 
+        if ($request->hasFile('profile_photo')) {
+            $user->profile_photo = $request->file('profile_photo')->store('img/users/profile', 'public');
+        }
+
         $user->chefpoints = 300;
 
         $user->save();
@@ -84,4 +88,3 @@ class LoginController extends Controller
         return redirect()->route('index');
     }
 }
-
