@@ -5,6 +5,12 @@
         </div>
     </div>
 
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
     <div class="nav-search">
         <input
             type="text"
@@ -14,7 +20,6 @@
         >
         <div id="nav-search-results" class="nav-search-results"></div>
     </div>
-
     <div class="nav-right">
         @auth
             <a href="{{ route('account') }}" class="user-info">MI PERFIL, {{ Auth::user()->name }}</a>
