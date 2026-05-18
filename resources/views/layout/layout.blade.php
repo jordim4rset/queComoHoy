@@ -11,17 +11,13 @@
     <header class="app-header">
         @include('layout.partials.nav')
     </header>
-
-    <aside class="sidebar-left">
+    <aside class="sidebar-left" id="mobile-menu">
         @include('layout.partials.aside')
     </aside>
-
     <main class="main-content">
         @yield('content')
-
         @include('layout.partials.footer')
     </main>
-
     <script src="{{ asset('javascript/main.js') }}"></script>
 </body>
 </html>
