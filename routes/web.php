@@ -20,9 +20,6 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/signup', [LoginController::class, 'signupForm'])->name('auth.signup');
 Route::post('/signup', [LoginController::class, 'signup'])->name('auth.signup.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::get('/account', function () {
-    return view('auth.account');
-})->middleware('auth')->name('account');
 Route::get('/shop', function () {
     return view('shop');
 })->name('shop');
@@ -89,7 +86,8 @@ Route::get('/users/{id}/following', [FollowController::class, 'followingView'])-
 
 Route::get('/profile/{id}', [UserProfileController::class, 'show'])->name('profile');
 
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users', [UserController::class, 'index'])->middleware('auth')->name('users.index');
+Route::put('/users', [UserController::class, 'updateCurrent'])->middleware('auth')->name('users.updateCurrent');
 
 //Rutas de bloquear
 Route::post('/block', [BlockController::class, 'block'])->name('block');

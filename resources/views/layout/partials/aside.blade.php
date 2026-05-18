@@ -76,7 +76,7 @@
 
 <div class="mobile-only-menu">
     @auth
-        <a href="{{ route('account') }}" class="menu-item">
+        <a href="{{ route('profile', ['id' => Auth::id()]) }}" class="menu-item">
             <span class="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

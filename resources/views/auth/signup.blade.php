@@ -25,7 +25,7 @@
         </div>
     @endif
 
-    <form action="{{ route('auth.signup.post') }}" method="POST" class="auth-form">
+    <form action="{{ route('auth.signup.post') }}" method="POST" enctype="multipart/form-data" class="auth-form">
         @csrf
 
         <div class="form-group">
@@ -96,6 +96,20 @@
                 required
                 class="form-control"
             >
+        </div>
+
+        <div class="form-group">
+            <label for="profile_photo">Foto de perfil:</label>
+            <input
+                type="file"
+                id="profile_photo"
+                name="profile_photo"
+                accept="image/*"
+                class="form-control @error('profile_photo') is-invalid @enderror"
+            >
+            @error('profile_photo')
+                <span class="error-message">{{ $message }}</span>
+            @enderror
         </div>
 
         <button type="submit" class="btn-submit">Registrarse</button>

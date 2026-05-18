@@ -8,7 +8,7 @@
     <div class="profile-header">
 
         <img
-            src="https://ui-avatars.com/api/?name={{ urlencode($user->username) }}"
+            src="{{ $user->profilePhotoUrl() }}"
             alt="{{ $user->username }}"
             class="profile-avatar"
         >
@@ -41,6 +41,29 @@
                     <span>Likes</span>
                 </div>
             </div>
+
+            @auth
+                @if(auth()->id() === $user->id)
+                    <div class="profile-actions">
+                        <a href="{{ route('users.index') }}" class="btn">Editar usuario</a>
+                    </div>
+                @else
+                    <div class="profile-actions">
+                        @if($isFollowing)
+                            <form method="POST" action="{{ url('/unfollow/' . $user->id) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-secondary">Dejar de seguir</button>
+                            </form>
+                        @else
+                            <form method="POST" action="{{ url('/follow/' . $user->id) }}">
+                                @csrf
+                                <button type="submit" class="btn">Seguir</button>
+                            </form>
+                        @endif
+                    </div>
+                @endif
+            @endauth
         </div>
 
     </div>
