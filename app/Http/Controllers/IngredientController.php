@@ -25,14 +25,15 @@ class IngredientController extends Controller
         return view('ingredients.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, IngredientAiValidator $validator)
     {
         $request->validate([
             'name' => ['required', 'string', 'max:30'],
             'category' => ['required', 'in:' . implode(',', Ingredient::CATEGORIES)],
         ]);
 
-        $normalizedName = $this->normalize($request->input('name'));
+        $originalName = $this->prepareIngredientName($request->input('name'));
+        $normalizedName = $this->normalize($originalName);
 
         if (Ingredient::where('normalized_name', $normalizedName)->exists()) {
             return back()->withErrors([
@@ -40,9 +41,36 @@ class IngredientController extends Controller
             ])->withInput();
         }
 
+        $aiResult = $validator->validate($originalName);
+
+        if (!$aiResult['is_food']) {
+            return back()->withErrors([
+                'name' => 'El texto introducido no parece ser un alimento valido. ' . $aiResult['reason'],
+            ])->withInput();
+        }
+
+        $correctedName = Str::limit($aiResult['corrected_name'], 30, '');
+        $correctedNormalizedName = $this->normalize($correctedName);
+
+        if ($correctedNormalizedName === '') {
+            return back()->withErrors([
+                'name' => 'La IA no devolvio un nombre de ingrediente valido.',
+            ])->withInput();
+        }
+
+        if (Ingredient::where('normalized_name', $correctedNormalizedName)->exists()) {
+            return back()->withErrors([
+                'name' => 'Este ingrediente ya existe con el nombre corregido.',
+            ])->withInput();
+        }
+
+        $category = in_array($aiResult['category'], Ingredient::CATEGORIES)
+            ? $aiResult['category']
+            : $request->input('category');
+
         $ingr = new Ingredient();
-        $ingr->name = $request->input('name');
-        $ingr->normalized_name = $normalizedName;
+        $ingr->name = $correctedName;
+        $ingr->normalized_name = $correctedNormalizedName;
 
         if ($request->hasFile('icon')) {
             $generatedName = $request->file('icon')->store('img/ingredientes/cover', 'public');
@@ -51,7 +79,7 @@ class IngredientController extends Controller
             $ingr->icon = 'img/ingredientes/cover/default.png';
         }
 
-        $ingr->category = $request->input('category');
+        $ingr->category = $category;
         $ingr->save();
 
         return redirect()->route('ingredientes.index');
@@ -212,6 +240,9 @@ class IngredientController extends Controller
         $replacements = [
             '/\bse\b/i' => 'de',
             '/\bcerdi\b/i' => 'cerdo',
+            '/\bechuga\b/i' => 'pechuga',
+            '/\bpexuga\b/i' => 'pechuga',
+            '/\bavo\b/i' => 'pavo',
             '/\bpolli\b/i' => 'pollo',
         ];
 

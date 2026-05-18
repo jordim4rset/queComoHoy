@@ -15,7 +15,7 @@ class IngredientAiValidator
         $response = Http::withToken(config('services.openai.key'))
             ->timeout(20)
             ->post('https://api.openai.com/v1/responses', [
-                'model' => config('services.openai.model', 'gpt-4o-mini'),
+                'model' => config('services.openai.model') ?: 'gpt-4o-mini',
 
                 'input' => [
                     [
@@ -31,6 +31,8 @@ class IngredientAiValidator
                             - Acepta cortes o partes de alimentos: lomo de cerdo, pechuga de pollo, costilla de ternera.
                             - Acepta alimentos con origen o tipo: leche de coco, harina de trigo, aceite de oliva.
                             - Corrige faltas de ortografia y errores pequenos de teclado.
+                            - Cuando el texto parezca una palabra incompleta o con una letra cambiada, elige el ingrediente culinario mas probable, no uno generico.
+                            - Conserva el animal o alimento especifico cuando sea reconocible por proximidad. Por ejemplo, avo en una receta debe corregirse como pavo, no como ave.
                             - Si el usuario escribe una preposicion mal pero el alimento es claro, corrigela. Por ejemplo: lomo se cerdi -> Lomo de cerdo.
                             - Devuelve el nombre corregido en espanol.
                             - Devuelve el nombre en singular cuando tenga sentido.
@@ -49,6 +51,8 @@ class IngredientAiValidator
                             - arros -> Arroz, Cereal
                             - lomo se cerdi -> Lomo de cerdo, Carne
                             - pechuga pollo -> Pechuga de pollo, Carne
+                            - echuga de avo -> Pechuga de pavo, Carne
+                            - pexuga pavo -> Pechuga de pavo, Carne
                             - leche coco -> Leche de coco, Bebida
                             - martillo -> no valido
                             - cuchara -> no valido
