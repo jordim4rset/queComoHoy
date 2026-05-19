@@ -38,23 +38,23 @@
                 <div class="post-stats">
 
                     <div class="stat">
-                        <span class="icon-stat">
-                            <!-- SVG likes -->
+                        <span class="icon-stat like-btn" data-recipe-id="{{ $receta->id }}"
+                            data-liked="{{ auth()->check() && $receta->likes->contains('user_id', auth()->id()) ? 'true' : 'false' }}"
+                            style="cursor: pointer; color: {{ auth()->check() && $receta->likes->contains('user_id', auth()->id()) ? 'red' : 'currentColor' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M20.8 4.6c-1.7-1.7-4.5-1.7-6.2 0L12 7.2 9.4 4.6c-1.7-1.7-4.5-1.7-6.2 0s-1.7 4.5 0 6.2L12 19.6l8.8-8.8c1.7-1.7 1.7-4.5 0-6.2z"/>
                             </svg>
                         </span>
-                        <span class="count">0</span>
+                        <span class="count">{{ $receta->likes->count() }}</span>
                     </div>
 
-                    <div class="stat">
+                    <div class="stat comment-toggle" data-recipe-id="{{ $receta->id }}" style="cursor: pointer;">
                         <span class="icon-stat">
-                            <!-- SVG comentarios -->
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
                             </svg>
                         </span>
-                        <span class="count comments-count-{{ $receta->id }}">{{ $receta->comments->count() }}</span>
+                        <span class="count comments-count-{{ $receta->id }}">{{ $receta->comments_count }}</span>
                     </div>
 
                     <div class="stat">
@@ -85,7 +85,7 @@
                         </span>
                     </div>
 
-                    <div class="comments-box">
+                    <div class="comments-box comments-box-{{ $receta->id }}" style="display: block; margin-top: 20px;">
                         {{-- Sección de comentarios --}}
                         <div style="margin-top: 20px;">
                             <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Comentarios</h3>

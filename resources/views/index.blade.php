@@ -17,7 +17,7 @@
                         <div class="user-info">
                             @if ($recipeUser)
                                 <a href="{{ route('profile', ['id' => $recipeUser->id]) }}">
-                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($recipeUser->username) }}"
+                                    <img src="{{ $recipeUser->profilePhotoUrl() }}"
                                         alt="{{ $recipeUser->username }}" class="avatar">
                                 </a>
 
@@ -32,7 +32,12 @@
 
                         @auth
                             @if (auth()->id() !== $recipe->user_id)
-                                <button class="follow-btn-small">Seguir</button>
+                                @unless (in_array($recipe->user_id, $followingUserIds, true))
+                                    <form method="POST" action="{{ url('/follow/' . $recipe->user_id) }}" class="follow-form-small">
+                                        @csrf
+                                        <button type="submit" class="follow-btn-small">Seguir</button>
+                                    </form>
+                                @endunless
                             @endif
                         @endauth
                     </div>
@@ -119,29 +124,30 @@
 
                 </div>
             @empty
-                <p>No hay recetas todavía.</p>
+                <p>{{ $emptyMessage ?? 'No hay recetas todavía.' }}</p>
             @endforelse
 
         </main>
 
+        @if($showSuggestions ?? true)
         <aside class="sidebar-right">
 
             <div class="suggestions-header">
                 <span>Sugerencias para ti</span>
-                <a href="#" class="view-all">Ver todo</a>
+                <a href="{{ route('users.index') }}" class="view-all">Ver todo</a>
             </div>
 
             <div class="suggestions-list">
 
                 @forelse($suggestions ?? [] as $user)
                     <div class="user-suggestion">
-                        <a href="{{ route('profile', ['id' => $recipe->user_id]) }}">
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode($user->username) }}"
+                        <a href="{{ route('profile', ['id' => $user->id]) }}">
+                            <img src="{{ $user->profilePhotoUrl() }}"
                                 alt="{{ $user->username }}" class="avatar-lg">
                         </a>
 
                         <div class="user-details">
-                            <a href="{{ route('profile', ['id' => $recipe->user_id]) }}"
+                            <a href="{{ route('profile', ['id' => $user->id]) }}"
                                 class="username-suggested username-link">
                                 {{ $user->username }}
                             </a>
@@ -151,7 +157,6 @@
                             </div>
                         </div>
 
-                        <a href="#" class="follow-link">Seguir</a>
                     </div>
                 @empty
                     <p>No hay sugerencias.</p>
@@ -160,6 +165,7 @@
             </div>
 
         </aside>
+        @endif
 
     </div>
 @endsection
