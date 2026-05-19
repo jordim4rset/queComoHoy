@@ -10,34 +10,40 @@
         <main class="feed">
 
             @forelse($recipes as $recipe)
+                @php $recipeUser = $recipe->user; @endphp
                 <div class="post">
 
                     <div class="post-header">
                         <div class="user-info">
-                            <a href="{{ route('profile', ['id' => $recipe->user_id]) }}">
-                                <img src="{{ $recipe->user?->profilePhotoUrl() ?? 'https://ui-avatars.com/api/?name=Usuario' }}"
-                                    alt="{{ $recipe->user->username ?? 'Usuario' }}" class="avatar">
-                            </a>
+                            @if ($recipeUser)
+                                <a href="{{ route('profile', ['id' => $recipeUser->id]) }}">
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($recipeUser->username) }}"
+                                        alt="{{ $recipeUser->username }}" class="avatar">
+                                </a>
 
-                            <a href="{{ route('profile', ['id' => $recipe->user_id]) }}" class="username username-link">
-                                {{ $recipe->user->username ?? 'usuario_desconocido' }}
-                            </a>
+                                <a href="{{ route('profile', ['id' => $recipeUser->id]) }}" class="username username-link">
+                                    {{ $recipeUser->username }}
+                                </a>
+                            @else
+                                <img src="https://ui-avatars.com/api/?name=Usuario" alt="Usuario" class="avatar">
+                                <span class="username username-link">usuario_desconocido</span>
+                            @endif
                         </div>
 
                         @auth
                             @if (auth()->id() !== $recipe->user_id)
-                                @unless (in_array($recipe->user_id, $followingUserIds, true))
-                                    <form method="POST" action="{{ url('/follow/' . $recipe->user_id) }}" class="follow-form-small">
-                                        @csrf
-                                        <button type="submit" class="follow-btn-small">Seguir</button>
-                                    </form>
-                                @endunless
+                                <button class="follow-btn-small">Seguir</button>
                             @endif
                         @endauth
                     </div>
 
                     <div class="post-image-wrapper">
-                        @include('recipes.partials.media-slider', ['recipe' => $recipe])
+                        @if ($recipe->image)
+                            <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->name }}"
+                                class="post-image">
+                        @else
+                            <img src="https://via.placeholder.com/600x500" alt="{{ $recipe->name }}" class="post-image">
+                        @endif
                     </div>
 
                     <div class="post-footer">
@@ -54,13 +60,13 @@
                                 <span class="count">{{ $recipe->likes->count() }}</span>
                             </div>
 
-                            <div class="stat">
+                            <div class="stat comment-toggle" data-recipe-id="{{ $recipe->id }}" style="cursor: pointer;">
                                 <span class="icon-stat">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
                                     </svg>
                                 </span>
-                                <span class="count">0</span>
+                                <span class="count comments-count-{{ $recipe->id }}">{{ $recipe->comments_count }}</span>
                             </div>
 
                             <div class="stat">
@@ -80,17 +86,24 @@
                             </p>
 
                             <div class="recipe-description-row">
-                                <a href="{{ route('profile', ['id' => $recipe->user_id]) }}"
-                                    class="recipe-username username-link">
-                                    {{ $recipe->user->username ?? 'usuario_desconocido' }}
-                                </a>
+                                @if ($recipeUser)
+                                    <a href="{{ route('profile', ['id' => $recipeUser->id]) }}"
+                                        class="recipe-username username-link">
+                                        {{ $recipeUser->username }}
+                                    </a>
+                                @else
+                                    <span class="recipe-username username-link">usuario_desconocido</span>
+                                @endif
 
                                 <span class="recipe-description-text">
                                     {{ $recipe->description }}
                                 </span>
                             </div>
 
-                            <div class="comments-box"></div>
+                            <div class="comments-box comments-box-{{ $recipe->id }}" style="display: none; margin-top: 20px;">
+                                @include('comments.list', ['recipe' => $recipe])
+                                @include('comments.form', ['recipe' => $recipe])
+                            </div>
 
                             @if ($recipe->tags)
                                 <p class="recipe-tags">
@@ -106,30 +119,29 @@
 
                 </div>
             @empty
-                <p>{{ $emptyMessage ?? 'No hay recetas todavía.' }}</p>
+                <p>No hay recetas todavía.</p>
             @endforelse
 
         </main>
 
-        @if($showSuggestions ?? true)
         <aside class="sidebar-right">
 
             <div class="suggestions-header">
                 <span>Sugerencias para ti</span>
-                <a href="{{ route('users.index') }}" class="view-all">Ver todo</a>
+                <a href="#" class="view-all">Ver todo</a>
             </div>
 
             <div class="suggestions-list">
 
                 @forelse($suggestions ?? [] as $user)
                     <div class="user-suggestion">
-                        <a href="{{ route('profile', ['id' => $user->id]) }}">
-                            <img src="{{ $user->profilePhotoUrl() }}"
+                        <a href="{{ route('profile', ['id' => $recipe->user_id]) }}">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode($user->username) }}"
                                 alt="{{ $user->username }}" class="avatar-lg">
                         </a>
 
                         <div class="user-details">
-                            <a href="{{ route('profile', ['id' => $user->id]) }}"
+                            <a href="{{ route('profile', ['id' => $recipe->user_id]) }}"
                                 class="username-suggested username-link">
                                 {{ $user->username }}
                             </a>
@@ -139,6 +151,7 @@
                             </div>
                         </div>
 
+                        <a href="#" class="follow-link">Seguir</a>
                     </div>
                 @empty
                     <p>No hay sugerencias.</p>
@@ -147,7 +160,6 @@
             </div>
 
         </aside>
-        @endif
 
     </div>
 @endsection

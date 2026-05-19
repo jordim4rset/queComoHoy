@@ -54,7 +54,7 @@
                                 <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
                             </svg>
                         </span>
-                        <span class="count">0</span>
+                        <span class="count comments-count-{{ $receta->id }}">{{ $receta->comments->count() }}</span>
                     </div>
 
                     <div class="stat">
@@ -85,7 +85,18 @@
                         </span>
                     </div>
 
-                    <div class="comments-box"></div>
+                    <div class="comments-box">
+                        {{-- Sección de comentarios --}}
+                        <div style="margin-top: 20px;">
+                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Comentarios</h3>
+
+                            {{-- Lista de comentarios --}}
+                            @include('comments.list', ['recipe' => $receta])
+
+                            {{-- Formulario para agregar comentario --}}
+                            @include('comments.form', ['recipe' => $receta])
+                        </div>
+                    </div>
 
                     @if($receta->ingredients->count())
                         <div class="recipe-ingredients-box">

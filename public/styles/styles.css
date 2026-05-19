@@ -315,7 +315,8 @@ body {
     margin-bottom: 30px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    height: 720px;
+    min-height: 720px;
+    height: auto;
     display: flex;
     flex-direction: column;
 }
@@ -481,7 +482,7 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .post-stats {
