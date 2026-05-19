@@ -25,8 +25,8 @@
             <h3>Más cosas</h3>
 
             <nav class="site-footer-links" aria-label="Paginas legales">
-                <a href="{{ route('legal.privacy') }}">Politica de privacidad</a>
-                <a href="{{ route('legal.cookies') }}">Politica de cookies</a>
+                <a href="{{ route('legal.privacy') }}">Política de privacidad</a>
+                <a href="{{ route('legal.cookies') }}">Política de cookies</a>
             </nav>
         </div>
     </div>

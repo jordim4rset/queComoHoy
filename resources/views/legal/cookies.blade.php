@@ -30,7 +30,7 @@
             detalle correspondiente.
         </p>
 
-        <h2>Gestión</h2>
+        <h2>Gestion</h2>
         <p>
             El usuario puede borrar o bloquear cookies desde la configuración de su navegador.
             Algunas funciones de la web podrían dejar de funcionar correctamente si se bloquean

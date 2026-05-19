@@ -88,6 +88,21 @@
                             </form>
                         @endif
                     </div>
+
+                    <div class="profile-actions">
+                        @if($isBlocked)
+                            <form method="POST" action="{{ route('users.unblock', $user) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-secondary">Desbloquear usuario</button>
+                            </form>
+                        @else
+                            <form method="POST" action="{{ route('users.block', $user) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Bloquear usuario</button>
+                            </form>
+                        @endif
+                    </div>
                 @endif
             @endauth
         </div>

@@ -33,18 +33,15 @@
                 </div>
 
                 <div class="profile-block-actions">
-                    @if (App\Models\Block::where('id_bloqueador', Auth::id())->where('id_bloqueado', $user->id)->exists())
-                        <form method="POST" action="{{ route('unblock') }}">
+                    @if (Auth::user()->hasBlocked($user))
+                        <form method="POST" action="{{ route('users.unblock', $user) }}">
                             @csrf
-                            <input type="hidden" name="id_bloqueador" value="{{ Auth::id() }}">
-                            <input type="hidden" name="id_bloqueado" value="{{ $user->id }}">
+                            @method('DELETE')
                             <button class="btn btn-danger">Desbloquear</button>
                         </form>
                     @else
-                        <form method="POST" action="{{ route('block') }}">
+                        <form method="POST" action="{{ route('users.block', $user) }}">
                             @csrf
-                            <input type="hidden" name="id_bloqueador" value="{{ Auth::id() }}">
-                            <input type="hidden" name="id_bloqueado" value="{{ $user->id }}">
                             <button class="btn btn-danger">Bloquear</button>
                         </form>
                     @endif

@@ -8,6 +8,7 @@ class Block extends Model
 {
     protected $table = 'blocks';
     public $timestamps = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'id_bloqueador',
