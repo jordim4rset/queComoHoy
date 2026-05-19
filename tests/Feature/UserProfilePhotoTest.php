@@ -99,4 +99,20 @@ class UserProfilePhotoTest extends TestCase
                 'profile_photo_url' => $user->profilePhotoUrl(),
             ]);
     }
+
+    public function test_nav_profile_link_shows_profile_photo_and_username(): void
+    {
+        $user = User::factory()->create([
+            'name' => 'Nombre Completo',
+            'username' => 'usuario_nav',
+            'profile_photo' => 'img/users/profile/nav.jpg',
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('index'))
+            ->assertOk()
+            ->assertSee('storage/' . $user->profile_photo, false)
+            ->assertSeeText('@usuario_nav')
+            ->assertDontSeeText('MI PERFIL, Nombre Completo');
+    }
 }

@@ -22,8 +22,11 @@
     </div>
     <div class="nav-right">
         @auth
-            <a href="{{ route('profile', ['id' => Auth::id()]) }}" class="user-info">MI PERFIL, {{ Auth::user()->name }}</a>
-            <form action="{{ route('logout') }}" method="POST">
+            <a href="{{ route('profile', ['id' => Auth::id()]) }}" class="user-info">
+                <img src="{{ Auth::user()->profilePhotoUrl() }}" alt="{{ Auth::user()->username }}">
+                <span>{{ '@' . Auth::user()->username }}</span>
+            </a>
+            <form action="{{ route('logout', [], false) }}" method="POST">
                 @csrf
                 <button type="submit" class="auth-btn logout-btn">Cerrar Sesion</button>
             </form>

@@ -33,4 +33,32 @@ class IngredientAiValidatorTest extends TestCase
             return $request['model'] === 'gpt-4o-mini';
         });
     }
+
+    public function test_the_prompt_includes_common_spanish_typo_corrections(): void
+    {
+        config([
+            'services.openai.key' => 'test-key',
+            'services.openai.model' => 'gpt-4o-mini',
+        ]);
+
+        Http::fake([
+            'api.openai.com/*' => Http::response([
+                'output_text' => json_encode([
+                    'is_food' => true,
+                    'corrected_name' => 'Boqueron',
+                    'category' => 'Pescado',
+                    'reason' => '',
+                ]),
+            ]),
+        ]);
+
+        (new IngredientAiValidator())->validate('voqueron');
+
+        Http::assertSent(function (Request $request) {
+            $systemPrompt = $request['input'][0]['content'] ?? '';
+
+            return str_contains($systemPrompt, 'b/v')
+                && str_contains($systemPrompt, 'voqueron -> Boqueron');
+        });
+    }
 }

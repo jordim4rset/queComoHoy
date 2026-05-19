@@ -31,6 +31,16 @@
                     <h3>{{ $ingr->name }}</h3>
                     <p>{{ $ingr->category }}</p>
                     <a href="{{ route('ingredientes.edit', ['ingrediente' => $ingr->id]) }}" class="btn">Editar</a>
+                    <form
+                        action="{{ route('ingredientes.destroy', ['ingrediente' => $ingr->id]) }}"
+                        method="POST"
+                        style="display:inline"
+                        onsubmit="return confirm('Eliminar ingrediente?')"
+                    >
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
                 </div>
             </div>
         @endforeach

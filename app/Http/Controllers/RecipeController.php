@@ -59,7 +59,8 @@ class RecipeController extends Controller
             'description' => ['required', 'string'],
             'time' => ['nullable', 'numeric', 'min:0'],
             'tags' => ['nullable', 'string'],
-            'image' => ['nullable', 'image'],
+            'image' => ['required', 'image'],
+            'video' => ['nullable', 'file', 'mimes:mp4,mov,avi,webm', 'max:51200'],
             'ingredients' => ['nullable', 'array'],
             'ingredients.*.id' => ['required_with:ingredients', 'integer', 'exists:ingredients,id'],
             'ingredients.*.quantity' => ['nullable', 'numeric', 'min:0'],
@@ -73,6 +74,11 @@ class RecipeController extends Controller
         if ($request->hasFile('image')) {
             $generatedName = $request->file('image')->store('img/recipes/cover', 'public');
             $receta->image = $generatedName;
+        }
+
+        if ($request->hasFile('video')) {
+            $generatedName = $request->file('video')->store('video/recipes', 'public');
+            $receta->video = $generatedName;
         }
 
         $receta->name = $request->input('name');
@@ -136,6 +142,7 @@ class RecipeController extends Controller
             'time' => ['nullable', 'numeric', 'min:0'],
             'tags' => ['nullable', 'string'],
             'image' => ['nullable', 'image'],
+            'video' => ['nullable', 'file', 'mimes:mp4,mov,avi,webm', 'max:51200'],
             'ingredients' => ['nullable', 'array'],
             'ingredients.*.id' => ['required_with:ingredients', 'integer', 'exists:ingredients,id'],
             'ingredients.*.quantity' => ['nullable', 'numeric', 'min:0'],
@@ -157,6 +164,11 @@ class RecipeController extends Controller
         if ($request->hasFile('image')) {
             $generatedName = $request->file('image')->store('img/recipes/cover', 'public');
             $receta->image = $generatedName;
+        }
+
+        if ($request->hasFile('video')) {
+            $generatedName = $request->file('video')->store('video/recipes', 'public');
+            $receta->video = $generatedName;
         }
 
         $receta->save();

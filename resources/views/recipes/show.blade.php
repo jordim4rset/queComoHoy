@@ -30,19 +30,7 @@
             </div>
 
             <div class="post-image-wrapper">
-                @if($receta->image)
-                    <img
-                        src="{{ asset('storage/' . $receta->image) }}"
-                        alt="{{ $receta->name }}"
-                        class="post-image"
-                    >
-                @else
-                    <img
-                        src="https://via.placeholder.com/600x500"
-                        alt="{{ $receta->name }}"
-                        class="post-image"
-                    >
-                @endif
+                @include('recipes.partials.media-slider', ['recipe' => $receta])
             </div>
 
             <div class="post-footer">

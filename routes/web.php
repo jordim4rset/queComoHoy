@@ -62,6 +62,9 @@ Route::get('/recetas/{receta}', [RecipeController::class, 'show'])
 
 
 Route::get('/', IndexController::class)->name('index');
+Route::get('/following', [IndexController::class, 'following'])
+    ->middleware('auth')
+    ->name('following.feed');
 
 
 
@@ -86,7 +89,8 @@ Route::get('/users/{id}/following', [FollowController::class, 'followingView'])-
 
 Route::get('/profile/{id}', [UserProfileController::class, 'show'])->name('profile');
 
-Route::get('/users', [UserController::class, 'index'])->middleware('auth')->name('users.index');
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/edit', [UserController::class, 'editCurrent'])->middleware('auth')->name('users.editCurrent');
 Route::put('/users', [UserController::class, 'updateCurrent'])->middleware('auth')->name('users.updateCurrent');
 
 //Rutas de bloquear

@@ -50,10 +50,40 @@ class IndexFollowButtonTest extends TestCase
             ->assertDontSeeText('Dejar de seguir');
     }
 
-    private function createRecipeFor(User $user): Recipe
+    public function test_following_feed_only_shows_recipes_from_followed_users(): void
+    {
+        $viewer = User::factory()->create();
+        $followedAuthor = User::factory()->create();
+        $otherAuthor = User::factory()->create();
+
+        $followedRecipe = $this->createRecipeFor($followedAuthor, 'Receta seguida');
+        $otherRecipe = $this->createRecipeFor($otherAuthor, 'Receta fuera');
+
+        $viewer->following()->attach($followedAuthor->id);
+
+        $this->actingAs($viewer)
+            ->get(route('following.feed'))
+            ->assertOk()
+            ->assertSeeText($followedRecipe->name)
+            ->assertDontSeeText($otherRecipe->name)
+            ->assertDontSeeText('Sugerencias para ti');
+    }
+
+    public function test_aside_links_to_following_feed_and_not_followers_page(): void
+    {
+        $viewer = User::factory()->create();
+
+        $this->actingAs($viewer)
+            ->get(route('index'))
+            ->assertOk()
+            ->assertSee(route('following.feed'), false)
+            ->assertDontSee(route('user.followers', $viewer->id), false);
+    }
+
+    private function createRecipeFor(User $user, string $name = 'Tortilla'): Recipe
     {
         $recipe = new Recipe();
-        $recipe->name = 'Tortilla';
+        $recipe->name = $name;
         $recipe->description = 'Receta sencilla para probar el feed';
         $recipe->time = 20;
         $recipe->tags = 'huevos';

@@ -148,6 +148,7 @@ class IngredientController extends Controller
             ->get([
                 'id',
                 'name',
+                'normalized_name',
                 'category',
                 'icon',
             ]);
@@ -244,6 +245,7 @@ class IngredientController extends Controller
             '/\bpexuga\b/i' => 'pechuga',
             '/\bavo\b/i' => 'pavo',
             '/\bpolli\b/i' => 'pollo',
+            '/\bvoqueron(es)?\b/i' => 'boqueron',
         ];
 
         return preg_replace(array_keys($replacements), array_values($replacements), $name);

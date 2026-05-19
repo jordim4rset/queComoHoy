@@ -15,15 +15,16 @@
     <div class="ingredient-fields">
         <div>
             <label for="ingredient-name">Ingrediente:</label>
-            <input
-                type="text"
-                id="ingredient-name"
-                data-ingredient-name
-                list="ingredient-suggestions"
-                autocomplete="off"
-                maxlength="30"
-            >
-            <datalist id="ingredient-suggestions" data-ingredient-suggestions></datalist>
+            <div class="ingredient-search">
+                <input
+                    type="text"
+                    id="ingredient-name"
+                    data-ingredient-name
+                    autocomplete="off"
+                    maxlength="30"
+                >
+                <ul class="ingredient-suggestions" data-ingredient-suggestions hidden></ul>
+            </div>
         </div>
 
         <div>
@@ -77,10 +78,77 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let ingredients = @json($selectedIngredients);
     let searchTimeout = null;
+    let suggestedIngredients = [];
+
+    function normalizeIngredientName(value) {
+        return value
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, ' ');
+    }
 
     function setFeedback(message, type = '') {
         feedback.textContent = message;
         feedback.dataset.type = type;
+    }
+
+    function clearSuggestions() {
+        suggestions.innerHTML = '';
+        suggestions.hidden = true;
+    }
+
+    function renderSuggestions() {
+        suggestions.innerHTML = '';
+
+        if (!suggestedIngredients.length) {
+            suggestions.hidden = true;
+            return;
+        }
+
+        suggestedIngredients.forEach(function (ingredient) {
+            const item = document.createElement('li');
+            const button = document.createElement('button');
+
+            button.type = 'button';
+            button.dataset.ingredientId = ingredient.id;
+            button.textContent = ingredient.name;
+
+            item.appendChild(button);
+            suggestions.appendChild(item);
+        });
+
+        suggestions.hidden = false;
+    }
+
+    function addIngredientToRecipe(ingredient, message) {
+        const alreadySelected = ingredients.some(function (item) {
+            return Number(item.id) === Number(ingredient.id);
+        });
+
+        if (alreadySelected) {
+            setFeedback('Este ingrediente ya esta en la receta.', 'error');
+            return false;
+        }
+
+        ingredients.push({
+            id: ingredient.id,
+            name: ingredient.name,
+            quantity: quantityInput.value,
+            unit: unitInput.value.trim(),
+        });
+
+        nameInput.value = '';
+        quantityInput.value = '';
+        unitInput.value = '';
+        clearSuggestions();
+        suggestedIngredients = [];
+
+        renderIngredients();
+        setFeedback(message, 'success');
+
+        return true;
     }
 
     function renderIngredients() {
@@ -137,13 +205,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const results = await response.json();
-        suggestions.innerHTML = '';
-
-        results.forEach(function (ingredient) {
-            const option = document.createElement('option');
-            option.value = ingredient.name;
-            suggestions.appendChild(option);
-        });
+        suggestedIngredients = results;
+        renderSuggestions();
     }
 
     nameInput.addEventListener('input', function () {
@@ -152,7 +215,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const query = nameInput.value.trim();
 
         if (query.length < 2) {
-            suggestions.innerHTML = '';
+            clearSuggestions();
+            suggestedIngredients = [];
             return;
         }
 
@@ -161,11 +225,52 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 250);
     });
 
+    nameInput.addEventListener('focus', function () {
+        renderSuggestions();
+    });
+
+    suggestions.addEventListener('click', function (event) {
+        const button = event.target.closest('[data-ingredient-id]');
+
+        if (!button) {
+            return;
+        }
+
+        const ingredient = suggestedIngredients.find(function (item) {
+            return Number(item.id) === Number(button.dataset.ingredientId);
+        });
+
+        if (!ingredient) {
+            return;
+        }
+
+        nameInput.value = ingredient.name;
+        clearSuggestions();
+        setFeedback('Ingrediente existente seleccionado.', 'success');
+    });
+
+    document.addEventListener('click', function (event) {
+        if (!editor.contains(event.target)) {
+            clearSuggestions();
+        }
+    });
+
     addButton.addEventListener('click', async function () {
         const name = nameInput.value.trim();
 
         if (!name) {
             setFeedback('Escribe un ingrediente.', 'error');
+            return;
+        }
+
+        const normalizedName = normalizeIngredientName(name);
+        const existingIngredient = suggestedIngredients.find(function (ingredient) {
+            return normalizeIngredientName(ingredient.name) === normalizedName
+                || ingredient.normalized_name === normalizedName;
+        });
+
+        if (existingIngredient) {
+            addIngredientToRecipe(existingIngredient, 'Ingrediente existente anadido.');
             return;
         }
 
@@ -192,29 +297,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             const ingredient = data.ingredient;
-            const alreadySelected = ingredients.some(function (item) {
-                return Number(item.id) === Number(ingredient.id);
-            });
-
-            if (alreadySelected) {
-                setFeedback('Este ingrediente ya esta en la receta.', 'error');
-                return;
-            }
-
-            ingredients.push({
-                id: ingredient.id,
-                name: ingredient.name,
-                quantity: quantityInput.value,
-                unit: unitInput.value.trim(),
-            });
-
-            nameInput.value = '';
-            quantityInput.value = '';
-            unitInput.value = '';
-            suggestions.innerHTML = '';
-
-            renderIngredients();
-            setFeedback(data.message || 'Ingrediente anadido.', 'success');
+            addIngredientToRecipe(ingredient, data.message || 'Ingrediente anadido.');
         } catch (error) {
             setFeedback('No se pudo conectar con el servidor.', 'error');
         } finally {
