@@ -107,6 +107,34 @@ class UserController extends Controller
         return redirect()->route('index')->with('success', 'Tu cuenta se ha eliminado correctamente.');
     }
 
+    public function ban(Request $request, User $user): RedirectResponse
+    {
+        $this->ensureAdmin($request);
+
+        if ($request->user()->is($user)) {
+            return back()->withErrors([
+                'ban' => 'No puedes banear tu propio usuario.',
+            ]);
+        }
+
+        $user->forceFill([
+            'banned_at' => now(),
+        ])->save();
+
+        return back()->with('success', 'Usuario baneado por tiempo indefinido.');
+    }
+
+    public function unban(Request $request, User $user): RedirectResponse
+    {
+        $this->ensureAdmin($request);
+
+        $user->forceFill([
+            'banned_at' => null,
+        ])->save();
+
+        return back()->with('success', 'Usuario desbaneado correctamente.');
+    }
+
     public function search(Request $request)
     {
         $q = $request->input('q');
