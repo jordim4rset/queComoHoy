@@ -9,7 +9,7 @@
         </div>
 
         <div class="site-footer-column">
-            <h3>&iquest;Que vemos?</h3>
+            <h3>&iquest;Qué vemos?</h3>
 
             <nav class="site-footer-links" aria-label="Paginas de Que Cocino Hoy">
                 <a href="{{ route('index') }}">Inicio</a>
@@ -22,7 +22,7 @@
         </div>
 
         <div class="site-footer-column">
-            <h3>Mas cosas</h3>
+            <h3>Más cosas</h3>
 
             <nav class="site-footer-links" aria-label="Paginas legales">
                 <a href="{{ route('legal.privacy') }}">Politica de privacidad</a>

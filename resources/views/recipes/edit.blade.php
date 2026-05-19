@@ -35,11 +35,11 @@
         </div>
 
         <div class="recipe-upload-field">
-            <label>Subir video:</label>
+            <label>Subir vídeo:</label>
             <input type="file" name="video" accept="video/mp4,video/quicktime,video/x-msvideo,video/webm">
 
             @if($receta->video)
-                <small>Video actual cargado.</small>
+                <small>Vídeo actual cargado.</small>
             @endif
         </div>
     </div>

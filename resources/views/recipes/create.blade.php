@@ -30,7 +30,7 @@
             </div>
 
             <div class="recipe-upload-field">
-                <label>Subir video:</label>
+                <label>Subir vídeo:</label>
                 <input type="file" name="video" accept="video/mp4,video/quicktime,video/x-msvideo,video/webm">
             </div>
         </div>

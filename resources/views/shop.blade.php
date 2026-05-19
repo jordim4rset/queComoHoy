@@ -29,18 +29,18 @@
         <div class="shop-grid">
             <div class="shop-card">
                 <h2>Publicar receta destacada</h2>
-                <p>Haz que tu receta aparezca en la sección destacada por 500 ChefPoints.</p>
-                <span class="shop-price">500 ChefPoints</span>
+                <p>Haz que tu receta aparezca en la sección destacada por 1000 ChefPoints.</p>
+                <span class="shop-price">1000 ChefPoints</span>
             </div>
             <div class="shop-card">
                 <h2>Pack de stickers</h2>
                 <p>Recibe un conjunto exclusivo de stickers de cocina.</p>
-                <span class="shop-price">250 ChefPoints</span>
+                <span class="shop-price">750 ChefPoints</span>
             </div>
             <div class="shop-card">
                 <h2>Avatar premium</h2>
                 <p>Personaliza tu perfil con un avatar premium.</p>
-                <span class="shop-price">350 ChefPoints</span>
+                <span class="shop-price">500 ChefPoints</span>
             </div>
         </div>
     </div>

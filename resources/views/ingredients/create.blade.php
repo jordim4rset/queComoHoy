@@ -24,7 +24,7 @@
             <label>Nombre:</label>
             <input type="text" name="name" required value="{{ old('name') }}">
 
-            <label>Categoria:</label>
+            <label>Categoría:</label>
             <select name="category" id="category">
                 @foreach(\App\Models\Ingredient::CATEGORIES as $category)
                     <option value="{{ $category }}" {{ old('category') === $category ? 'selected' : '' }}>{{ $category }}</option>

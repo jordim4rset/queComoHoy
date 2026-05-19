@@ -7,7 +7,7 @@
         <div class="ingredients-page-header">
             <div>
                 <h1>Editar ingrediente</h1>
-                <p>Actualiza el nombre o la categoria del ingrediente.</p>
+                <p>Actualiza el nombre o la categoría del ingrediente.</p>
             </div>
         </div>
 
@@ -18,7 +18,7 @@
             <label>Nombre:</label>
             <input type="text" name="name" required value="{{ $ingrediente->name }}">
 
-            <label>Categoria:</label>
+            <label>Categoría:</label>
             <select name="category" id="category">
                 @foreach(\App\Models\Ingredient::CATEGORIES as $category)
                     <option value="{{ $category }}" {{ $ingrediente->category === $category ? 'selected' : '' }}>{{ $category }}</option>

@@ -14,9 +14,9 @@
         </div>
 
         <form class="ingredients-filter" method="GET" action="{{ route('ingredientes.index') }}">
-            <label for="category">Filtrar por categoria</label>
+            <label for="category">Filtrar por categoría</label>
             <select name="category" id="category" onchange="this.form.submit()">
-                <option value="">Todas las categorias</option>
+                <option value="">Todas las categorías</option>
                 @foreach(\App\Models\Ingredient::CATEGORIES as $category)
                     <option value="{{ $category }}" {{ request('category') == $category ? 'selected' : '' }}>
                         {{ $category }}
