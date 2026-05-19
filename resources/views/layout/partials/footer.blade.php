@@ -24,10 +24,10 @@
         <div class="site-footer-column">
             <h3>Mas cosas</h3>
 
-            <div class="site-footer-links site-footer-static-links">
-                <span>Politica de privacidad</span>
-                <span>Politica de cookies</span>
-            </div>
+            <nav class="site-footer-links" aria-label="Paginas legales">
+                <a href="{{ route('legal.privacy') }}">Politica de privacidad</a>
+                <a href="{{ route('legal.cookies') }}">Politica de cookies</a>
+            </nav>
         </div>
     </div>
 

@@ -30,15 +30,15 @@ class FooterTest extends TestCase
             ->assertSee(route('shop'), false);
     }
 
-    public function test_privacy_and_cookie_policies_are_text_without_links(): void
+    public function test_privacy_and_cookie_policies_link_to_legal_pages(): void
     {
-        $content = $this->get(route('index'))->getContent();
+        $response = $this->get(route('index'));
 
-        $this->assertStringContainsString('Politica de privacidad', $content);
-        $this->assertStringContainsString('Politica de cookies', $content);
-        $this->assertStringNotContainsString('<a href="#">Politica de privacidad</a>', $content);
-        $this->assertStringNotContainsString('<a href="#">Politica de cookies</a>', $content);
-        $this->assertStringContainsString('<span>Politica de privacidad</span>', $content);
-        $this->assertStringContainsString('<span>Politica de cookies</span>', $content);
+        $response
+            ->assertOk()
+            ->assertSee('Politica de privacidad')
+            ->assertSee(route('legal.privacy'), false)
+            ->assertSee('Politica de cookies')
+            ->assertSee(route('legal.cookies'), false);
     }
 }

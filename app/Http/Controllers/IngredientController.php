@@ -72,13 +72,6 @@ class IngredientController extends Controller
         $ingr->name = $correctedName;
         $ingr->normalized_name = $correctedNormalizedName;
 
-        if ($request->hasFile('icon')) {
-            $generatedName = $request->file('icon')->store('img/ingredientes/cover', 'public');
-            $ingr->icon = $generatedName;
-        } else {
-            $ingr->icon = 'img/ingredientes/cover/default.png';
-        }
-
         $ingr->category = $category;
         $ingr->save();
 
@@ -114,11 +107,6 @@ class IngredientController extends Controller
             ])->withInput();
         }
 
-        if ($request->hasFile('icon')) {
-            $generatedName = $request->file('icon')->store('img/ingredientes/cover', 'public');
-            $ingrediente->icon = $generatedName;
-        }
-
         $ingrediente->name = $request->input('name');
         $ingrediente->normalized_name = $normalizedName;
         $ingrediente->category = $request->input('category');
@@ -150,7 +138,6 @@ class IngredientController extends Controller
                 'name',
                 'normalized_name',
                 'category',
-                'icon',
             ]);
 
         return response()->json($ingredients);
@@ -212,7 +199,6 @@ class IngredientController extends Controller
         $ingredient = Ingredient::create([
             'name' => $correctedName,
             'normalized_name' => $correctedNormalizedName,
-            'icon' => 'img/ingredientes/cover/default.png',
             'category' => $category,
         ]);
 

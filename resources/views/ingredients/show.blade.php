@@ -1,12 +1,17 @@
 @extends('layout.layout')
+
 @section('title', 'Ver Ingredientes')
+
 @section('content')
-    <div class="card-content">
-        <img src="{{ asset('storage/' . $ingrediente->icon) }}" alt="Icono {{ $ingrediente->name }}"
-            onerror="this.style.display='none'">
-        <h1>{{ $ingrediente->name }}</h1>
-        <p>{{ $ingrediente->category }}</p>
-        <a href="{{ route('ingredientes.edit', $ingrediente) }}" class="btn">Editar</a>
-        <a href="{{ route('ingredientes.index') }}" class="btn">Volver</a>
-    </div>
+    <section class="ingredients-page ingredients-show-page">
+        <div class="ingredient-detail-card">
+            <h1>{{ $ingrediente->name }}</h1>
+            <p>{{ $ingrediente->category }}</p>
+
+            <div class="ingredient-actions">
+                <a href="{{ route('ingredientes.edit', $ingrediente) }}" class="btn">Editar</a>
+                <a href="{{ route('ingredientes.index') }}" class="btn btn-secondary">Volver</a>
+            </div>
+        </div>
+    </section>
 @endsection

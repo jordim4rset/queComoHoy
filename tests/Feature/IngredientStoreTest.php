@@ -74,7 +74,6 @@ class IngredientStoreTest extends TestCase
         Ingredient::create([
             'name' => 'Tomate',
             'normalized_name' => 'tomate',
-            'icon' => 'img/ingredientes/cover/default.png',
             'category' => 'Verdura',
         ]);
 

@@ -35,6 +35,19 @@ class IndexFollowButtonTest extends TestCase
             ->assertDontSeeText('Dejar de seguir');
     }
 
+    public function test_suggestions_link_to_profile_without_follow_button(): void
+    {
+        $viewer = User::factory()->create();
+        $suggestedUser = User::factory()->create();
+
+        $this->actingAs($viewer)
+            ->get(route('index'))
+            ->assertOk()
+            ->assertSee(route('profile', ['id' => $suggestedUser->id]), false)
+            ->assertDontSeeText('Ver perfil')
+            ->assertDontSee(url('/follow/' . $suggestedUser->id), false);
+    }
+
     public function test_logged_user_does_not_see_follow_button_for_recipe_author_already_followed(): void
     {
         $viewer = User::factory()->create();
