@@ -28,7 +28,10 @@ class UserProfileController extends Controller
         $isFollowing = Auth::check()
             && Auth::id() !== $user->id
             && Auth::user()->following()->where('following_id', $user->id)->exists();
+        $isBlocked = Auth::check()
+            && Auth::id() !== $user->id
+            && Auth::user()->hasBlocked($user);
 
-        return view('users.show', compact('user', 'recipes', 'totalLikes', 'isFollowing'));
+        return view('users.show', compact('user', 'recipes', 'totalLikes', 'isFollowing', 'isBlocked'));
     }
 }

@@ -10,10 +10,17 @@ class IndexController extends Controller
 {
     public function __invoke(Request $request)
     {
+        $blockedUserIds = $request->user()
+            ? $request->user()->blockedUsers()->pluck('users.id')->all()
+            : [];
+
         $recipes = Recipe::with(['user', 'likes', 'comments.user'])
             ->withCount('comments')
             ->where('visibility', 1)
             ->whereHas('user')
+            ->when($blockedUserIds, function ($query, $blockedUserIds) {
+                $query->whereNotIn('user_id', $blockedUserIds);
+            })
             ->orderBy('id', 'desc')
             ->get();
 

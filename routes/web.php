@@ -111,8 +111,12 @@ Route::post('/users/{user}/ban', [UserController::class, 'ban'])->middleware('au
 Route::post('/users/{user}/unban', [UserController::class, 'unban'])->middleware('auth')->name('users.unban');
 
 //Rutas de bloquear
-Route::post('/block', [BlockController::class, 'block'])->name('block');
-Route::post('/unblock', [BlockController::class, 'unblock'])->name('unblock');
+Route::post('/users/{user}/block', [BlockController::class, 'block'])
+    ->middleware('auth')
+    ->name('users.block');
+Route::delete('/users/{user}/block', [BlockController::class, 'unblock'])
+    ->middleware('auth')
+    ->name('users.unblock');
 
 //Ruta Perfil de Usuario
 Route::get('/usuarios/{user}', [UserProfileController::class, 'show'])

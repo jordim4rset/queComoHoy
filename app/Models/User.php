@@ -123,6 +123,23 @@ class User extends Authenticatable
         );
     }
 
+    public function blockedUsers()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'blocks',
+            'id_bloqueador',
+            'id_bloqueado'
+        );
+    }
+
+    public function hasBlocked(User $user): bool
+    {
+        return $this->blockedUsers()
+            ->where('users.id', $user->id)
+            ->exists();
+    }
+
     public function recipes()
     {
         return $this->hasMany(Recipe::class);

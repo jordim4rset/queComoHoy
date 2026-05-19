@@ -28,7 +28,7 @@
             </a>
             <form action="{{ route('logout', [], false) }}" method="POST">
                 @csrf
-                <button type="submit" class="auth-btn logout-btn">Cerrar Sesión</button>
+                <button type="submit" class="auth-btn logout-btn">Cerrar Sesion</button>
             </form>
         @else
             <a href="{{ route('auth.login') }}" class="auth-btn">Login</a>
