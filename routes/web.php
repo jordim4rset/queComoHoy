@@ -49,6 +49,8 @@ Route::get('/eventos', [EventController::class, 'publicIndex'])->name('eventos.i
 Route::get('/eventos/{event}', [EventController::class, 'show'])->name('eventos.show');
 
 //RUTAS RECETAS
+Route::get('/recetas/buscar', [RecipeController::class, 'search'])
+    ->name('recetas.search');
 Route::get('/recetas', [RecipeController::class, 'index'])
     ->middleware('auth')
     ->name('recetas.index');
