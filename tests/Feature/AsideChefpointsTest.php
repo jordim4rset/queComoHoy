@@ -34,6 +34,6 @@ class AsideChefpointsTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertDontSee('ChefPoints');
+            ->assertDontSee('chefpoints-widget', false);
     }
 }

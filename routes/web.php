@@ -5,6 +5,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\LegalController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\UserController;
@@ -20,6 +21,8 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/signup', [LoginController::class, 'signupForm'])->name('auth.signup');
 Route::post('/signup', [LoginController::class, 'signup'])->name('auth.signup.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/politica-privacidad', [LegalController::class, 'privacy'])->name('legal.privacy');
+Route::get('/politica-cookies', [LegalController::class, 'cookies'])->name('legal.cookies');
 Route::get('/shop', function () {
     return view('shop');
 })->name('shop');

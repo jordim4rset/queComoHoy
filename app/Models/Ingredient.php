@@ -29,7 +29,6 @@ class Ingredient extends Model
     protected $fillable = [
         'name',
         'normalized_name',
-        'icon',
         'category',
     ];
 

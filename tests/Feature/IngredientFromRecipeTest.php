@@ -80,7 +80,6 @@ class IngredientFromRecipeTest extends TestCase
         $ingredient = Ingredient::create([
             'name' => 'Tomate',
             'normalized_name' => 'tomate',
-            'icon' => 'img/ingredientes/cover/default.png',
             'category' => 'Verdura',
         ]);
 
@@ -103,7 +102,6 @@ class IngredientFromRecipeTest extends TestCase
         $ingredient = Ingredient::create([
             'name' => 'Boqueron',
             'normalized_name' => 'boqueron',
-            'icon' => 'img/ingredientes/cover/default.png',
             'category' => 'Pescado',
         ]);
 
@@ -133,7 +131,6 @@ class IngredientFromRecipeTest extends TestCase
         Ingredient::create([
             'name' => 'Boqueron',
             'normalized_name' => 'boqueron',
-            'icon' => 'img/ingredientes/cover/default.png',
             'category' => 'Pescado',
         ]);
 

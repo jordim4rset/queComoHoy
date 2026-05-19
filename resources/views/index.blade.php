@@ -139,16 +139,6 @@
                             </div>
                         </div>
 
-                        @auth
-                            @if (auth()->id() !== $user->id)
-                                @unless (in_array($user->id, $followingUserIds, true))
-                                    <form method="POST" action="{{ url('/follow/' . $user->id) }}" class="follow-form-small">
-                                        @csrf
-                                        <button type="submit" class="follow-link">Seguir</button>
-                                    </form>
-                                @endunless
-                            @endif
-                        @endauth
                     </div>
                 @empty
                     <p>No hay sugerencias.</p>
