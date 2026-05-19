@@ -165,7 +165,9 @@ class RecipeController extends Controller
             abort(403);
         }
 
-        $receta->load(['user', 'ingredients']);
+        $receta
+            ->load(['user', 'ingredients', 'likes', 'comments.user'])
+            ->loadCount('comments');
 
         return view('recipes.show', compact('receta'));
     }
