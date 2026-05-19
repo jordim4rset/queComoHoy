@@ -28,4 +28,30 @@ class IndexController extends Controller
 
         return view('index', compact('recipes', 'suggestions', 'followingUserIds'));
     }
+
+    public function following(Request $request)
+    {
+        $followingUserIds = $request->user()
+            ->following()
+            ->pluck('users.id')
+            ->all();
+
+        $recipes = Recipe::with(['user', 'likes'])
+            ->where('visibility', 1)
+            ->whereIn('user_id', $followingUserIds)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $suggestions = collect();
+        $showSuggestions = false;
+        $emptyMessage = 'Todavía no hay recetas de usuarios a los que sigues.';
+
+        return view('index', compact(
+            'recipes',
+            'suggestions',
+            'followingUserIds',
+            'showSuggestions',
+            'emptyMessage'
+        ));
+    }
 }

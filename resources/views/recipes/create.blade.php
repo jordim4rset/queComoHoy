@@ -23,8 +23,17 @@
         <label>Visibilidad:</label>
         <input type="checkbox" name="visibility"><br>
 
-        <label>Foto:</label>
-        <input type="file" name="image"><br><br>
+        <div class="recipe-upload-grid">
+            <div class="recipe-upload-field">
+                <label>Subir portada:</label>
+                <input type="file" name="image" accept="image/*" required>
+            </div>
+
+            <div class="recipe-upload-field">
+                <label>Subir video:</label>
+                <input type="file" name="video" accept="video/mp4,video/quicktime,video/x-msvideo,video/webm">
+            </div>
+        </div>
 
         @include('recipes.partials.ingredients-form')
 

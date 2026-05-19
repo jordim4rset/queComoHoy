@@ -28,12 +28,16 @@
 
                 <div class="profile-stat">
                     <strong>{{ $user->followers_count }}</strong>
-                    <span>Seguidores</span>
+                    <span>
+                        <a href="{{ route('user.followers', $user->id) }}">Seguidores</a>
+                    </span>
                 </div>
 
                 <div class="profile-stat">
                     <strong>{{ $user->following_count }}</strong>
-                    <span>Seguidos</span>
+                    <span>
+                        <a href="{{ route('user.following', $user->id) }}">Seguidos</a>
+                    </span>
                 </div>
 
                 <div class="profile-stat">
@@ -45,7 +49,7 @@
             @auth
                 @if(auth()->id() === $user->id)
                     <div class="profile-actions">
-                        <a href="{{ route('users.index') }}" class="btn">Editar usuario</a>
+                        <a href="{{ route('users.editCurrent') }}" class="btn">Editar usuario</a>
                     </div>
                 @else
                     <div class="profile-actions">
@@ -75,17 +79,7 @@
         @forelse($recipes as $recipe)
             <div class="recipe-card">
 
-                @if($recipe->image)
-                    <img
-                        src="{{ asset('storage/' . $recipe->image) }}"
-                        alt="Foto de {{ $recipe->name }}"
-                    >
-                @else
-                    <img
-                        src="https://via.placeholder.com/600x400"
-                        alt="Sin imagen"
-                    >
-                @endif
+                @include('recipes.partials.media-slider', ['recipe' => $recipe, 'class' => 'recipe-media-card'])
 
                 <h3>
                     <a

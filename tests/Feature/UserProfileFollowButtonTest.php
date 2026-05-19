@@ -44,4 +44,13 @@ class UserProfileFollowButtonTest extends TestCase
             ->assertOk()
             ->assertSeeText('Dejar de seguir');
     }
+
+    public function test_profile_following_count_links_to_following_users_page(): void
+    {
+        $profileUser = User::factory()->create();
+
+        $this->get(route('profile', $profileUser->id))
+            ->assertOk()
+            ->assertSee(route('user.following', $profileUser->id), false);
+    }
 }

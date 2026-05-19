@@ -30,7 +30,9 @@ class IngredientAiValidator
                             - Acepta ingredientes simples y tambien nombres compuestos habituales de cocina.
                             - Acepta cortes o partes de alimentos: lomo de cerdo, pechuga de pollo, costilla de ternera.
                             - Acepta alimentos con origen o tipo: leche de coco, harina de trigo, aceite de oliva.
-                            - Corrige faltas de ortografia y errores pequenos de teclado.
+                            - Corrige faltas de ortografia, errores foneticos y errores pequenos de teclado.
+                            - No rechaces un alimento solo porque este mal escrito si hay un ingrediente culinario espanol claro.
+                            - Acepta confusiones habituales del espanol como b/v, c/q/k, g/j, ll/y, h omitida, letras duplicadas, letras cambiadas, acentos omitidos o falta de enye.
                             - Cuando el texto parezca una palabra incompleta o con una letra cambiada, elige el ingrediente culinario mas probable, no uno generico.
                             - Conserva el animal o alimento especifico cuando sea reconocible por proximidad. Por ejemplo, avo en una receta debe corregirse como pavo, no como ave.
                             - Si el usuario escribe una preposicion mal pero el alimento es claro, corrigela. Por ejemplo: lomo se cerdi -> Lomo de cerdo.
@@ -49,6 +51,10 @@ class IngredientAiValidator
                             - tomatte -> Tomate, Verdura
                             - sevollas -> Cebolla, Verdura
                             - arros -> Arroz, Cereal
+                            - voqueron -> Boqueron, Pescado
+                            - boquerones -> Boqueron, Pescado
+                            - peskado -> Pescado, Pescado
+                            - xampinon -> Champinon, Setas
                             - lomo se cerdi -> Lomo de cerdo, Carne
                             - pechuga pollo -> Pechuga de pollo, Carne
                             - echuga de avo -> Pechuga de pavo, Carne

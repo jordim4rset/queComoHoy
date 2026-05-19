@@ -18,17 +18,7 @@
         @forelse ($recetas as $receta)
             <div class="recipe-card">
 
-                @if ($receta->image)
-                    <img
-                        src="{{ asset('/storage/' . $receta->image) }}"
-                        alt="Foto de {{ $receta->name }}"
-                    >
-                @else
-                    <img
-                        src="https://via.placeholder.com/600x400"
-                        alt="Sin imagen"
-                    >
-                @endif
+                @include('recipes.partials.media-slider', ['recipe' => $receta, 'class' => 'recipe-media-card'])
 
                 <h3>
                     <a

@@ -1,21 +1,42 @@
 @extends('layout.layout')
 
+@section('title', 'Seguidos por ' . $user->username)
+
 @section('content')
-<h1>{{ $user->name }} sigue a:</h1>
+    <div class="follow-page">
+        <div class="follow-header">
+            <a href="{{ route('profile', ['id' => $user->id]) }}" class="btn btn-secondary">Volver al perfil</a>
+            <div>
+                <h1>Seguidos</h1>
+                <p>{{ $user->username }}</p>
+            </div>
+        </div>
 
-@foreach ($following as $followed)
-    <div>
-        <a href="/profile/{{ $followed->id }}">
-            {{ $followed->name }}
-        </a>
+        <div class="follow-list">
+            @forelse ($following as $followed)
+                <div class="follow-user">
+                    <a href="{{ route('profile', ['id' => $followed->id]) }}" class="follow-user-main">
+                        <img src="{{ $followed->profilePhotoUrl() }}" alt="{{ $followed->username }}">
 
-        @auth
-            <form method="POST" action="/unfollow/{{ $followed->id }}">
-                @csrf
-                @method('DELETE')
-                <button>Dejar de seguir</button>
-            </form>
-        @endauth
+                        <span>
+                            <strong>{{ $followed->name }}</strong>
+                            <small>{{ '@' . $followed->username }}</small>
+                        </span>
+                    </a>
+
+                    @auth
+                        @if(auth()->id() !== $followed->id && auth()->user()->following->contains($followed->id))
+                            <form method="POST" action="{{ url('/unfollow/' . $followed->id) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-secondary btn-sm">Dejar de seguir</button>
+                            </form>
+                        @endif
+                    @endauth
+                </div>
+            @empty
+                <p class="follow-empty">Este usuario todavía no sigue a nadie.</p>
+            @endforelse
+        </div>
     </div>
-@endforeach
 @endsection

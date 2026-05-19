@@ -21,7 +21,7 @@ class UserIndexEditTest extends TestCase
             ->assertSee(route('profile', ['id' => $user->id]), false);
     }
 
-    public function test_own_profile_edit_user_link_points_to_users_index(): void
+    public function test_own_profile_edit_user_link_points_to_user_edit_page(): void
     {
         $user = User::factory()->create();
 
@@ -29,15 +29,32 @@ class UserIndexEditTest extends TestCase
             ->get(route('profile', ['id' => $user->id]))
             ->assertOk()
             ->assertSeeText('Editar usuario')
-            ->assertSee(route('users.index'), false);
+            ->assertSee(route('users.editCurrent'), false);
     }
 
-    public function test_users_index_shows_edit_form_to_logged_user(): void
+    public function test_users_index_shows_user_search(): void
+    {
+        $viewer = User::factory()->create();
+        $otherUser = User::factory()->create([
+            'name' => 'Usuario Buscado',
+            'username' => 'buscado',
+        ]);
+
+        $this->actingAs($viewer)
+            ->get(route('users.index'))
+            ->assertOk()
+            ->assertSeeText('Usuarios')
+            ->assertSeeText('Usuario Buscado')
+            ->assertSee(route('profile', ['id' => $otherUser->id]), false)
+            ->assertDontSeeText('Editar usuario');
+    }
+
+    public function test_user_edit_page_shows_edit_form_to_logged_user(): void
     {
         $user = User::factory()->create();
 
         $this->actingAs($user)
-            ->get(route('users.index'))
+            ->get(route('users.editCurrent'))
             ->assertOk()
             ->assertSeeText('Editar usuario')
             ->assertSee(route('users.updateCurrent'), false);

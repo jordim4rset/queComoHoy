@@ -19,7 +19,18 @@ class UserController extends Controller
     }
     public function index()
     {
-        return view('users.index');
+        $currentUserId = auth()->id();
+
+        $users = User::when($currentUserId, function ($query, $currentUserId) {
+            $query->where('id', '!=', $currentUserId);
+        })->get();
+
+        return view('users.index', compact('users'));
+    }
+
+    public function editCurrent()
+    {
+        return view('users.edit');
     }
 
     public function updateCurrent(Request $request): RedirectResponse

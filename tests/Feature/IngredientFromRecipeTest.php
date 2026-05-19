@@ -97,4 +97,53 @@ class IngredientFromRecipeTest extends TestCase
 
         $this->assertSame(1, Ingredient::where('normalized_name', 'tomate')->count());
     }
+
+    public function test_it_finds_an_existing_ingredient_after_a_common_typo_correction(): void
+    {
+        $ingredient = Ingredient::create([
+            'name' => 'Boqueron',
+            'normalized_name' => 'boqueron',
+            'icon' => 'img/ingredientes/cover/default.png',
+            'category' => 'Pescado',
+        ]);
+
+        $this->app->instance(IngredientAiValidator::class, new class extends IngredientAiValidator {
+            public function validate(string $ingredientName): array
+            {
+                throw new \RuntimeException('No deberia llamar a la API si ya existe el ingrediente corregido.');
+            }
+        });
+
+        $response = $this
+            ->actingAs(User::factory()->create())
+            ->postJson(route('ingredientes.storeFromRecipe'), [
+                'name' => 'voqueron',
+            ]);
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('ingredient.id', $ingredient->id);
+
+        $this->assertSame(1, Ingredient::where('normalized_name', 'boqueron')->count());
+    }
+
+    public function test_search_results_include_normalized_names_for_existing_ingredient_selection(): void
+    {
+        Ingredient::create([
+            'name' => 'Boqueron',
+            'normalized_name' => 'boqueron',
+            'icon' => 'img/ingredientes/cover/default.png',
+            'category' => 'Pescado',
+        ]);
+
+        $response = $this
+            ->actingAs(User::factory()->create())
+            ->getJson(route('ingredientes.searchForRecipe', ['q' => 'boq']));
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('0.name', 'Boqueron')
+            ->assertJsonPath('0.normalized_name', 'boqueron');
+    }
 }

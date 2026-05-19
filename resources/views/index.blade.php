@@ -37,12 +37,7 @@
                     </div>
 
                     <div class="post-image-wrapper">
-                        @if ($recipe->image)
-                            <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->name }}"
-                                class="post-image">
-                        @else
-                            <img src="https://via.placeholder.com/600x500" alt="{{ $recipe->name }}" class="post-image">
-                        @endif
+                        @include('recipes.partials.media-slider', ['recipe' => $recipe])
                     </div>
 
                     <div class="post-footer">
@@ -111,16 +106,17 @@
 
                 </div>
             @empty
-                <p>No hay recetas todavía.</p>
+                <p>{{ $emptyMessage ?? 'No hay recetas todavía.' }}</p>
             @endforelse
 
         </main>
 
+        @if($showSuggestions ?? true)
         <aside class="sidebar-right">
 
             <div class="suggestions-header">
                 <span>Sugerencias para ti</span>
-                <a href="#" class="view-all">Ver todo</a>
+                <a href="{{ route('users.index') }}" class="view-all">Ver todo</a>
             </div>
 
             <div class="suggestions-list">
@@ -161,6 +157,7 @@
             </div>
 
         </aside>
+        @endif
 
     </div>
 @endsection

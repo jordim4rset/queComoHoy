@@ -58,11 +58,7 @@
                 <div class="recipes-grid">
                     @foreach ($recipes as $recipe)
                         <div class="recipe-card">
-                            @if ($recipe->image)
-                                <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->name }}">
-                            @else
-                                <div class="recipe-no-image">Sin imagen</div>
-                            @endif
+                            @include('recipes.partials.media-slider', ['recipe' => $recipe, 'class' => 'recipe-media-card'])
                             <h3>{{ $recipe->name }}</h3>
                             <p>{{ Str::limit($recipe->description, 100) }}</p>
                             <p><strong>Tiempo:</strong> {{ $recipe->time }} min</p>
