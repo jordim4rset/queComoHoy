@@ -1,10 +1,10 @@
 @extends('layout.layout')
 
-@section('title', 'Política de cookies')
+@section('title', 'Politica de cookies')
 
 @section('content')
     <section class="legal-page">
-        <h1>Política de cookies</h1>
+        <h1>Politica de cookies</h1>
 
         <p>
             Esta política de cookies es un contenido provisional para Que Cocino Hoy. Deberá

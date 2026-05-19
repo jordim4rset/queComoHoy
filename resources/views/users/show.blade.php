@@ -28,7 +28,7 @@
 
             <div class="profile-stats">
                 <div class="profile-stat">
-                    <strong>{{ $recipes->count() }}</strong>
+                    <strong>{{ $totalRecipes }}</strong>
                     <span>Recetas</span>
                 </div>
 
@@ -111,33 +111,19 @@
 
     <h2 class="profile-section-title">Recetas publicadas</h2>
 
-    <div class="recipes-list">
+    <div class="recipes-list" data-infinite-scroll-container>
 
-        @forelse($recipes as $recipe)
-            <div class="recipe-card">
-
-                @include('recipes.partials.media-slider', ['recipe' => $recipe, 'class' => 'recipe-media-card'])
-
-                <h3>
-                    <a
-                        href="{{ route('recetas.show', ['receta' => $recipe->id]) }}"
-                        class="recipe-title-link"
-                    >
-                        {{ $recipe->name }}
-                    </a>
-                </h3>
-
-                <p>{{ $recipe->description }}</p>
-
-                <p>
-                    <strong>Tiempo:</strong>
-                    {{ $recipe->time }} min
-                </p>
-
-            </div>
-        @empty
+        @if($recipes->count())
+            @include('users.partials.recipe-cards', ['recipes' => $recipes])
+        @else
             <p>Este usuario todavía no tiene recetas públicas.</p>
-        @endforelse
+        @endif
+
+        <div
+            data-infinite-scroll-trigger
+            data-next-page-url="{{ $recipes->nextPageUrl() }}"
+            aria-hidden="true"
+        ></div>
 
     </div>
 

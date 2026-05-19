@@ -1,10 +1,10 @@
 @extends('layout.layout')
 
-@section('title', 'Política de privacidad')
+@section('title', 'Politica de privacidad')
 
 @section('content')
     <section class="legal-page">
-        <h1>Política de privacidad</h1>
+        <h1>Politica de privacidad</h1>
 
         <p>
             En Que Cocino Hoy respetamos la privacidad de las personas que usan la web.
