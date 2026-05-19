@@ -102,7 +102,7 @@
                 @if(auth()->user()->chefLevel() < 5)
                     (+{{ auth()->user()->chefPointsToNextLevel() }} para siguiente nivel)
                 @else
-                    Nivel maximo alcanzado
+                    Nivel máximo alcanzado
                 @endif
             </small>
         </div>

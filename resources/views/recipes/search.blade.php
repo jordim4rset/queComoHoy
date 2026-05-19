@@ -64,7 +64,7 @@
             </div>
 
             <div class="filter-field">
-                <label for="max_time">Tiempo max.</label>
+                <label for="max_time">Tiempo máx.</label>
                 <input
                     type="number"
                     id="max_time"

@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Nueva contrasena:</label>
+                    <label for="password">Nueva contraseña:</label>
                     <input
                         type="password"
                         id="password"
@@ -93,7 +93,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password_confirmation">Confirmar nueva contrasena:</label>
+                    <label for="password_confirmation">Confirmar nueva contraseña:</label>
                     <input
                         type="password"
                         id="password_confirmation"
