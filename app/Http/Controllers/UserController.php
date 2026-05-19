@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -70,6 +73,38 @@ class UserController extends Controller
         $user->save();
 
         return back()->with('success', 'Usuario actualizado correctamente.');
+    }
+
+    public function destroyCurrent(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        $filesToDelete = collect([$user->profile_photo])
+            ->merge(
+                $user->recipes()
+                    ->get(['image', 'video'])
+                    ->flatMap(fn ($recipe) => [$recipe->image, $recipe->video])
+            )
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+
+        Auth::logout();
+
+        DB::transaction(function () use ($user) {
+            $user->following()->detach();
+            $user->followers()->detach();
+            $user->likes()->delete();
+            $user->delete();
+        });
+
+        Storage::disk('public')->delete($filesToDelete);
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('index')->with('success', 'Tu cuenta se ha eliminado correctamente.');
     }
 
     public function search(Request $request)

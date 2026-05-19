@@ -97,6 +97,7 @@ Route::get('/profile/{id}', [UserProfileController::class, 'show'])->name('profi
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/users/edit', [UserController::class, 'editCurrent'])->middleware('auth')->name('users.editCurrent');
 Route::put('/users', [UserController::class, 'updateCurrent'])->middleware('auth')->name('users.updateCurrent');
+Route::delete('/users', [UserController::class, 'destroyCurrent'])->middleware('auth')->name('users.destroyCurrent');
 
 //Rutas de bloquear
 Route::post('/block', [BlockController::class, 'block'])->name('block');

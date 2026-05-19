@@ -107,5 +107,23 @@
                 <button type="submit" class="btn-submit">Guardar cambios</button>
             </div>
         </form>
+
+        <section class="user-delete-zone">
+            <div>
+                <h2>Eliminar cuenta</h2>
+                <p>Se borraran tu perfil, tus recetas, tus seguidores, los usuarios que sigues y los likes asociados.</p>
+            </div>
+
+            <form
+                action="{{ route('users.destroyCurrent') }}"
+                method="POST"
+                onsubmit="return confirm('Esta accion eliminara tu cuenta y todos tus datos. ¿Quieres continuar?')"
+            >
+                @csrf
+                @method('DELETE')
+
+                <button type="submit" class="btn btn-danger">Eliminar cuenta</button>
+            </form>
+        </section>
     </div>
 @endsection
