@@ -108,9 +108,21 @@ class EventController extends Controller
         if (!$event->active && (!request()->user() || request()->user()->rol !== 'admin')) {
             abort(404);
         }
-        // load related recipes
-        $event->load('recipes');
-        return view('events.show', compact('event'));
+
+        $event->load([
+            'recipes' => function ($query) {
+                $query
+                    ->with(['user', 'likes', 'comments.user'])
+                    ->withCount('comments')
+                    ->orderBy('recipes.id', 'desc');
+            },
+        ]);
+
+        $followingUserIds = request()->user()
+            ? request()->user()->following()->pluck('users.id')->all()
+            : [];
+
+        return view('events.show', compact('event', 'followingUserIds'));
     }
 
     /**
