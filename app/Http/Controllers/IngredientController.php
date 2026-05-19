@@ -9,12 +9,25 @@ use Illuminate\Support\Str;
 
 class IngredientController extends Controller
 {
-    public function index()
+    private const INGREDIENTS_PER_PAGE = 20;
+
+    public function index(Request $request)
     {
-        if (request('category')) {
-            $ingredients = Ingredient::where('category', request('category'))->get();
-        } else {
-            $ingredients = Ingredient::get();
+        $query = Ingredient::query()->orderBy('name');
+
+        if ($request->filled('category')) {
+            $query->where('category', $request->input('category'));
+        }
+
+        $ingredients = $query
+            ->paginate(self::INGREDIENTS_PER_PAGE)
+            ->withQueryString();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('ingredients.partials.ingredient-cards', compact('ingredients'))->render(),
+                'next_page_url' => $ingredients->nextPageUrl(),
+            ]);
         }
 
         return view('ingredients.index', compact('ingredients'));

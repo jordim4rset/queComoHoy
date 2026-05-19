@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Event; 
 class EventController extends Controller
 {
+    private const EVENTS_PER_PAGE = 5;
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = null;
         if (request()->user()) {
@@ -21,7 +22,16 @@ class EventController extends Controller
             abort(403);
         }
 
-        $eventos = Event::orderBy('created_at', 'desc')->get();
+        $eventos = Event::orderBy('id', 'desc')
+            ->paginate(self::EVENTS_PER_PAGE);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('events.partials.event-cards', compact('eventos'))->render(),
+                'next_page_url' => $eventos->nextPageUrl(),
+            ]);
+        }
+
         return view('events.index', compact('eventos'));
     }
 
@@ -84,16 +94,24 @@ class EventController extends Controller
     /**
      * Display public list of active events.
      */
-    public function publicIndex()
+    public function publicIndex(Request $request)
     {
         $user = request()->user();
 
         if ($user && $user->rol === 'admin') {
-            $eventos = Event::orderBy('created_at', 'desc')->get();
+            $eventos = Event::orderBy('id', 'desc')
+                ->paginate(self::EVENTS_PER_PAGE);
         } else {
             $eventos = Event::where('active', true)
-                ->orderBy('created_at', 'desc')
-                ->get();
+                ->orderBy('id', 'desc')
+                ->paginate(self::EVENTS_PER_PAGE);
+        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('events.partials.event-cards', compact('eventos'))->render(),
+                'next_page_url' => $eventos->nextPageUrl(),
+            ]);
         }
 
         return view('events.index', compact('eventos'));
