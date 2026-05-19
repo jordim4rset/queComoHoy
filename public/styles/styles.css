@@ -1537,6 +1537,13 @@ a {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
 }
 
+.user-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+}
+
 .user-item a:hover {
     border-color: rgba(255, 140, 0, 0.28);
 }
@@ -1566,6 +1573,25 @@ a {
 .user-item small {
     color: var(--text-light);
     font-weight: 700;
+}
+
+.ban-status {
+    color: #cc0000 !important;
+    font-weight: 900 !important;
+}
+
+.profile-ban-status {
+    margin: -8px 0 12px;
+}
+
+.user-admin-actions form {
+    margin: 0;
+}
+
+.user-admin-actions .btn {
+    border: 0;
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 .user-item-empty {
@@ -1838,11 +1864,22 @@ a {
     margin-top: 22px;
 }
 
-.profile-actions form {
+.profile-admin-actions,
+.profile-block-actions {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+}
+
+.profile-admin-actions form,
+.profile-actions form,
+.profile-block-actions form {
     margin: 0;
 }
 
-.profile-actions .btn {
+.profile-admin-actions .btn,
+.profile-actions .btn,
+.profile-block-actions .btn {
     border: 0;
     cursor: pointer;
 }

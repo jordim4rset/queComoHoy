@@ -17,34 +17,38 @@
 
         @auth
             @if (Auth::id() !== $user->id)
-                @if (Auth::user()->following()->where('following_id', $user->id)->exists())
-                    <form method="POST" action="/unfollow/{{ $user->id }}" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-secondary">Dejar de seguir</button>
-                    </form>
-                @else
-                    <form method="POST" action="/follow/{{ $user->id }}" style="display: inline;">
-                        @csrf
-                        <button class="btn btn-primary">Seguir</button>
-                    </form>
-                @endif
+                <div class="profile-actions">
+                    @if (Auth::user()->following()->where('following_id', $user->id)->exists())
+                        <form method="POST" action="/unfollow/{{ $user->id }}">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-secondary">Dejar de seguir</button>
+                        </form>
+                    @else
+                        <form method="POST" action="/follow/{{ $user->id }}">
+                            @csrf
+                            <button class="btn btn-primary">Seguir</button>
+                        </form>
+                    @endif
+                </div>
 
-                @if (App\Models\Block::where('id_bloqueador', Auth::id())->where('id_bloqueado', $user->id)->exists())
-                    <form method="POST" action="{{ route('unblock') }}" style="display: inline;">
-                        @csrf
-                        <input type="hidden" name="id_bloqueador" value="{{ Auth::id() }}">
-                        <input type="hidden" name="id_bloqueado" value="{{ $user->id }}">
-                        <button class="btn btn-danger">Desbloquear</button>
-                    </form>
-                @else
-                    <form method="POST" action="{{ route('block') }}" style="display: inline;">
-                        @csrf
-                        <input type="hidden" name="id_bloqueador" value="{{ Auth::id() }}">
-                        <input type="hidden" name="id_bloqueado" value="{{ $user->id }}">
-                        <button class="btn btn-danger">Bloquear</button>
-                    </form>
-                @endif
+                <div class="profile-block-actions">
+                    @if (App\Models\Block::where('id_bloqueador', Auth::id())->where('id_bloqueado', $user->id)->exists())
+                        <form method="POST" action="{{ route('unblock') }}">
+                            @csrf
+                            <input type="hidden" name="id_bloqueador" value="{{ Auth::id() }}">
+                            <input type="hidden" name="id_bloqueado" value="{{ $user->id }}">
+                            <button class="btn btn-danger">Desbloquear</button>
+                        </form>
+                    @else
+                        <form method="POST" action="{{ route('block') }}">
+                            @csrf
+                            <input type="hidden" name="id_bloqueador" value="{{ Auth::id() }}">
+                            <input type="hidden" name="id_bloqueado" value="{{ $user->id }}">
+                            <button class="btn btn-danger">Bloquear</button>
+                        </form>
+                    @endif
+                </div>
 
             @endif
         @endauth

@@ -108,17 +108,24 @@ class UserController extends Controller
     }
 
     public function search(Request $request)
-{
-    $q = $request->input('q');
-    $users = User::where('username', 'like', "%{$q}%")
-        ->limit(6)
-        ->get(['id', 'username', 'profile_photo'])
-        ->map(fn (User $user) => [
-            'id' => $user->id,
-            'username' => $user->username,
-            'profile_photo_url' => $user->profilePhotoUrl(),
-        ]);
+    {
+        $q = $request->input('q');
+        $users = User::where('username', 'like', "%{$q}%")
+            ->limit(6)
+            ->get(['id', 'username', 'profile_photo'])
+            ->map(fn (User $user) => [
+                'id' => $user->id,
+                'username' => $user->username,
+                'profile_photo_url' => $user->profilePhotoUrl(),
+            ]);
 
-    return response()->json($users);
-}
+        return response()->json($users);
+    }
+
+    private function ensureAdmin(Request $request): void
+    {
+        if (!$request->user() || $request->user()->rol !== 'admin') {
+            abort(403);
+        }
+    }
 }
