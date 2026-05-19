@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Recipe;
 use App\Models\Event;
+use App\Models\Ingredient;
 
 class RecipeController extends Controller
 {
@@ -39,6 +40,60 @@ class RecipeController extends Controller
             ->values();
 
         return view('recipes.index', compact('recetas'));
+    }
+
+    public function search(Request $request)
+    {
+        $filters = $request->validate([
+            'q' => ['nullable', 'string', 'max:100'],
+            'user' => ['nullable', 'string', 'max:100'],
+            'ingredient' => ['nullable', 'string', 'max:100'],
+            'tag' => ['nullable', 'string', 'max:100'],
+            'max_time' => ['nullable', 'numeric', 'min:0'],
+            'media' => ['nullable', 'in:any,video'],
+        ]);
+
+        $recipes = Recipe::with(['user', 'ingredients', 'likes'])
+            ->where('visibility', 1)
+            ->when($filters['q'] ?? null, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query
+                        ->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%')
+                        ->orWhere('tags', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($filters['user'] ?? null, function ($query, $userSearch) {
+                $query->whereHas('user', function ($query) use ($userSearch) {
+                    $query
+                        ->where('username', 'like', '%' . $userSearch . '%')
+                        ->orWhere('name', 'like', '%' . $userSearch . '%');
+                });
+            })
+            ->when($filters['ingredient'] ?? null, function ($query, $ingredientSearch) {
+                $query->whereHas('ingredients', function ($query) use ($ingredientSearch) {
+                    $query
+                        ->where('name', 'like', '%' . $ingredientSearch . '%')
+                        ->orWhere('normalized_name', 'like', '%' . $ingredientSearch . '%');
+                });
+            })
+            ->when($filters['tag'] ?? null, function ($query, $tag) {
+                $query->where('tags', 'like', '%' . $tag . '%');
+            })
+            ->when($filters['max_time'] ?? null, function ($query, $maxTime) {
+                $query->where('time', '<=', $maxTime);
+            })
+            ->when(($filters['media'] ?? 'any') === 'video', function ($query) {
+                $query->whereNotNull('video');
+            })
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $ingredients = Ingredient::orderBy('name')
+            ->limit(80)
+            ->get(['name']);
+
+        return view('recipes.search', compact('recipes', 'ingredients', 'filters'));
     }
 
     /**
