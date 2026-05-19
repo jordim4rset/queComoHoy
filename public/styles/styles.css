@@ -1782,14 +1782,73 @@ a {
     color: var(--text-light);
 }
 
-footer {
-    width: 100%;
-    padding: 40px 0;
+.site-footer {
+    width: calc(100% + 40px);
+    margin: auto -20px -40px;
+    padding: 34px 40px 18px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--white);
+}
+
+.site-footer-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr 1fr;
+    gap: 44px;
+    width: min(1100px, 100%);
+    margin: 0 auto;
+}
+
+.site-footer-brand h2,
+.site-footer-column h3 {
+    margin: 0 0 14px;
+    color: var(--white);
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+.site-footer-brand p {
+    max-width: 320px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.site-footer-links {
+    display: grid;
+}
+
+.site-footer-links a,
+.site-footer-links span {
+    display: block;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--white);
+    font-size: 0.92rem;
+    text-decoration: none;
+}
+
+.site-footer-links a:hover {
+    color: #ffe1a3;
+}
+
+.site-footer-static-links span {
+    cursor: default;
+}
+
+.site-footer-bottom {
+    width: min(1100px, 100%);
+    margin: 22px auto 0;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.78rem;
     text-align: center;
-    color: var(--text-light);
-    font-size: 12px;
-    border-top: 1px solid var(--border);
-    margin-top: auto;
+}
+
+.site-footer-bottom p {
+    margin: 0;
 }
 
 .nav-mobile-menu {
@@ -1970,6 +2029,14 @@ footer {
     .user-edit-grid { grid-template-columns: 1fr; }
     .user-edit-form { padding: 20px; }
     button, .btn-submit { width: 100%; }
+    .site-footer {
+        width: calc(100% + 40px);
+        padding: 30px 24px 20px;
+    }
+    .site-footer-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
     .recipe-media-control { width: 34px; }
     .recipe-media-dots button { width: 8px; }
     .recipe-upload-grid { grid-template-columns: 1fr; }
