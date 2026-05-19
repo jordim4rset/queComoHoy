@@ -1641,6 +1641,41 @@ a {
     margin-top: 24px;
 }
 
+.user-delete-zone {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 24px;
+    padding: 22px;
+    border: 1px solid rgba(204, 0, 0, 0.16);
+    border-radius: 16px;
+    background: rgba(204, 0, 0, 0.06);
+}
+
+.user-delete-zone h2 {
+    margin: 0 0 6px;
+    color: #842029;
+    font-size: 1.15rem;
+}
+
+.user-delete-zone p {
+    margin: 0;
+    color: var(--text-light);
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.user-delete-zone form {
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.user-delete-zone .btn {
+    border: 0;
+    cursor: pointer;
+}
+
 .profile-card {
     border-radius: 24px;
     overflow: hidden;
@@ -2190,6 +2225,7 @@ a {
     .user-edit-photo { grid-template-columns: 1fr; }
     .user-edit-grid { grid-template-columns: 1fr; }
     .user-edit-form { padding: 20px; }
+    .user-delete-zone { align-items: flex-start; flex-direction: column; }
     button, .btn-submit { width: 100%; }
     .site-footer {
         width: calc(100% + 40px);
