@@ -16,8 +16,12 @@
                 <a href="{{ route('recetas.search') }}">Buscar recetas</a>
                 <a href="{{ route('users.index') }}">Buscar usuario</a>
                 <a href="{{ route('eventos.index') }}">Eventos</a>
-                <a href="{{ route('ingredientes.index') }}">Ingredientes</a>
                 <a href="{{ route('shop') }}">Tienda ChefPoints</a>
+                @auth
+                    @if(Auth::user()->rol === 'admin')
+                        <a href="{{ route('ingredientes.index') }}">Ingredientes</a>
+                    @endif
+                @endauth
             </nav>
         </div>
 
