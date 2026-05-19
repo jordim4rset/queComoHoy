@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -72,32 +75,36 @@ class UserController extends Controller
         return back()->with('success', 'Usuario actualizado correctamente.');
     }
 
-    public function ban(Request $request, User $user): RedirectResponse
+    public function destroyCurrent(Request $request): RedirectResponse
     {
-        $this->ensureAdmin($request);
+        $user = $request->user();
 
-        if ($request->user()->is($user)) {
-            return back()->withErrors([
-                'ban' => 'No puedes banear tu propio usuario.',
-            ]);
-        }
+        $filesToDelete = collect([$user->profile_photo])
+            ->merge(
+                $user->recipes()
+                    ->get(['image', 'video'])
+                    ->flatMap(fn ($recipe) => [$recipe->image, $recipe->video])
+            )
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
 
-        $user->forceFill([
-            'banned_at' => now(),
-        ])->save();
+        Auth::logout();
 
-        return back()->with('success', 'Usuario baneado por tiempo indefinido.');
-    }
+        DB::transaction(function () use ($user) {
+            $user->following()->detach();
+            $user->followers()->detach();
+            $user->likes()->delete();
+            $user->delete();
+        });
 
-    public function unban(Request $request, User $user): RedirectResponse
-    {
-        $this->ensureAdmin($request);
+        Storage::disk('public')->delete($filesToDelete);
 
-        $user->forceFill([
-            'banned_at' => null,
-        ])->save();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return back()->with('success', 'Usuario desbaneado correctamente.');
+        return redirect()->route('index')->with('success', 'Tu cuenta se ha eliminado correctamente.');
     }
 
     public function search(Request $request)
