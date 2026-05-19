@@ -61,16 +61,22 @@ class LoginController extends Controller
         $password = $request->input('password');
         $remember = $request->boolean('remember');
 
-        $credentials = ['email' => $input, 'password' => $password];
-        if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('index'));
+        $emailLogin = $this->attemptLogin($request, [
+            'email' => $input,
+            'password' => $password,
+        ], $remember);
+
+        if ($emailLogin) {
+            return $emailLogin;
         }
 
-        $credentials = ['username' => $input, 'password' => $password];
-        if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('index'));
+        $usernameLogin = $this->attemptLogin($request, [
+            'username' => $input,
+            'password' => $password,
+        ], $remember);
+
+        if ($usernameLogin) {
+            return $usernameLogin;
         }
 
         return back()->withErrors([
@@ -86,5 +92,27 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('index');
+    }
+
+    private function attemptLogin(LoginRequest $request, array $credentials, bool $remember): ?RedirectResponse
+    {
+        if (!Auth::attempt($credentials, $remember)) {
+            return null;
+        }
+
+        $request->session()->regenerate();
+
+        if ($request->user()?->isBanned()) {
+            Auth::guard('web')->logout();
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return back()->withErrors([
+                'email' => 'Tu usuario esta baneado por tiempo indefinido, por eso no puedes acceder con tus credenciales.',
+            ])->onlyInput('email');
+        }
+
+        return redirect()->intended(route('index'));
     }
 }

@@ -72,18 +72,53 @@ class UserController extends Controller
         return back()->with('success', 'Usuario actualizado correctamente.');
     }
 
-    public function search(Request $request)
-{
-    $q = $request->input('q');
-    $users = User::where('username', 'like', "%{$q}%")
-        ->limit(6)
-        ->get(['id', 'username', 'profile_photo'])
-        ->map(fn (User $user) => [
-            'id' => $user->id,
-            'username' => $user->username,
-            'profile_photo_url' => $user->profilePhotoUrl(),
-        ]);
+    public function ban(Request $request, User $user): RedirectResponse
+    {
+        $this->ensureAdmin($request);
 
-    return response()->json($users);
-}
+        if ($request->user()->is($user)) {
+            return back()->withErrors([
+                'ban' => 'No puedes banear tu propio usuario.',
+            ]);
+        }
+
+        $user->forceFill([
+            'banned_at' => now(),
+        ])->save();
+
+        return back()->with('success', 'Usuario baneado por tiempo indefinido.');
+    }
+
+    public function unban(Request $request, User $user): RedirectResponse
+    {
+        $this->ensureAdmin($request);
+
+        $user->forceFill([
+            'banned_at' => null,
+        ])->save();
+
+        return back()->with('success', 'Usuario desbaneado correctamente.');
+    }
+
+    public function search(Request $request)
+    {
+        $q = $request->input('q');
+        $users = User::where('username', 'like', "%{$q}%")
+            ->limit(6)
+            ->get(['id', 'username', 'profile_photo'])
+            ->map(fn (User $user) => [
+                'id' => $user->id,
+                'username' => $user->username,
+                'profile_photo_url' => $user->profilePhotoUrl(),
+            ]);
+
+        return response()->json($users);
+    }
+
+    private function ensureAdmin(Request $request): void
+    {
+        if (!$request->user() || $request->user()->rol !== 'admin') {
+            abort(403);
+        }
+    }
 }

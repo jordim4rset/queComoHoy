@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'rol',
         'chefpoints',
+        'banned_at',
         'profile_photo',
     ];
 
@@ -46,8 +47,14 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'banned_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function isBanned(): bool
+    {
+        return $this->banned_at !== null;
     }
 
     public function chefLevel(): int

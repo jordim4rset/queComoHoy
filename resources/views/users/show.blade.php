@@ -20,6 +20,12 @@
                 {{ $user->name }}
             </p>
 
+            @if($user->isBanned())
+                <p class="ban-status profile-ban-status">
+                    Usuario baneado por tiempo indefinido
+                </p>
+            @endif
+
             <div class="profile-stats">
                 <div class="profile-stat">
                     <strong>{{ $recipes->count() }}</strong>
@@ -52,6 +58,22 @@
                         <a href="{{ route('users.editCurrent') }}" class="btn">Editar usuario</a>
                     </div>
                 @else
+                    @if(auth()->user()->rol === 'admin')
+                        <div class="profile-admin-actions">
+                            @if($user->isBanned())
+                                <form method="POST" action="{{ route('users.unban', $user) }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-secondary">Desbanear usuario</button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('users.ban', $user) }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">Banear usuario</button>
+                                </form>
+                            @endif
+                        </div>
+                    @endif
+
                     <div class="profile-actions">
                         @if($isFollowing)
                             <form method="POST" action="{{ url('/unfollow/' . $user->id) }}">

@@ -8,6 +8,22 @@
     <div class="users-search-container">
         <h1>Usuarios</h1>
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <div class="user-search-box">
             <input type="search" id="user-search" placeholder="Buscar usuario..." autocomplete="off">
         </div>
@@ -20,8 +36,29 @@
                         <span>
                             <strong>{{ $user->name }}</strong>
                             <small>{{ '@' . $user->username }}</small>
+                            @if($user->isBanned())
+                                <small class="ban-status">Baneado indefinidamente</small>
+                            @endif
                         </span>
                     </a>
+
+                    @auth
+                        @if(auth()->user()->rol === 'admin' && auth()->id() !== $user->id)
+                            <div class="user-admin-actions">
+                                @if($user->isBanned())
+                                    <form method="POST" action="{{ route('users.unban', $user) }}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-secondary">Desbanear</button>
+                                    </form>
+                                @else
+                                    <form method="POST" action="{{ route('users.ban', $user) }}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-danger">Banear</button>
+                                    </form>
+                                @endif
+                            </div>
+                        @endif
+                    @endauth
                 </li>
             @empty
                 <li class="user-item-empty">No hay usuarios disponibles.</li>
