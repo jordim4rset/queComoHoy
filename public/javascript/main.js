@@ -50,6 +50,57 @@ document.querySelectorAll('.like-btn').forEach(btn => {
         });
     });
 });
+
+// Toggle comments section in the feed
+document.querySelectorAll('.comment-toggle').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const recipeId = this.dataset.recipeId;
+        const commentsBox = document.querySelector(`.comments-box-${recipeId}`);
+
+        if (!commentsBox) return;
+        commentsBox.style.display = commentsBox.style.display === 'none' ? 'block' : 'none';
+    });
+});
+
+// Delegated delete handler for comments
+document.addEventListener('click', async (event) => {
+    const deleteBtn = event.target.closest('.delete-comment-btn');
+    if (!deleteBtn) return;
+
+    event.preventDefault();
+
+    if (!confirm('¿Eliminar este comentario?')) return;
+
+    const commentId = deleteBtn.dataset.commentId;
+
+    try {
+        const response = await fetch(`/comments/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('[name="_token"]').value
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            const commentEl = document.querySelector(`.comment[data-comment-id="${commentId}"]`);
+            if (commentEl) {
+                commentEl.remove();
+            }
+
+            const recipeId = deleteBtn.dataset.recipeId;
+            const commentCount = recipeId ? document.querySelector(`.comments-count-${recipeId}`) : null;
+            if (commentCount) {
+                commentCount.textContent = Math.max(0, parseInt(commentCount.textContent) - 1);
+            }
+        }
+    } catch (error) {
+        console.error('Error al eliminar comentario:', error);
+        alert('Error al eliminar el comentario');
+    }
+});
+
 /**Este js es para el buscador del nav */
 
 const searchInput = document.getElementById('nav-search-input');

@@ -11,6 +11,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\CommentController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +63,14 @@ Route::resource('recetas', RecipeController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy']);
 Route::get('/recetas/{receta}', [RecipeController::class, 'show'])
     ->name('recetas.show');
+
+// Rutas de comentarios
+Route::post('/recetas/{recipe}/comments', [CommentController::class, 'store'])
+    ->middleware('auth')
+    ->name('comments.store');
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('comments.destroy');
 
 
 

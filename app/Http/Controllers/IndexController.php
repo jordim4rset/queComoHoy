@@ -10,8 +10,10 @@ class IndexController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $recipes = Recipe::with(['user', 'likes'])
+        $recipes = Recipe::with(['user', 'likes', 'comments.user'])
+            ->withCount('comments')
             ->where('visibility', 1)
+            ->whereHas('user')
             ->orderBy('id', 'desc')
             ->get();
 
@@ -36,7 +38,8 @@ class IndexController extends Controller
             ->pluck('users.id')
             ->all();
 
-        $recipes = Recipe::with(['user', 'likes'])
+        $recipes = Recipe::with(['user', 'likes', 'comments.user'])
+            ->withCount('comments')
             ->where('visibility', 1)
             ->whereIn('user_id', $followingUserIds)
             ->orderBy('id', 'desc')
