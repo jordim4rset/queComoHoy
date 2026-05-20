@@ -22,27 +22,27 @@
 
             @if($user->isBanned())
                 <p class="ban-status profile-ban-status">
-                    Usuario baneado por tiempo indefinido
+                    {{ __('messages.user_banned_indefinitely') }}
                 </p>
             @endif
 
             <div class="profile-stats">
                 <div class="profile-stat">
-                    <strong>{{ $totalRecipes }}</strong>
-                    <span>Recetas</span>
+                    <strong>{{ $recipes->count() }}</strong>
+                    <span>{{ __('messages.recipes') }}</span>
                 </div>
 
                 <div class="profile-stat">
                     <strong>{{ $user->followers_count }}</strong>
                     <span>
-                        <a href="{{ route('user.followers', $user->id) }}">Seguidores</a>
+                        <a href="{{ route('user.followers', $user->id) }}">{{ __('messages.followers') }}</a>
                     </span>
                 </div>
 
                 <div class="profile-stat">
                     <strong>{{ $user->following_count }}</strong>
                     <span>
-                        <a href="{{ route('user.following', $user->id) }}">Seguidos</a>
+                        <a href="{{ route('user.following', $user->id) }}">{{ __('messages.following_users') }}</a>
                     </span>
                 </div>
 
@@ -55,7 +55,7 @@
             @auth
                 @if(auth()->id() === $user->id)
                     <div class="profile-actions">
-                        <a href="{{ route('users.editCurrent') }}" class="btn">Editar usuario</a>
+                        <a href="{{ route('users.editCurrent') }}" class="btn">{{ __('messages.edit_user') }}</a>
                     </div>
                 @else
                     @if(auth()->user()->rol === 'admin')
@@ -63,12 +63,12 @@
                             @if($user->isBanned())
                                 <form method="POST" action="{{ route('users.unban', $user) }}">
                                     @csrf
-                                    <button type="submit" class="btn btn-secondary">Desbanear usuario</button>
+                                    <button type="submit" class="btn btn-secondary">{{ __('messages.unban_user') }}</button>
                                 </form>
                             @else
                                 <form method="POST" action="{{ route('users.ban', $user) }}">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger">Banear usuario</button>
+                                    <button type="submit" class="btn btn-danger">{{ __('messages.ban_user') }}</button>
                                 </form>
                             @endif
                         </div>
@@ -79,12 +79,12 @@
                             <form method="POST" action="{{ url('/unfollow/' . $user->id) }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-secondary">Dejar de seguir</button>
+                                <button type="submit" class="btn btn-secondary">{{ __('messages.unfollow') }}</button>
                             </form>
                         @else
                             <form method="POST" action="{{ url('/follow/' . $user->id) }}">
                                 @csrf
-                                <button type="submit" class="btn">Seguir</button>
+                                <button type="submit" class="btn">{{ __('messages.follow') }}</button>
                             </form>
                         @endif
                     </div>
@@ -94,12 +94,12 @@
                             <form method="POST" action="{{ route('users.unblock', $user) }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-secondary">Desbloquear usuario</button>
+                                <button type="submit" class="btn btn-secondary">{{ __('messages.unblock_user') }}</button>
                             </form>
                         @else
                             <form method="POST" action="{{ route('users.block', $user) }}">
                                 @csrf
-                                <button type="submit" class="btn btn-danger">Bloquear usuario</button>
+                                <button type="submit" class="btn btn-danger">{{ __('messages.block_user') }}</button>
                             </form>
                         @endif
                     </div>
@@ -109,21 +109,35 @@
 
     </div>
 
-    <h2 class="profile-section-title">Recetas publicadas</h2>
+    <h2 class="profile-section-title">{{ __('messages.published_recipes') }}</h2>
 
     <div class="recipes-list" data-infinite-scroll-container>
 
-        @if($recipes->count())
-            @include('users.partials.recipe-cards', ['recipes' => $recipes])
-        @else
-            <p>Este usuario todavía no tiene recetas públicas.</p>
-        @endif
+        @forelse($recipes as $recipe)
+            <div class="recipe-card">
 
-        <div
-            data-infinite-scroll-trigger
-            data-next-page-url="{{ $recipes->nextPageUrl() }}"
-            aria-hidden="true"
-        ></div>
+                @include('recipes.partials.media-slider', ['recipe' => $recipe, 'class' => 'recipe-media-card'])
+
+                <h3>
+                    <a
+                        href="{{ route('recetas.show', ['receta' => $recipe->id]) }}"
+                        class="recipe-title-link"
+                    >
+                        {{ $recipe->name }}
+                    </a>
+                </h3>
+
+                <p>{{ $recipe->description }}</p>
+
+                <p>
+                    <strong>{{ __('messages.time') }}:</strong>
+                    {{ $recipe->time }} {{ __('messages.min') }}
+                </p>
+
+            </div>
+        @empty
+            <p>{{ __('messages.user_no_public_recipes') }}</p>
+        @endforelse
 
     </div>
 

@@ -21,7 +21,7 @@
                             data-comment-id="{{ $comment->id }}"
                             data-recipe-id="{{ $recipe->id }}"
                             style="margin-top: 8px; background: none; border: none; color: #999; cursor: pointer; font-size: 12px; transition: color 0.2s;">
-                            Eliminar
+                            {{ __('messages.delete') }}
                         </button>
                     @endif
                 @endauth
@@ -29,8 +29,7 @@
         </div>
     @empty
         <div class="no-comments-placeholder" style="text-align: center; padding: 20px; color: #999;">
-            <p>Sin comentarios aún. ¡Sé el primero en comentar!</p>
+            <p>{{ __('messages.no_comments_yet') }}</p>
         </div>
     @endforelse
 </div>
-

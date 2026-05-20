@@ -1,13 +1,13 @@
 @extends('layout.layout')
 
 @section('title')
-    Login
+    {{ __('messages.login') }}
 @endsection
 
 @section('content')
 
 <div class="auth-container">
-    <h1>INICIAR SESIÓN</h1>
+    <h1>{{ __('messages.login_title') }}</h1>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -29,7 +29,7 @@
         @csrf
 
         <div class="form-group">
-            <label for="email">Email o Usuario:</label>
+            <label for="email">{{ __('messages.email_or_user') }}:</label>
             <input
                 type="text"
                 id="email"
@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group">
-            <label for="password">Contraseña:</label>
+            <label for="password">{{ __('messages.password') }}:</label>
             <input
                 type="password"
                 id="password"
@@ -57,11 +57,11 @@
             @enderror
         </div>
 
-        <button type="submit" class="btn-submit">Iniciar Sesión</button>
+        <button type="submit" class="btn-submit">{{ __('messages.login') }}</button>
     </form>
 
     <p class="auth-link">
-        ¿No tienes cuenta? <a href="{{ route('auth.signup') }}">Regístrate aquí</a>
+        {{ __('messages.no_account') }} <a href="{{ route('auth.signup') }}">{{ __('messages.signup_here') }}</a>
     </p>
 </div>
 

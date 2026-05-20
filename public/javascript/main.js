@@ -166,7 +166,7 @@ document.addEventListener('click', async (event) => {
 
     event.preventDefault();
 
-    if (!confirm('¿Eliminar este comentario?')) return;
+    if (!confirm(document.body.dataset.deleteCommentConfirm || '¿Eliminar este comentario?')) return;
 
     const commentId = deleteBtn.dataset.commentId;
 
@@ -194,8 +194,8 @@ document.addEventListener('click', async (event) => {
             }
         }
     } catch (error) {
-        console.error('Error al eliminar comentario:', error);
-        alert('Error al eliminar el comentario');
+        console.error(document.body.dataset.deleteCommentError || 'Error al eliminar comentario:', error);
+        alert(document.body.dataset.deleteCommentError || 'Error al eliminar el comentario');
     }
 });
 
@@ -291,7 +291,8 @@ if (searchInput) {
             .then(res => res.json())
             .then(users => {
                 if (users.length === 0) {
-                    searchResults.innerHTML = '<p style="padding:12px 16px;color:#999;">Sin resultados</p>';
+                    const noResultsText = document.body.dataset.noResultsText || 'Sin resultados';
+                    searchResults.innerHTML = `<p style="padding:12px 16px;color:#999;">${noResultsText}</p>`;
                 } else {
                     searchResults.innerHTML = users.map(user => `
                         <a href="/profile/${user.id}" class="nav-search-result-item">

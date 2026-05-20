@@ -1,13 +1,13 @@
 @extends('layout.layout')
 
 @section('title')
-    Registro
+    {{ __('messages.signup') }}
 @endsection
 
 @section('content')
 
 <div class="auth-container">
-    <h1>REGISTRARSE</h1>
+    <h1>{{ __('messages.signup_title') }}</h1>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -29,7 +29,7 @@
         @csrf
 
         <div class="form-group">
-            <label for="name">Nombre Completo:</label>
+            <label for="name">{{ __('messages.full_name') }}:</label>
             <input
                 type="text"
                 id="name"
@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group">
-            <label for="username">Nombre de Usuario:</label>
+            <label for="username">{{ __('messages.username') }}:</label>
             <input
                 type="text"
                 id="username"
@@ -59,7 +59,7 @@
         </div>
 
         <div class="form-group">
-            <label for="email">Email:</label>
+            <label for="email">{{ __('messages.email') }}:</label>
             <input
                 type="email"
                 id="email"
@@ -74,7 +74,7 @@
         </div>
 
         <div class="form-group">
-            <label for="password">Contraseña:</label>
+            <label for="password">{{ __('messages.password') }}:</label>
             <input
                 type="password"
                 id="password"
@@ -88,7 +88,7 @@
         </div>
 
         <div class="form-group">
-            <label for="password_confirmation">Confirmar Contraseña:</label>
+            <label for="password_confirmation">{{ __('messages.password_confirm') }}:</label>
             <input
                 type="password"
                 id="password_confirmation"
@@ -99,7 +99,7 @@
         </div>
 
         <div class="form-group">
-            <label for="profile_photo">Foto de perfil:</label>
+            <label for="profile_photo">{{ __('messages.profile_photo') }}:</label>
             <input
                 type="file"
                 id="profile_photo"
@@ -112,11 +112,11 @@
             @enderror
         </div>
 
-        <button type="submit" class="btn-submit">Registrarse</button>
+        <button type="submit" class="btn-submit">{{ __('messages.signup') }}</button>
     </form>
 
     <p class="auth-link">
-        ¿Ya tienes cuenta? <a href="{{ route('auth.login') }}">Inicia sesión aquí</a>
+        {{ __('messages.have_account') }} <a href="{{ route('auth.login') }}">{{ __('messages.login_here') }}</a>
     </p>
 </div>
 

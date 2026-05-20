@@ -9,12 +9,23 @@
         : collect();
 @endphp
 
-<section class="recipe-ingredients-editor" data-ingredients-editor>
-    <h2>Ingredientes</h2>
+<section
+    class="recipe-ingredients-editor"
+    data-ingredients-editor
+    data-already-selected="{{ __('messages.ingredient_already_selected') }}"
+    data-existing-selected="{{ __('messages.ingredient_existing_selected') }}"
+    data-write-ingredient="{{ __('messages.write_ingredient') }}"
+    data-existing-added="{{ __('messages.ingredient_existing_added') }}"
+    data-checking-ingredient="{{ __('messages.checking_ingredient') }}"
+    data-ingredient-add-error="{{ __('messages.ingredient_add_error') }}"
+    data-ingredient-added="{{ __('messages.ingredient_added') }}"
+    data-server-connect-error="{{ __('messages.server_connect_error') }}"
+>
+    <h2>{{ __('messages.ingredients') }}</h2>
 
     <div class="ingredient-fields">
         <div>
-            <label for="ingredient-name">Ingrediente:</label>
+            <label for="ingredient-name">{{ __('messages.ingredient') }}:</label>
             <div class="ingredient-search">
                 <input
                     type="text"
@@ -28,7 +39,7 @@
         </div>
 
         <div>
-            <label for="ingredient-quantity">Cantidad:</label>
+            <label for="ingredient-quantity">{{ __('messages.quantity') }}:</label>
             <input
                 type="number"
                 id="ingredient-quantity"
@@ -39,17 +50,17 @@
         </div>
 
         <div>
-            <label for="ingredient-unit">Unidad:</label>
+            <label for="ingredient-unit">{{ __('messages.unit') }}:</label>
             <input
                 type="text"
                 id="ingredient-unit"
                 data-ingredient-unit
                 maxlength="30"
-                placeholder="g, ml, unidades..."
+                placeholder="{{ __('messages.unit_placeholder') }}"
             >
         </div>
 
-        <button type="button" data-add-ingredient>A&ntilde;adir ingrediente</button>
+        <button type="button" data-add-ingredient>{{ __('messages.add_ingredient') }}</button>
     </div>
 
     <p class="ingredient-feedback" data-ingredient-feedback></p>
@@ -128,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         if (alreadySelected) {
-            setFeedback('Este ingrediente ya esta en la receta.', 'error');
+            setFeedback(editor.dataset.alreadySelected, 'error');
             return false;
         }
 
@@ -172,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
             removeButton.type = 'button';
             removeButton.className = 'btn-remove-ingredient';
             removeButton.dataset.index = index;
-            removeButton.textContent = 'Quitar';
+            removeButton.textContent = '{{ __('messages.remove') }}';
 
             item.appendChild(label);
             item.appendChild(removeButton);
@@ -246,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         nameInput.value = ingredient.name;
         clearSuggestions();
-        setFeedback('Ingrediente existente seleccionado.', 'success');
+        setFeedback(editor.dataset.existingSelected, 'success');
     });
 
     document.addEventListener('click', function (event) {
@@ -259,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const name = nameInput.value.trim();
 
         if (!name) {
-            setFeedback('Escribe un ingrediente.', 'error');
+            setFeedback(editor.dataset.writeIngredient, 'error');
             return;
         }
 
@@ -270,12 +281,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         if (existingIngredient) {
-            addIngredientToRecipe(existingIngredient, 'Ingrediente existente anadido.');
+            addIngredientToRecipe(existingIngredient, editor.dataset.existingAdded);
             return;
         }
 
         addButton.disabled = true;
-        setFeedback('Comprobando ingrediente...', 'loading');
+        setFeedback(editor.dataset.checkingIngredient, 'loading');
 
         try {
             const response = await fetch(`{{ route('ingredientes.storeFromRecipe') }}`, {
@@ -292,14 +303,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (!response.ok || !data.success) {
                 const reason = data.reason ? ` ${data.reason}` : '';
-                setFeedback((data.message || 'No se pudo anadir el ingrediente.') + reason, 'error');
+                setFeedback((data.message || editor.dataset.ingredientAddError) + reason, 'error');
                 return;
             }
 
             const ingredient = data.ingredient;
-            addIngredientToRecipe(ingredient, data.message || 'Ingrediente anadido.');
+            addIngredientToRecipe(ingredient, data.message || editor.dataset.ingredientAdded);
         } catch (error) {
-            setFeedback('No se pudo conectar con el servidor.', 'error');
+            setFeedback(editor.dataset.serverConnectError, 'error');
         } finally {
             addButton.disabled = false;
         }

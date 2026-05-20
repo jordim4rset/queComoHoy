@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('title')
-    Inicio - QueComoHoy
+    {{ __('messages.home') }} - QueComoHoy
 @endsection
 
 @section('content')
@@ -27,8 +27,8 @@
         <aside class="sidebar-right">
 
             <div class="suggestions-header">
-                <span>Sugerencias para ti</span>
-                <a href="{{ route('users.index') }}" class="view-all">Ver todo</a>
+                <span>{{ __('messages.suggestions_for_you') }}</span>
+                <a href="{{ route('users.index') }}" class="view-all">{{ __('messages.view_all') }}</a>
             </div>
 
             <div class="suggestions-list">
@@ -47,13 +47,13 @@
                             </a>
 
                             <div class="user-comment">
-                                Nuevo en QueComoHoy
+                                {{ __('messages.new_in_app') }}
                             </div>
                         </div>
 
                     </div>
                 @empty
-                    <p>No hay sugerencias.</p>
+                    <p>{{ __('messages.no_suggestions') }}</p>
                 @endforelse
 
             </div>

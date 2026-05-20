@@ -1,14 +1,14 @@
 @extends('layout.layout')
 
-@section('title', 'Mis Recetas')
+@section('title', __('messages.my_recipes'))
 
 @section('content')
     <div class="recipes-header">
-        <h1>Mis recetas</h1>
+        <h1>{{ __('messages.my_recipes') }}</h1>
 
         @auth
             <a href="{{ route('recetas.create') }}" class="btn btn-primary">
-                Crear receta
+                {{ __('messages.create_recipe') }}
             </a>
         @endauth
     </div>
@@ -34,8 +34,8 @@
                 </p>
 
                 <p>
-                    <strong>Visibilidad:</strong>
-                    {{ $receta->visibility ? 'Pública' : 'Privada' }}
+                    <strong>{{ __('messages.visibility') }}:</strong>
+                    {{ $receta->visibility ? __('messages.public') : __('messages.private') }}
                 </p>
 
                 <div class="recipe-card-buttons">
@@ -44,7 +44,7 @@
                         href="{{ route('recetas.edit', ['receta' => $receta->id]) }}"
                         class="btn btn-edit"
                     >
-                        Editar
+                        {{ __('messages.edit') }}
                     </a>
 
                     <form
@@ -57,9 +57,9 @@
                         <button
                             type="submit"
                             class="btn btn-delete"
-                            onclick="return confirm('¿Seguro que quieres eliminar esta receta?')"
+                            onclick="return confirm('{{ __('messages.delete_recipe_confirm') }}')"
                         >
-                            Eliminar
+                            {{ __('messages.delete') }}
                         </button>
                     </form>
 
@@ -67,7 +67,7 @@
 
             </div>
         @empty
-            <p>No tienes recetas creadas todavía.</p>
+            <p>{{ __('messages.no_own_recipes') }}</p>
         @endforelse
 
     </div>

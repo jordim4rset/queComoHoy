@@ -24,7 +24,7 @@
 
                 @auth
                     @if(auth()->id() !== $receta->user_id)
-                        <button class="follow-btn-small">Seguir</button>
+                        <button class="follow-btn-small">{{ __('messages.follow') }}</button>
                     @endif
                 @endauth
             </div>
@@ -64,7 +64,7 @@
                                 <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 10.6V7h-2v6.4l5 3 1-1.7z"/>
                             </svg>
                         </span>
-                        <span class="count">{{ $receta->time }} min</span>
+                        <span class="count">{{ $receta->time }} {{ __('messages.min') }}</span>
                     </div>
 
                 </div>
@@ -86,9 +86,9 @@
                     </div>
 
                     <div class="comments-box comments-box-{{ $receta->id }}" style="display: block; margin-top: 20px;">
-                        {{-- Sección de comentarios --}}
+                            {{-- Seccion de comentarios --}}
                         <div style="margin-top: 20px;">
-                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Comentarios</h3>
+                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">{{ __('messages.comments') }}</h3>
 
                             {{-- Lista de comentarios --}}
                             @include('comments.list', ['recipe' => $receta])
@@ -100,7 +100,7 @@
 
                     @if($receta->ingredients->count())
                         <div class="recipe-ingredients-box">
-                            <h3>Ingredientes</h3>
+                            <h3>{{ __('messages.ingredients') }}</h3>
 
                             <ul>
                                 @foreach($receta->ingredients as $ingredient)
@@ -132,13 +132,13 @@
 
                 <div class="show-actions">
                     <a href="{{ url()->previous() ?: route('eventos.index') }}" class="btn btn-secondary btn-sm">
-                        Volver
+                        {{ __('messages.back') }}
                     </a>
 
                     @auth
                         @if(auth()->id() === $receta->user_id)
                             <a href="{{ route('recetas.edit', ['receta' => $receta->id]) }}" class="btn btn-sm">
-                                Editar receta
+                                {{ __('messages.edit_recipe') }}
                             </a>
                         @endif
                     @endauth

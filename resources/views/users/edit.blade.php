@@ -1,14 +1,14 @@
 @extends('layout.layout')
 
 @section('title')
-    Editar usuario
+    {{ __('messages.edit_user') }}
 @endsection
 
 @section('content')
     <div class="user-edit-page">
         <div class="user-edit-header">
-            <h1>Editar usuario</h1>
-            <a href="{{ route('profile', ['id' => auth()->id()]) }}" class="btn btn-secondary">Ver perfil</a>
+            <h1>{{ __('messages.edit_user') }}</h1>
+            <a href="{{ route('profile', ['id' => auth()->id()]) }}" class="btn btn-secondary">{{ __('messages.view_profile') }}</a>
         </div>
 
         @if (session('success'))
@@ -38,7 +38,7 @@
                 >
 
                 <div class="form-group">
-                    <label for="profile_photo">Foto de perfil:</label>
+                    <label for="profile_photo">{{ __('messages.profile_photo') }}:</label>
                     <input
                         type="file"
                         id="profile_photo"
@@ -50,7 +50,7 @@
 
             <div class="user-edit-grid">
                 <div class="form-group">
-                    <label for="name">Nombre:</label>
+                    <label for="name">{{ __('messages.name') }}:</label>
                     <input
                         type="text"
                         id="name"
@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="username">Nombre de usuario:</label>
+                    <label for="username">{{ __('messages.username') }}:</label>
                     <input
                         type="text"
                         id="username"
@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Nueva contraseña:</label>
+                    <label for="password">{{ __('messages.new_password') }}:</label>
                     <input
                         type="password"
                         id="password"
@@ -93,7 +93,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password_confirmation">Confirmar nueva contraseña:</label>
+                    <label for="password_confirmation">{{ __('messages.confirm_new_password') }}:</label>
                     <input
                         type="password"
                         id="password_confirmation"
@@ -104,25 +104,25 @@
             </div>
 
             <div class="user-edit-actions">
-                <button type="submit" class="btn-submit">Guardar cambios</button>
+                <button type="submit" class="btn-submit">{{ __('messages.save_changes') }}</button>
             </div>
         </form>
 
         <section class="user-delete-zone">
             <div>
-                <h2>Eliminar cuenta</h2>
-                <p>Se borraran tu perfil, tus recetas, tus seguidores, los usuarios que sigues y los likes asociados.</p>
+                <h2>{{ __('messages.delete_account') }}</h2>
+                <p>{{ __('messages.delete_account_help') }}</p>
             </div>
 
             <form
                 action="{{ route('users.destroyCurrent') }}"
                 method="POST"
-                onsubmit="return confirm('Esta accion eliminara tu cuenta y todos tus datos. ¿Quieres continuar?')"
+                onsubmit="return confirm('{{ __('messages.delete_account_confirm') }}')"
             >
                 @csrf
                 @method('DELETE')
 
-                <button type="submit" class="btn btn-danger">Eliminar cuenta</button>
+                <button type="submit" class="btn btn-danger">{{ __('messages.delete_account') }}</button>
             </form>
         </section>
     </div>
