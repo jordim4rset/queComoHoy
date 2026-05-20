@@ -97,10 +97,9 @@
 @endauth
 
 
-<!--eSTO ES para cuando se haga responsvie en modo telofono y este el modo hamburguesa se pueda cerrar sesion desde el aside
-    ya que en el nav al ser tan compacto no lo va a poner-->
-
 <div class="mobile-only-menu">
+    @include('layout.partials.lang-switcher')
+
     @auth
         <a href="{{ route('profile', ['id' => Auth::id()]) }}" class="menu-item">
             <span class="icon">

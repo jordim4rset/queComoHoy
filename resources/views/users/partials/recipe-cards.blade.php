@@ -15,8 +15,8 @@
         <p>{{ $recipe->description }}</p>
 
         <p>
-            <strong>Tiempo:</strong>
-            {{ $recipe->time }} min
+            <strong>{{ __('messages.time') }}:</strong>
+            {{ $recipe->time }} {{ __('messages.min') }}
         </p>
 
     </div>

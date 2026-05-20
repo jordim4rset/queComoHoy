@@ -11,9 +11,6 @@ use App\Http\Requests\RecipeUpdateRequest;
 
 class RecipeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $user = $request->user();
@@ -22,21 +19,16 @@ class RecipeController extends Controller
             abort(403);
         }
 
-        $query = Recipe::where('user_id', $user->id);
-
-        if ($request->filled('name')) {
-            $query->where('name', 'like', '%' . $request->name . '%');
-        }
-
-        if ($request->has('visibility') && $request->visibility !== '') {
-            $query->where('visibility', $request->visibility);
-        }
-
-        if ($request->filled('time')) {
-            $query->where('time', '<=', $request->time);
-        }
-
-        $recetas = $query
+        $recetas = Recipe::where('user_id', $user->id)
+            ->when($request->filled('name'), function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->name . '%');
+            })
+            ->when($request->has('visibility') && $request->visibility !== '', function ($query) use ($request) {
+                $query->where('visibility', $request->visibility);
+            })
+            ->when($request->filled('time'), function ($query) use ($request) {
+                $query->where('time', '<=', $request->time);
+            })
             ->get()
             ->sortByDesc('id')
             ->values();
@@ -98,40 +90,19 @@ class RecipeController extends Controller
         return view('recipes.search', compact('recipes', 'ingredients', 'filters'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('recipes.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(RecipeStoreRequest $request)
     {
         $user = $request->user();
 
         $receta = new Recipe();
-
-        if ($request->hasFile('image')) {
-            $generatedName = $request->file('image')->store('img/recipes/cover', 'public');
-            $receta->image = $generatedName;
-        }
-
-        if ($request->hasFile('video')) {
-            $generatedName = $request->file('video')->store('video/recipes', 'public');
-            $receta->video = $generatedName;
-        }
-
-        $receta->name = $request->input('name');
-        $receta->description = $request->input('description');
-        $receta->time = $request->input('time');
-        $receta->tags = $request->input('tags');
         $receta->user_id = $user->id;
-        $receta->visibility = $request->input('visibility') === 'on' ? 1 : 0;
 
+        $this->fillRecipe($receta, $request);
         $receta->save();
 
         $this->syncEventsFromTags($request, $receta);
@@ -143,9 +114,6 @@ class RecipeController extends Controller
         return redirect()->route('recetas.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Request $request, Recipe $receta)
     {
         $user = $request->user();
@@ -161,9 +129,6 @@ class RecipeController extends Controller
         return view('recipes.show', compact('receta'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Request $request, Recipe $receta)
     {
         $user = $request->user();
@@ -177,9 +142,6 @@ class RecipeController extends Controller
         return view('recipes.edit', compact('receta'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(RecipeUpdateRequest $request, Recipe $receta)
     {
         $user = $request->user();
@@ -188,22 +150,7 @@ class RecipeController extends Controller
             abort(403);
         }
 
-        $receta->name = $request->input('name');
-        $receta->description = $request->input('description');
-        $receta->time = $request->input('time');
-        $receta->tags = $request->input('tags');
-        $receta->visibility = $request->input('visibility') === 'on' ? 1 : 0;
-
-        if ($request->hasFile('image')) {
-            $generatedName = $request->file('image')->store('img/recipes/cover', 'public');
-            $receta->image = $generatedName;
-        }
-
-        if ($request->hasFile('video')) {
-            $generatedName = $request->file('video')->store('video/recipes', 'public');
-            $receta->video = $generatedName;
-        }
-
+        $this->fillRecipe($receta, $request);
         $receta->save();
 
         $this->syncEventsFromTags($request, $receta);
@@ -212,9 +159,6 @@ class RecipeController extends Controller
         return redirect()->route('recetas.show', $receta);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request, Recipe $receta)
     {
         $user = $request->user();
@@ -244,6 +188,23 @@ class RecipeController extends Controller
         }
 
         $receta->ingredients()->sync($syncData);
+    }
+
+    private function fillRecipe(Recipe $receta, Request $request): void
+    {
+        $receta->name = $request->input('name');
+        $receta->description = $request->input('description');
+        $receta->time = $request->input('time');
+        $receta->tags = $request->input('tags');
+        $receta->visibility = $request->input('visibility') === 'on' ? 1 : 0;
+
+        if ($request->hasFile('image')) {
+            $receta->image = $request->file('image')->store('img/recipes/cover', 'public');
+        }
+
+        if ($request->hasFile('video')) {
+            $receta->video = $request->file('video')->store('video/recipes', 'public');
+        }
     }
 
     private function syncEventsFromTags(Request $request, Recipe $receta): void

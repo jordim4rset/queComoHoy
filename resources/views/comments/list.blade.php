@@ -1,26 +1,24 @@
-<div class="comments-list-{{ $recipe->id }}" style="margin-top: 20px;">
+<div class="comments-list comments-list-{{ $recipe->id }}">
     @forelse($recipe->comments as $comment)
-        <div class="comment" data-comment-id="{{ $comment->id }}" style="display: flex; gap: 10px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #f0f0f0;">
+        <div class="comment" data-comment-id="{{ $comment->id }}">
             <img
                 src="{{ $comment->user->profilePhotoUrl() }}"
                 alt="{{ $comment->user->username }}"
-                class="avatar"
-                style="width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;">
+                class="avatar comment-avatar">
 
-            <div style="flex: 1;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="comment-body">
+                <div class="comment-header">
                     <strong>{{ $comment->user->username }}</strong>
-                    <span style="font-size: 12px; color: #999;">{{ $comment->created_at->format('d M Y H:i') }}</span>
+                    <span>{{ $comment->created_at->format('d M Y H:i') }}</span>
                 </div>
-                <p style="margin: 5px 0 0 0; color: #333;">{{ $comment->content }}</p>
+                <p>{{ $comment->content }}</p>
 
                 @auth
                     @if(auth()->id() === $comment->user_id || auth()->id() === $recipe->user_id)
                         <button
                             class="delete-comment-btn"
                             data-comment-id="{{ $comment->id }}"
-                            data-recipe-id="{{ $recipe->id }}"
-                            style="margin-top: 8px; background: none; border: none; color: #999; cursor: pointer; font-size: 12px; transition: color 0.2s;">
+                            data-recipe-id="{{ $recipe->id }}">
                             {{ __('messages.delete') }}
                         </button>
                     @endif
@@ -28,7 +26,7 @@
             </div>
         </div>
     @empty
-        <div class="no-comments-placeholder" style="text-align: center; padding: 20px; color: #999;">
+        <div class="no-comments-placeholder">
             <p>{{ __('messages.no_comments_yet') }}</p>
         </div>
     @endforelse
