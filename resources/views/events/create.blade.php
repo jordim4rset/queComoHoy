@@ -7,19 +7,16 @@
 
     <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <label>{{ __('messages.event_name') }}:</label>
-        <input type="text" name="name" value="{{ old('name') }}"><br>
-
-        <label>{{ __('messages.event_title') }} ({{ __('messages.optional') }}):</label>
+        <label>{{ __('messages.event_title') }}:</label>
         <input type="text" name="title" value="{{ old('title') }}"><br>
         @error('title')
-            <span style="color: red;">{{ $message }}</span><br>
+            <span class="error-message">{{ $message }}</span><br>
         @enderror
 
         <label>{{ __('messages.description') }}:</label>
         <textarea name="description">{{ old('description') }}</textarea><br>
         @error('description')
-            <span style="color: red;">{{ $message }}</span><br>
+            <span class="error-message">{{ $message }}</span><br>
         @enderror
 
         <label>{{ __('messages.images_multiple') }}:</label>

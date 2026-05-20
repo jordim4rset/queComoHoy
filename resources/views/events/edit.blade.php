@@ -9,26 +9,23 @@
         @csrf
         @method('PUT')
 
-        <label>{{ __('messages.event_name') }}:</label>
-        <input type="text" name="name" value="{{ old('name', $event->name) }}"><br>
-
-        <label>{{ __('messages.event_title') }} ({{ __('messages.optional') }}):</label>
+        <label>{{ __('messages.event_title') }}:</label>
         <input type="text" name="title" value="{{ old('title', $event->title) }}"><br>
         @error('title')
-            <span style="color: red;">{{ $message }}</span><br>
+            <span class="error-message">{{ $message }}</span><br>
         @enderror
 
         <label>{{ __('messages.description') }}:</label>
         <textarea name="description">{{ old('description', $event->description) }}</textarea><br>
         @error('description')
-            <span style="color: red;">{{ $message }}</span><br>
+            <span class="error-message">{{ $message }}</span><br>
         @enderror
 
         <label>{{ __('messages.current_images') }}:</label>
-        <div>
+        <div class="event-current-images">
             @if($event->images)
                 @foreach($event->images as $img)
-                    <img src="{{ asset('storage/' . $img) }}" alt="" style="height:80px;margin:4px">
+                    <img src="{{ asset('storage/' . $img) }}" alt="">
                 @endforeach
             @endif
         </div>

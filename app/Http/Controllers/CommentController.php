@@ -8,9 +8,6 @@ use App\Models\Recipe;
 
 class CommentController extends Controller
 {
-    /**
-     * Store a newly created comment in storage.
-     */
     public function store(Request $request, Recipe $recipe)
     {
         $request->validate([
@@ -35,9 +32,6 @@ class CommentController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified comment from storage.
-     */
     public function destroy(Comment $comment)
     {
         if (auth()->id() !== $comment->user_id && auth()->user()->id !== $comment->recipe->user_id) {

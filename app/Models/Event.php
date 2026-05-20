@@ -30,7 +30,6 @@ class Event extends Model
             ->withTimestamps();
     }
 
-    // Convenience: use `name` if set, otherwise fallback to `title`.
     public function getDisplayNameAttribute()
     {
         return $this->name ?: $this->title;

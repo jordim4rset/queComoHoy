@@ -32,7 +32,7 @@
                 <small>{{ __('messages.cover_loaded') }}</small>
             @endif
             @error('image')
-                <span style="color: red;">{{ $message }}</span><br>
+                <span class="error-message">{{ $message }}</span><br>
             @enderror
         </div>
         <div class="recipe-upload-field">
@@ -42,7 +42,7 @@
                 <small>{{ __('messages.video_loaded') }}</small>
             @endif
             @error('video')
-                <span style="color: red;">{{ $message }}</span><br>
+                <span class="error-message">{{ $message }}</span><br>
             @enderror
         </div>
     </div>

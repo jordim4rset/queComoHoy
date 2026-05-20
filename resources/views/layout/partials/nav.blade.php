@@ -16,18 +16,7 @@
         <div id="nav-search-results" class="nav-search-results"></div>
     </div>
     <div class="nav-right">
-        <div class="lang-switcher">
-            <form method="POST" action="{{ route('locale.update') }}" style="display:inline">
-                @csrf
-                <input type="hidden" name="locale" value="es">
-                <button type="submit" class="lang-btn {{ app()->getLocale() === 'es' ? 'active' : '' }}">ES</button>
-            </form>
-            <form method="POST" action="{{ route('locale.update') }}" style="display:inline">
-                @csrf
-                <input type="hidden" name="locale" value="en">
-                <button type="submit" class="lang-btn {{ app()->getLocale() === 'en' ? 'active' : '' }}">EN</button>
-            </form>
-        </div>
+        @include('layout.partials.lang-switcher')
 
         @auth
             <a href="{{ route('profile', ['id' => Auth::id()]) }}" class="user-info">

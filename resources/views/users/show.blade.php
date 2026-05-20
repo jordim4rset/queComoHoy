@@ -112,32 +112,17 @@
     <h2 class="profile-section-title">{{ __('messages.published_recipes') }}</h2>
 
     <div class="recipes-list" data-infinite-scroll-container>
+        @if($recipes->count())
+            @include('users.partials.recipe-cards', ['recipes' => $recipes])
 
-        @forelse($recipes as $recipe)
-            <div class="recipe-card">
-
-                @include('recipes.partials.media-slider', ['recipe' => $recipe, 'class' => 'recipe-media-card'])
-
-                <h3>
-                    <a
-                        href="{{ route('recetas.show', ['receta' => $recipe->id]) }}"
-                        class="recipe-title-link"
-                    >
-                        {{ $recipe->name }}
-                    </a>
-                </h3>
-
-                <p>{{ $recipe->description }}</p>
-
-                <p>
-                    <strong>{{ __('messages.time') }}:</strong>
-                    {{ $recipe->time }} {{ __('messages.min') }}
-                </p>
-
-            </div>
-        @empty
+            <div
+                data-infinite-scroll-trigger
+                data-next-page-url="{{ $recipes->nextPageUrl() }}"
+                aria-hidden="true"
+            ></div>
+        @else
             <p>{{ __('messages.user_no_public_recipes') }}</p>
-        @endforelse
+        @endif
 
     </div>
 

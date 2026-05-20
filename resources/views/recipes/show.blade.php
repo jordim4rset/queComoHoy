@@ -39,8 +39,7 @@
 
                     <div class="stat">
                         <span class="icon-stat like-btn" data-recipe-id="{{ $receta->id }}"
-                            data-liked="{{ auth()->check() && $receta->likes->contains('user_id', auth()->id()) ? 'true' : 'false' }}"
-                            style="cursor: pointer; color: {{ auth()->check() && $receta->likes->contains('user_id', auth()->id()) ? 'red' : 'currentColor' }}">
+                            data-liked="{{ auth()->check() && $receta->likes->contains('user_id', auth()->id()) ? 'true' : 'false' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M20.8 4.6c-1.7-1.7-4.5-1.7-6.2 0L12 7.2 9.4 4.6c-1.7-1.7-4.5-1.7-6.2 0s-1.7 4.5 0 6.2L12 19.6l8.8-8.8c1.7-1.7 1.7-4.5 0-6.2z"/>
                             </svg>
@@ -48,7 +47,7 @@
                         <span class="count">{{ $receta->likes->count() }}</span>
                     </div>
 
-                    <div class="stat comment-toggle" data-recipe-id="{{ $receta->id }}" style="cursor: pointer;">
+                    <div class="stat comment-toggle" data-recipe-id="{{ $receta->id }}">
                         <span class="icon-stat">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
@@ -85,15 +84,10 @@
                         </span>
                     </div>
 
-                    <div class="comments-box comments-box-{{ $receta->id }}" style="display: block; margin-top: 20px;">
-                            {{-- Seccion de comentarios --}}
-                        <div style="margin-top: 20px;">
-                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">{{ __('messages.comments') }}</h3>
-
-                            {{-- Lista de comentarios --}}
+                    <div class="comments-box comments-box-{{ $receta->id }}">
+                        <div class="comments-section">
+                            <h3>{{ __('messages.comments') }}</h3>
                             @include('comments.list', ['recipe' => $receta])
-
-                            {{-- Formulario para agregar comentario --}}
                             @include('comments.form', ['recipe' => $receta])
                         </div>
                     </div>

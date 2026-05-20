@@ -64,7 +64,7 @@ document.addEventListener('click', async (event) => {
 
         const data = await response.json();
         countEl.textContent = data.count;
-        likeBtn.style.color = data.liked ? 'red' : 'currentColor';
+        likeBtn.dataset.liked = data.liked ? 'true' : 'false';
     } catch (error) {
         console.error('Error al actualizar like:', error);
     }
@@ -84,7 +84,7 @@ document.addEventListener('click', (event) => {
         return;
     }
 
-    commentsBox.style.display = commentsBox.style.display === 'none' ? 'block' : 'none';
+    commentsBox.classList.toggle('is-hidden');
 });
 
 document.addEventListener('submit', async (event) => {
@@ -129,20 +129,19 @@ document.addEventListener('submit', async (event) => {
         }
 
         const newComment = `
-            <div class="comment" data-comment-id="${data.comment.id}" style="display: flex; gap: 10px; margin-bottom: 15px;">
+            <div class="comment" data-comment-id="${data.comment.id}">
                 <img
                     src="${data.comment.avatar}"
                     alt="${data.comment.username}"
-                    class="avatar"
-                    style="width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;">
+                    class="avatar comment-avatar">
 
-                <div style="flex: 1;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="comment-body">
+                    <div class="comment-header">
                         <strong>${data.comment.username}</strong>
-                        <span style="font-size: 12px; color: #999;">${data.comment.created_at}</span>
+                        <span>${data.comment.created_at}</span>
                     </div>
-                    <p style="margin: 5px 0 0 0; color: #333;">${escapeHtml(data.comment.content)}</p>
-                    <button class="delete-comment-btn" data-comment-id="${data.comment.id}" data-recipe-id="${recipeId}" style="margin-top: 8px; background: none; border: none; color: #999; cursor: pointer; font-size: 12px;">Eliminar</button>
+                    <p>${escapeHtml(data.comment.content)}</p>
+                    <button class="delete-comment-btn" data-comment-id="${data.comment.id}" data-recipe-id="${recipeId}">Eliminar</button>
                 </div>
             </div>
         `;
@@ -242,6 +241,7 @@ function initInfiniteScroll() {
                         postObserver.observe(node);
                     }
                     observePosts(node);
+                    initRecipeMediaSliders(node);
                 });
 
                 trigger.dataset.nextPageUrl = data.next_page_url || '';
@@ -274,6 +274,74 @@ function initInfiniteScroll() {
 
 initInfiniteScroll();
 
+function initRecipeMediaSliders(root = document) {
+    const sliders = root.matches?.('[data-recipe-media]')
+        ? [root]
+        : [...root.querySelectorAll('[data-recipe-media]')];
+
+    sliders.forEach(slider => {
+        if (slider.dataset.ready === 'true') {
+            return;
+        }
+
+        slider.dataset.ready = 'true';
+
+        const slides = [...slider.querySelectorAll('[data-recipe-media-slide]')];
+        const dots = [...slider.querySelectorAll('[data-recipe-media-dot]')];
+        const previousButton = slider.querySelector('[data-recipe-media-prev]');
+        const nextButton = slider.querySelector('[data-recipe-media-next]');
+        let activeIndex = 0;
+
+        const showSlide = (index) => {
+            if (!slides.length) {
+                return;
+            }
+
+            activeIndex = (index + slides.length) % slides.length;
+
+            slides.forEach((slide, slideIndex) => {
+                const isActive = slideIndex === activeIndex;
+                slide.hidden = !isActive;
+                slide.classList.toggle('is-active', isActive);
+
+                if (!isActive) {
+                    slide.querySelectorAll('video').forEach(video => video.pause());
+                }
+            });
+
+            dots.forEach((dot, dotIndex) => {
+                dot.classList.toggle('is-active', dotIndex === activeIndex);
+            });
+        };
+
+        previousButton?.addEventListener('click', () => showSlide(activeIndex - 1));
+        nextButton?.addEventListener('click', () => showSlide(activeIndex + 1));
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => showSlide(Number(dot.dataset.recipeMediaDot)));
+        });
+    });
+}
+
+initRecipeMediaSliders();
+
+const userSearchInput = document.getElementById('user-search');
+
+if (userSearchInput) {
+    const userItems = document.querySelectorAll('.user-item');
+
+    userSearchInput.addEventListener('input', () => {
+        const term = userSearchInput.value.trim().toLowerCase();
+
+        userItems.forEach(item => {
+            const matches = item.dataset.name.includes(term)
+                || item.dataset.username.includes(term);
+
+            item.hidden = !matches;
+        });
+    });
+}
+
 const searchInput = document.getElementById('nav-search-input');
 const searchResults = document.getElementById('nav-search-results');
 
@@ -292,7 +360,7 @@ if (searchInput) {
             .then(users => {
                 if (users.length === 0) {
                     const noResultsText = document.body.dataset.noResultsText || 'Sin resultados';
-                    searchResults.innerHTML = `<p style="padding:12px 16px;color:#999;">${noResultsText}</p>`;
+                    searchResults.innerHTML = `<p class="nav-search-empty">${noResultsText}</p>`;
                 } else {
                     searchResults.innerHTML = users.map(user => `
                         <a href="/profile/${user.id}" class="nav-search-result-item">

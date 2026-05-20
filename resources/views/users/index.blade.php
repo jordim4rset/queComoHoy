@@ -66,22 +66,4 @@
         </ul>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const searchInput = document.getElementById('user-search');
-            const userItems = document.querySelectorAll('.user-item');
-
-            searchInput.addEventListener('input', function () {
-                const term = this.value.trim().toLowerCase();
-
-                userItems.forEach(function (item) {
-                    const name = item.dataset.name;
-                    const username = item.dataset.username;
-                    const matches = name.includes(term) || username.includes(term);
-
-                    item.style.display = matches ? '' : 'none';
-                });
-            });
-        });
-    </script>
 @endsection
