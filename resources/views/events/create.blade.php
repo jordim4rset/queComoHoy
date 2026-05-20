@@ -1,29 +1,29 @@
 @extends('layout.layout')
 
-@section('title', 'Crear Evento')
+@section('title', __('messages.create_event'))
 
 @section('content')
-    <h1>Crear Evento</h1>
+    <h1>{{ __('messages.create_event') }}</h1>
 
     <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <label>Nombre:</label>
+        <label>{{ __('messages.event_name') }}:</label>
         <input type="text" name="name" value="{{ old('name') }}"><br>
 
-        <label>Título (opcional):</label>
+        <label>{{ __('messages.event_title') }} ({{ __('messages.optional') }}):</label>
         <input type="text" name="title" value="{{ old('title') }}"><br>
 
-        <label>Descripción:</label>
+        <label>{{ __('messages.description') }}:</label>
         <textarea name="description">{{ old('description') }}</textarea><br>
 
-        <label>Imágenes (puedes subir varias):</label>
+        <label>{{ __('messages.images_multiple') }}:</label>
         <input type="file" name="images[]" multiple><br>
 
-        <label>Activo:</label>
+        <label>{{ __('messages.active') }}:</label>
         <input type="checkbox" name="active"><br>
 
-        <button type="submit">Guardar</button>
+        <button type="submit">{{ __('messages.save') }}</button>
     </form>
 
-    <a href="{{ route('events.index') }}">Volver a la lista</a>
+    <a href="{{ route('events.index') }}">{{ __('messages.back_list') }}</a>
 @endsection

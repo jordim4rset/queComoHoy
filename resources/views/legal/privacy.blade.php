@@ -1,42 +1,23 @@
 @extends('layout.layout')
 
-@section('title', 'Política de privacidad')
+@section('title', __('messages.privacy_policy'))
 
 @section('content')
     <section class="legal-page">
-        <h1>Política de privacidad</h1>
+        <h1>{{ __('messages.privacy_policy') }}</h1>
 
-        <p>
-            En Que Cocino Hoy respetamos la privacidad de las personas que usan la web.
-            Esta página contiene un texto provisional que deberá revisarse antes de publicar
-            la versión definitiva.
-        </p>
+        <p>{{ __('messages.privacy_intro') }}</p>
 
-        <h2>Datos que podemos tratar</h2>
-        <p>
-            Podemos guardar datos necesarios para el funcionamiento de la cuenta, como nombre,
-            usuario, correo electrónico, recetas publicadas, ingredientes asociados, seguidores,
-            likes y actividad básica dentro de la plataforma.
-        </p>
+        <h2>{{ __('messages.privacy_data_title') }}</h2>
+        <p>{{ __('messages.privacy_data_text') }}</p>
 
-        <h2>Finalidad</h2>
-        <p>
-            Usamos estos datos para permitir el registro, inicio de sesión, gestión de recetas,
-            búsqueda de contenido, interacciones sociales y mejora general de la experiencia.
-        </p>
+        <h2>{{ __('messages.privacy_purpose_title') }}</h2>
+        <p>{{ __('messages.privacy_purpose_text') }}</p>
 
-        <h2>Conservación</h2>
-        <p>
-            Los datos se conservarán mientras la cuenta esté activa o mientras sean necesarios
-            para mantener el servicio. El usuario podrá solicitar cambios o eliminación cuando
-            exista un canal de contacto habilitado.
-        </p>
+        <h2>{{ __('messages.privacy_storage_title') }}</h2>
+        <p>{{ __('messages.privacy_storage_text') }}</p>
 
-        <h2>Contenido pendiente</h2>
-        <p>
-            Esta política es un borrador. Falta completar los datos legales del responsable,
-            información de contacto, base jurídica, proveedores, derechos y procedimiento de
-            reclamación.
-        </p>
+        <h2>{{ __('messages.legal_pending_title') }}</h2>
+        <p>{{ __('messages.privacy_pending_text') }}</p>
     </section>
 @endsection

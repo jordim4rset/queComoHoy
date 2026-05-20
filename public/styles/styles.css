@@ -2197,6 +2197,8 @@ a {
 }
 
 
+
+
 /* Menú móvil dentro del aside */
 .mobile-only-menu {
     display: none;
@@ -2227,6 +2229,51 @@ a {
     transform: none;
     box-shadow: none !important;
 }
+
+/* Selector de idioma */
+.lang-switcher {
+    display: flex;
+    gap: 4px;
+    margin-right: 12px;
+    align-items: center;
+}
+
+.lang-switcher form {
+    margin: 0;
+}
+
+.lang-switcher .lang-btn {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    min-width: auto !important;
+    box-shadow: none !important;
+}
+
+.lang-switcher .lang-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: none;
+    box-shadow: none !important;
+}
+
+.lang-switcher .lang-btn.active {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+    border-color: white;
+}
+
+
+
+
+
+
+
 
 @media (max-width: 768px) {
     .hamburger {
@@ -2279,3 +2326,4 @@ a {
     .ingredient-fields { grid-template-columns: 1fr; }
    .mobile-only-menu { display: flex; }
 }
+

@@ -12,7 +12,7 @@
                 <div style="flex: 1;">
                     <textarea
                         name="content"
-                        placeholder="Añade un comentario..."
+                        placeholder="{{ __('messages.add_comment_placeholder') }}"
                         required
                         style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px; font-family: inherit; font-size: 14px; resize: vertical; min-height: 50px;"
                     ></textarea>
@@ -21,7 +21,7 @@
                             type="submit"
                             class="btn-primary"
                             style="padding: 8px 16px; background-color: #FF6B6B; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">
-                            Comentar
+                            {{ __('messages.comment') }}
                         </button>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                                     <span style="font-size: 12px; color: #999;">${data.comment.created_at}</span>
                                 </div>
                                 <p style="margin: 5px 0 0 0; color: #333;">${escapeHtml(data.comment.content)}</p>
-                                <button class="delete-comment-btn" data-comment-id="${data.comment.id}" data-recipe-id="{{ $recipe->id }}" style="margin-top: 8px; background: none; border: none; color: #999; cursor: pointer; font-size: 12px;">Eliminar</button>
+                                <button class="delete-comment-btn" data-comment-id="${data.comment.id}" data-recipe-id="{{ $recipe->id }}" style="margin-top: 8px; background: none; border: none; color: #999; cursor: pointer; font-size: 12px;">{{ __('messages.delete') }}</button>
                             </div>
                         </div>
                     `;
@@ -84,8 +84,8 @@
                     commentCount.textContent = parseInt(commentCount.textContent) + 1;
                 }
             } catch (error) {
-                console.error('Error al añadir comentario:', error);
-                alert('Error al añadir comentario');
+                console.error('{{ __('messages.comment_add_error') }}', error);
+                alert('{{ __('messages.comment_add_error') }}');
             }
         });
 
@@ -98,7 +98,7 @@
 @else
     <div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 8px; text-align: center;">
         <p style="color: #666; margin: 0;">
-            <a href="{{ route('auth.login') }}" style="color: #FF6B6B; text-decoration: none; font-weight: 500;">Inicia sesión</a> para comentar
+            <a href="{{ route('auth.login') }}" style="color: #FF6B6B; text-decoration: none; font-weight: 500;">{{ __('messages.login') }}</a> {{ __('messages.to_comment') }}
         </p>
     </div>
 @endauth

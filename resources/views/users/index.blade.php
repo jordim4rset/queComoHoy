@@ -1,12 +1,12 @@
 @extends('layout.layout')
 
 @section('title')
-    Buscar usuarios
+    {{ __('messages.search_users') }}
 @endsection
 
 @section('content')
     <div class="users-search-container">
-        <h1>Usuarios</h1>
+        <h1>{{ __('messages.users') }}</h1>
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -25,7 +25,7 @@
         @endif
 
         <div class="user-search-box">
-            <input type="search" id="user-search" placeholder="Buscar usuario..." autocomplete="off">
+            <input type="search" id="user-search" placeholder="{{ __('messages.search_user') }}" autocomplete="off">
         </div>
 
         <ul id="user-list" class="user-list">
@@ -37,7 +37,7 @@
                             <strong>{{ $user->name }}</strong>
                             <small>{{ '@' . $user->username }}</small>
                             @if($user->isBanned())
-                                <small class="ban-status">Baneado indefinidamente</small>
+                                <small class="ban-status">{{ __('messages.banned_indefinitely') }}</small>
                             @endif
                         </span>
                     </a>
@@ -48,12 +48,12 @@
                                 @if($user->isBanned())
                                     <form method="POST" action="{{ route('users.unban', $user) }}">
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-secondary">Desbanear</button>
+                                        <button type="submit" class="btn btn-sm btn-secondary">{{ __('messages.unban') }}</button>
                                     </form>
                                 @else
                                     <form method="POST" action="{{ route('users.ban', $user) }}">
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger">Banear</button>
+                                        <button type="submit" class="btn btn-sm btn-danger">{{ __('messages.ban') }}</button>
                                     </form>
                                 @endif
                             </div>
@@ -61,7 +61,7 @@
                     @endauth
                 </li>
             @empty
-                <li class="user-item-empty">No hay usuarios disponibles.</li>
+                <li class="user-item-empty">{{ __('messages.no_users') }}</li>
             @endforelse
         </ul>
     </div>

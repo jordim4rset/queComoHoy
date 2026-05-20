@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('title')
-    Inicio - QueComoHoy
+    {{ __('messages.home') }} - QueComoHoy
 @endsection
 
 @section('content')
@@ -35,7 +35,7 @@
                                 @unless (in_array($recipe->user_id, $followingUserIds, true))
                                     <form method="POST" action="{{ url('/follow/' . $recipe->user_id) }}" class="follow-form-small">
                                         @csrf
-                                        <button type="submit" class="follow-btn-small">Seguir</button>
+                                        <button type="submit" class="follow-btn-small">{{ __('messages.follow') }}</button>
                                     </form>
                                 @endunless
                             @endif
@@ -80,7 +80,7 @@
                                         <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 10.6V7h-2v6.4l5 3 1-1.7z" />
                                     </svg>
                                 </span>
-                                <span class="count">{{ $recipe->time }} min</span>
+                                <span class="count">{{ $recipe->time }} {{ __('messages.min') }}</span>
                             </div>
                         </div>
 
@@ -124,7 +124,7 @@
 
                 </div>
             @empty
-                <p>{{ $emptyMessage ?? 'No hay recetas todavía.' }}</p>
+                <p>{{ $emptyMessage ?? __('messages.no_recipes') }}</p>
             @endforelse
 
         </main>
@@ -133,8 +133,8 @@
         <aside class="sidebar-right">
 
             <div class="suggestions-header">
-                <span>Sugerencias para ti</span>
-                <a href="{{ route('users.index') }}" class="view-all">Ver todo</a>
+                <span>{{ __('messages.suggestions_for_you') }}</span>
+                <a href="{{ route('users.index') }}" class="view-all">{{ __('messages.view_all') }}</a>
             </div>
 
             <div class="suggestions-list">
@@ -153,13 +153,13 @@
                             </a>
 
                             <div class="user-comment">
-                                Nuevo en QueComoHoy
+                                {{ __('messages.new_in_app') }}
                             </div>
                         </div>
 
                     </div>
                 @empty
-                    <p>No hay sugerencias.</p>
+                    <p>{{ __('messages.no_suggestions') }}</p>
                 @endforelse
 
             </div>

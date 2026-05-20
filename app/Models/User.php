@@ -26,6 +26,7 @@ class User extends Authenticatable
         'chefpoints',
         'banned_at',
         'profile_photo',
+        'lang',
     ];
 
     /**

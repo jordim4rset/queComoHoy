@@ -1,13 +1,13 @@
 @extends('layout.layout')
 
-@section('title', 'Seguidores de ' . $user->username)
+@section('title', __('messages.followers_of', ['username' => $user->username]))
 
 @section('content')
     <div class="follow-page">
         <div class="follow-header">
-            <a href="{{ route('profile', ['id' => $user->id]) }}" class="btn btn-secondary">Volver al perfil</a>
+            <a href="{{ route('profile', ['id' => $user->id]) }}" class="btn btn-secondary">{{ __('messages.back_to_profile') }}</a>
             <div>
-                <h1>Seguidores</h1>
+                <h1>{{ __('messages.followers') }}</h1>
                 <p>{{ $user->username }}</p>
             </div>
         </div>
@@ -30,19 +30,19 @@
                                 <form method="POST" action="{{ url('/unfollow/' . $follower->id) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-secondary btn-sm">Dejar de seguir</button>
+                                    <button type="submit" class="btn btn-secondary btn-sm">{{ __('messages.unfollow') }}</button>
                                 </form>
                             @else
                                 <form method="POST" action="{{ url('/follow/' . $follower->id) }}">
                                     @csrf
-                                    <button type="submit" class="btn btn-sm">Seguir</button>
+                                    <button type="submit" class="btn btn-sm">{{ __('messages.follow') }}</button>
                                 </form>
                             @endif
                         @endif
                     @endauth
                 </div>
             @empty
-                <p class="follow-empty">Este usuario todavía no tiene seguidores.</p>
+                <p class="follow-empty">{{ __('messages.user_no_followers') }}</p>
             @endforelse
         </div>
     </div>

@@ -1,44 +1,44 @@
 @extends('layout.layout')
 
-@section('title', 'Crear Receta')
+@section('title', __('messages.create_recipe'))
 
 @section('content')
 
-    <h1>Crear Receta</h1>
+    <h1>{{ __('messages.create_recipe') }}</h1>
 
     <form action="{{ route('recetas.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <label>Nombre:</label>
+        <label>{{ __('messages.recipe_name') }}:</label>
         <input type="text" name="name" required><br>
 
-        <label>Descripción:</label>
+        <label>{{ __('messages.description') }}:</label>
         <textarea name="description" required></textarea><br>
 
-        <label>Tiempo (minutos):</label>
+        <label>{{ __('messages.time_minutes') }}:</label>
         <input type="number" name="time"><br>
 
-        <label>Etiquetas:</label>
+        <label>{{ __('messages.tags') }}:</label>
         <input type="text" name="tags"><br>
 
-        <label>Visibilidad:</label>
+        <label>{{ __('messages.visibility') }}:</label>
         <input type="checkbox" name="visibility"><br>
 
         <div class="recipe-upload-grid">
             <div class="recipe-upload-field">
-                <label>Subir portada:</label>
+                <label>{{ __('messages.upload_cover') }}:</label>
                 <input type="file" name="image" accept="image/*" required>
             </div>
 
             <div class="recipe-upload-field">
-                <label>Subir video:</label>
+                <label>{{ __('messages.upload_video') }}:</label>
                 <input type="file" name="video" accept="video/mp4,video/quicktime,video/x-msvideo,video/webm">
             </div>
         </div>
 
         @include('recipes.partials.ingredients-form')
 
-        <button type="submit">Guardar</button>
+        <button type="submit">{{ __('messages.save') }}</button>
     </form>
 
-    <a href="{{ route('recetas.index') }}">Volver a la lista</a>
+    <a href="{{ route('recetas.index') }}">{{ __('messages.back_list') }}</a>
 @endsection

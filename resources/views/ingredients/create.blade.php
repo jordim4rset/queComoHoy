@@ -1,13 +1,13 @@
 @extends('layout.layout')
 
-@section('title', 'Crear Ingrediente')
+@section('title', __('messages.create_ingredient'))
 
 @section('content')
     <section class="ingredients-page ingredients-form-page">
         <div class="ingredients-page-header">
             <div>
-                <h1>Crear ingrediente</h1>
-                <p>Añade ingredientes limpios y categorizados para usarlos en tus recetas.</p>
+                <h1>{{ __('messages.create_ingredient') }}</h1>
+                <p>{{ __('messages.create_ingredient_help') }}</p>
             </div>
         </div>
 
@@ -21,17 +21,17 @@
                 </div>
             @endif
 
-            <label>Nombre:</label>
+            <label>{{ __('messages.name') }}:</label>
             <input type="text" name="name" required value="{{ old('name') }}">
 
-            <label>Categoría:</label>
+            <label>{{ __('messages.category') }}:</label>
             <select name="category" id="category">
                 @foreach(\App\Models\Ingredient::CATEGORIES as $category)
                     <option value="{{ $category }}" {{ old('category') === $category ? 'selected' : '' }}>{{ $category }}</option>
                 @endforeach
             </select>
 
-            <button type="submit">Guardar</button>
+            <button type="submit">{{ __('messages.save') }}</button>
         </form>
     </section>
 @endsection

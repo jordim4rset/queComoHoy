@@ -3,35 +3,34 @@
         <div class="site-footer-brand">
             <h2>Que Cocino Hoy</h2>
             <p>
-                Comparte recetas, descubre ideas nuevas y encuentra platos por ingredientes,
-                eventos o usuarios de la comunidad.
+                {{ __('messages.footer_description') }}
             </p>
         </div>
 
         <div class="site-footer-column">
-            <h3>&iquest;Qué vemos?</h3>
+            <h3>{{ __('messages.footer_explore') }}</h3>
 
-            <nav class="site-footer-links" aria-label="Paginas de Que Cocino Hoy">
-                <a href="{{ route('index') }}">Inicio</a>
-                <a href="{{ route('recetas.search') }}">Buscar recetas</a>
-                <a href="{{ route('users.index') }}">Buscar usuario</a>
-                <a href="{{ route('eventos.index') }}">Eventos</a>
-                <a href="{{ route('ingredientes.index') }}">Ingredientes</a>
-                <a href="{{ route('shop') }}">Tienda ChefPoints</a>
+            <nav class="site-footer-links" aria-label="{{ __('messages.footer_pages_label') }}">
+                <a href="{{ route('index') }}">{{ __('messages.home') }}</a>
+                <a href="{{ route('recetas.search') }}">{{ __('messages.search_recipes') }}</a>
+                <a href="{{ route('users.index') }}">{{ __('messages.search_user_menu') }}</a>
+                <a href="{{ route('eventos.index') }}">{{ __('messages.events') }}</a>
+                <a href="{{ route('ingredientes.index') }}">{{ __('messages.ingredients') }}</a>
+                <a href="{{ route('shop') }}">{{ __('messages.chefpoints_shop') }}</a>
             </nav>
         </div>
 
         <div class="site-footer-column">
-            <h3>Más cosas</h3>
+            <h3>{{ __('messages.more') }}</h3>
 
-            <nav class="site-footer-links" aria-label="Paginas legales">
-                <a href="{{ route('legal.privacy') }}">Política de privacidad</a>
-                <a href="{{ route('legal.cookies') }}">Política de cookies</a>
+            <nav class="site-footer-links" aria-label="{{ __('messages.legal_pages_label') }}">
+                <a href="{{ route('legal.privacy') }}">{{ __('messages.privacy_policy') }}</a>
+                <a href="{{ route('legal.cookies') }}">{{ __('messages.cookies_policy') }}</a>
             </nav>
         </div>
     </div>
 
     <div class="site-footer-bottom">
-        <p>&copy; 2026 Que Cocino Hoy. Powered by Jordi, Alex, Mahyoui Jr.</p>
+        <p>&copy; 2026 Que Cocino Hoy. {{ __('messages.powered_by') }} Jordi, Alex, Mahyoui Jr.</p>
     </div>
 </footer>
