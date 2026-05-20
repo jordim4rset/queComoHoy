@@ -111,7 +111,7 @@
 
     <h2 class="profile-section-title">{{ __('messages.published_recipes') }}</h2>
 
-    <div class="recipes-list">
+    <div class="recipes-list" data-infinite-scroll-container>
 
         @forelse($recipes as $recipe)
             <div class="recipe-card">

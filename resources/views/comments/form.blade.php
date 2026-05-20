@@ -1,6 +1,11 @@
 @auth
     <div class="comment-form-container" style="margin-top: 20px; border-top: 1px solid #e0e0e0; padding-top: 15px;">
-        <form id="comment-form-{{ $recipe->id }}" class="comment-form">
+        <form
+            id="comment-form-{{ $recipe->id }}"
+            class="comment-form"
+            data-recipe-id="{{ $recipe->id }}"
+            data-comment-url="{{ route('comments.store', $recipe) }}"
+        >
             @csrf
             <div style="display: flex; gap: 10px; align-items: flex-start;">
                 <img

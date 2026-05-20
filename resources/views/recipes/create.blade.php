@@ -28,10 +28,12 @@
                 <label>{{ __('messages.upload_cover') }}:</label>
                 <input type="file" name="image" accept="image/*" required>
             </div>
-
             <div class="recipe-upload-field">
                 <label>{{ __('messages.upload_video') }}:</label>
                 <input type="file" name="video" accept="video/mp4,video/quicktime,video/x-msvideo,video/webm">
+                @error('video')
+                    <span style="color: red;">{{ $message }}</span><br>
+                @enderror
             </div>
         </div>
 

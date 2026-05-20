@@ -28,19 +28,22 @@
         <div class="recipe-upload-field">
             <label>{{ __('messages.upload_cover') }}:</label>
             <input type="file" name="image" accept="image/*">
-
             @if($receta->image)
                 <small>{{ __('messages.cover_loaded') }}</small>
             @endif
+            @error('image')
+                <span style="color: red;">{{ $message }}</span><br>
+            @enderror
         </div>
-
         <div class="recipe-upload-field">
             <label>{{ __('messages.upload_video') }}:</label>
             <input type="file" name="video" accept="video/mp4,video/quicktime,video/x-msvideo,video/webm">
-
             @if($receta->video)
                 <small>{{ __('messages.video_loaded') }}</small>
             @endif
+            @error('video')
+                <span style="color: red;">{{ $message }}</span><br>
+            @enderror
         </div>
     </div>
 

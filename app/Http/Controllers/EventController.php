@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Event; 
+use App\Models\Event;
+use App\Http\Requests\EventStoreRequest;
+use App\Http\Requests\EventUpdateRequest;
+
 class EventController extends Controller
 {
+    private const EVENTS_PER_PAGE = 5;
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = null;
         if (request()->user()) {
@@ -21,7 +25,16 @@ class EventController extends Controller
             abort(403);
         }
 
-        $eventos = Event::orderBy('created_at', 'desc')->get();
+        $eventos = Event::orderBy('id', 'desc')
+            ->paginate(self::EVENTS_PER_PAGE);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('events.partials.event-cards', compact('eventos'))->render(),
+                'next_page_url' => $eventos->nextPageUrl(),
+            ]);
+        }
+
         return view('events.index', compact('eventos'));
     }
 
@@ -40,29 +53,22 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EventStoreRequest $request)
     {
         $user = $request->user();
         if (!$user || $user->rol !== 'admin') {
             abort(403);
         }
 
-        $validated = $request->validate([
-            'name' => 'nullable|string|max:255',
-            'title' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'images.*' => 'nullable|image|max:5120',
-            'active' => 'nullable',
-        ]);
+        $validated = $request->validated();
 
         $eventos = new Event();
-        $eventos->name = $validated['name'] ?: $validated['title'];
-        $eventos->title = $validated['title'] ?? null;
-        $eventos->description = $validated['description'] ?? null;
+        $eventos->name = $validated['title'];
+        $eventos->title = $validated['title'];
+        $eventos->description = $validated['description'];
         $eventos->visibility = 1;
         $eventos->active = $request->has('active') ? 1 : 0;
 
-        // handle multiple images
         $images = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
@@ -84,16 +90,24 @@ class EventController extends Controller
     /**
      * Display public list of active events.
      */
-    public function publicIndex()
+    public function publicIndex(Request $request)
     {
         $user = request()->user();
 
         if ($user && $user->rol === 'admin') {
-            $eventos = Event::orderBy('created_at', 'desc')->get();
+            $eventos = Event::orderBy('id', 'desc')
+                ->paginate(self::EVENTS_PER_PAGE);
         } else {
             $eventos = Event::where('active', true)
-                ->orderBy('created_at', 'desc')
-                ->get();
+                ->orderBy('id', 'desc')
+                ->paginate(self::EVENTS_PER_PAGE);
+        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('events.partials.event-cards', compact('eventos'))->render(),
+                'next_page_url' => $eventos->nextPageUrl(),
+            ]);
         }
 
         return view('events.index', compact('eventos'));
@@ -108,9 +122,21 @@ class EventController extends Controller
         if (!$event->active && (!request()->user() || request()->user()->rol !== 'admin')) {
             abort(404);
         }
-        // load related recipes
-        $event->load('recipes');
-        return view('events.show', compact('event'));
+
+        $event->load([
+            'recipes' => function ($query) {
+                $query
+                    ->with(['user', 'likes', 'comments.user'])
+                    ->withCount('comments')
+                    ->orderBy('recipes.id', 'desc');
+            },
+        ]);
+
+        $followingUserIds = request()->user()
+            ? request()->user()->following()->pluck('users.id')->all()
+            : [];
+
+        return view('events.show', compact('event', 'followingUserIds'));
     }
 
     /**
@@ -128,24 +154,18 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Event $event)
+    public function update(EventUpdateRequest $request, Event $event)
     {
         $user = $request->user();
         if (!$user || $user->rol !== 'admin') {
             abort(403);
         }
 
-        $validated = $request->validate([
-            'name' => 'nullable|string|max:255',
-            'title' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'images.*' => 'nullable|image|max:5120',
-            'active' => 'nullable',
-        ]);
+        $validated = $request->validated();
 
-        $event->name = $validated['name'] ?: $validated['title'];
-        $event->title = $validated['title'] ?? null;
-        $event->description = $validated['description'] ?? null;
+        $event->name = $validated['title'];
+        $event->title = $validated['title'];
+        $event->description = $validated['description'];
         $event->visibility = $event->visibility ?? 1;
         $event->active = $request->has('active') ? 1 : 0;
 

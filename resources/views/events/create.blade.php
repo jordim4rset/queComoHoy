@@ -12,9 +12,15 @@
 
         <label>{{ __('messages.event_title') }} ({{ __('messages.optional') }}):</label>
         <input type="text" name="title" value="{{ old('title') }}"><br>
+        @error('title')
+            <span style="color: red;">{{ $message }}</span><br>
+        @enderror
 
         <label>{{ __('messages.description') }}:</label>
         <textarea name="description">{{ old('description') }}</textarea><br>
+        @error('description')
+            <span style="color: red;">{{ $message }}</span><br>
+        @enderror
 
         <label>{{ __('messages.images_multiple') }}:</label>
         <input type="file" name="images[]" multiple><br>

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Recipe;
 use App\Models\Event;
 use App\Models\Ingredient;
+use App\Http\Requests\RecipeStoreRequest;
+use App\Http\Requests\RecipeUpdateRequest;
 
 class RecipeController extends Controller
 {
@@ -107,21 +109,8 @@ class RecipeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RecipeStoreRequest $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:30'],
-            'description' => ['required', 'string'],
-            'time' => ['nullable', 'numeric', 'min:0'],
-            'tags' => ['nullable', 'string'],
-            'image' => ['required', 'image'],
-            'video' => ['nullable', 'file', 'mimes:mp4,mov,avi,webm', 'max:51200'],
-            'ingredients' => ['nullable', 'array'],
-            'ingredients.*.id' => ['required_with:ingredients', 'integer', 'exists:ingredients,id'],
-            'ingredients.*.quantity' => ['nullable', 'numeric', 'min:0'],
-            'ingredients.*.unit' => ['nullable', 'string', 'max:30'],
-        ]);
-
         $user = $request->user();
 
         $receta = new Recipe();
@@ -191,21 +180,8 @@ class RecipeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Recipe $receta)
+    public function update(RecipeUpdateRequest $request, Recipe $receta)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:30'],
-            'description' => ['required', 'string'],
-            'time' => ['nullable', 'numeric', 'min:0'],
-            'tags' => ['nullable', 'string'],
-            'image' => ['nullable', 'image'],
-            'video' => ['nullable', 'file', 'mimes:mp4,mov,avi,webm', 'max:51200'],
-            'ingredients' => ['nullable', 'array'],
-            'ingredients.*.id' => ['required_with:ingredients', 'integer', 'exists:ingredients,id'],
-            'ingredients.*.quantity' => ['nullable', 'numeric', 'min:0'],
-            'ingredients.*.unit' => ['nullable', 'string', 'max:30'],
-        ]);
-
         $user = $request->user();
 
         if ($receta->user_id !== $user->id) {
@@ -273,7 +249,7 @@ class RecipeController extends Controller
     private function syncEventsFromTags(Request $request, Recipe $receta): void
     {
         $tags = array_filter(array_map(
-            fn ($tag) => trim(mb_strtolower($tag)),
+            fn($tag) => trim(mb_strtolower($tag)),
             explode(',', $request->input('tags', ''))
         ));
 

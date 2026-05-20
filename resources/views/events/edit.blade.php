@@ -14,17 +14,23 @@
 
         <label>{{ __('messages.event_title') }} ({{ __('messages.optional') }}):</label>
         <input type="text" name="title" value="{{ old('title', $event->title) }}"><br>
+        @error('title')
+            <span style="color: red;">{{ $message }}</span><br>
+        @enderror
 
         <label>{{ __('messages.description') }}:</label>
         <textarea name="description">{{ old('description', $event->description) }}</textarea><br>
+        @error('description')
+            <span style="color: red;">{{ $message }}</span><br>
+        @enderror
 
         <label>{{ __('messages.current_images') }}:</label>
         <div>
             @if($event->images)
-                    @foreach($event->images as $img)
-                        <img src="{{ asset('storage/' . $img) }}" alt="" style="height:80px;margin:4px">
-                    @endforeach
-                @endif
+                @foreach($event->images as $img)
+                    <img src="{{ asset('storage/' . $img) }}" alt="" style="height:80px;margin:4px">
+                @endforeach
+            @endif
         </div>
 
         <label>{{ __('messages.upload_more_images') }}:</label>
